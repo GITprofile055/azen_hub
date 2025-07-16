@@ -11,130 +11,59 @@ export default function Footer() {
 
   return (
 
-    <div class="uni-body pages-index-index">
+ <nav>
+      <a href="index.html">
+        <div className="nav-item active" data-tab="home">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3 9.75l8.25-6.615a2 2 0 012.5 0L22 9.75M4.5 10.5V18A2.25 2.25 0 006.75 20.25h3.75v-4.5a1.5 1.5 0 013 0v4.5h3.75A2.25 2.25 0 0021 18V10.5"
+            />
+          </svg>
+          Home
+        </div>
+      </a>
+ 
+      <a href="earning.html">
+        <div className="nav-item" data-tab="earning">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3 12h3m3 0h4m3 0h4m3 0h2"
+            />
+          </svg>
+          Earning
+        </div>
+      </a>
+ 
+      <a href="refer.html">
+        <div className="nav-item" data-tab="referral">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M17 20h5v-2a4 4 0 00-3-3.87m-6-.13A4 4 0 005 14v2m0 0H3m0 0v2a4 4 0 004 4h5"
+            />
+          </svg>
+          Referral
+        </div>
+      </a>
+ 
+      <a href="wallet.html">
+        <div className="nav-item" data-tab="wallet">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M17 5h2a2 2 0 012 2v9a2 2 0 01-2 2h-2m0-13H7a2 2 0 00-2 2v9a2 2 0 002 2h10m0-13v13"
+            />
+          </svg>
+          Wallet
+        </div>
+      </a>
+    </nav>
 
-      <uni-app class="uni-app--showtabbar uni-app--maxwidth">
-
-
-        <uni-tabbar
-          class="uni-tabbar-bottom" >
-          <div class="uni-tabbar" style={{ backgroundColor: '#fff', backdropFilter: 'none',width: '100%' }}>
-            <div class="uni-tabbar-border" style={{ backgroundColor: 'rgba(255, 255, 255, 0.12)' }}></div>
-            <div class="uni-tabbar__item">
-            <Link to="/dashboard"style={{ textDecoration: "none", color: "inherit",cursor: "none"  }}>
-                <div class="uni-tabbar__bd" style={{ height: '65px' }}>
-                  <div class="uni-tabbar__icon" style={{ width: '24px', height: '24px' }}>
-                    
-                  <img
-                      src="/static/tabbar/home.png"
-                      style={{
-                        filter: currentPath === '/dashboard' ? activeFilter : 'brightness(0) invert(0)',
-                      }}
-                      alt="Home"
-                    />
-                    
-                    </div>
-                  <div  className="uni-tabbar__label"
-                    style={{
-                      color:
-                        currentPath === '/dashboard' ? '#15d5c7' : '#000',
-                      fontSize: '13px',
-                      lineHeight: 'normal',
-                      marginTop: '3px',
-                    }}>
-                    {t('Home')} </div>
-                </div>
-              </Link>
-            </div>
-            <div class="uni-tabbar__item">
-            <Link to="/trade"style={{ textDecoration: "none", color: "inherit",cursor: "none" }}>
-
-                <div class="uni-tabbar__bd" style={{ height: '65px' }}>
-                  <div class="uni-tabbar__icon" style={{ width: '24px', height: '24px' }}>
-                    
-                  <img
-                      src="/static/tabbar/trade.png"
-                      style={{
-                        filter: currentPath === '/trade' ? activeFilter : 'brightness(0) invert(0)',
-                      }}
-                      alt="Trade"
-                    />
-                    
-                    
-                    </div>
-                  <div  className="uni-tabbar__label"
-                    style={{
-                      color:
-                        currentPath === '/trade' ? '#15d5c7' : '#000',
-                      fontSize: '13px',
-                      lineHeight: 'normal',
-                      marginTop: '3px',
-                    }}>
-                    {t('Trade')} </div>
-                </div>
-                </Link>
-            </div>
-            <div class="uni-tabbar__item">
-            <Link to="/assets"style={{ textDecoration: "none", color: "inherit", cursor: "none" }}>
-
-                <div class="uni-tabbar__bd" style={{ height: '65px' }}>
-                  <div class="uni-tabbar__icon" style={{ width: '24px', height: '24px' }}>
-                    
-                    
-                  <img
-                      src="/static/tabbar/assets.png"
-                      style={{
-                        filter: currentPath === '/assets' ? activeFilter : 'brightness(0) invert(0)',
-                      }}
-                      alt="Assets"
-                    />
-                    
-                    
-                    </div>
-                  <div  className="uni-tabbar__label"
-                    style={{
-                      color:
-                        currentPath === '/assets' ? '#15d5c7' : '#000',
-                      fontSize: '13px',
-                      lineHeight: 'normal',
-                      marginTop: '3px',
-                    }}>
-                    {t('Assets')} </div>
-                </div>
-              </Link>
-            </div>
-            <div class="uni-tabbar__item">
-            <Link to="/server"style={{ textDecoration: "none", color: "inherit",cursor: "none" }}>
-
-                <div class="uni-tabbar__bd" style={{ height: '65px' }}>
-                  <div class="uni-tabbar__icon" style={{ width: '24px', height: '24px' }}>
-                    
-                    
-                  <img
-                      src="/static/tabbar/server.png"
-                      style={{
-                        filter: currentPath === '/server' ? activeFilter : 'brightness(0) invert(0)',
-                      }}
-                      alt="Server"
-                    />
-                    
-                    </div>
-                  <div className="uni-tabbar__label"
-                    style={{
-                      color:
-                        currentPath === '/server' ? '#15d5c7' : '#000',
-                      fontSize: '13px',
-                      lineHeight: 'normal',
-                      marginTop: '3px',
-                    }}>
-                    {t('Server')} </div>
-                </div>
-              </Link>
-            </div>
-          </div>  
-          <div class="uni-placeholder" style={{ height: '65px' }}></div>
-        </uni-tabbar>
-      </uni-app>
-    </div>  
   );
 }

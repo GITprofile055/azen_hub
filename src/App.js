@@ -56,7 +56,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function AppContent() {
     const location = useLocation();
     const hiddenFooterRoutes = [
-        "/",                // Login default
+        "/",               
         "/login",
         "/register",
         "/team",
@@ -89,9 +89,8 @@ function AppContent() {
     location.pathname.startsWith("/dashboard/TradingChart");
 
     return (
-        <div className="uni-body pages-index-index">
-            <div className="uni-app uni-app--showtabbar uni-app--maxwidth">
-                <div className="ellipse" style={{ height: 60 }}></div>
+            <div class="phone">
+
 
                 <Routes>
                     {/* Public Routes */}
@@ -102,7 +101,7 @@ function AppContent() {
                     <Route path="/langauge" element={<Language />} />
  
                     {/* Protected Routes */}
-                    <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                    <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/notice" element={<ProtectedRoute><Notice /></ProtectedRoute>} />
                     <Route path="/setting" element={<ProtectedRoute><Setting /></ProtectedRoute>} />
                     <Route path="/faq" element={<ProtectedRoute><Faq /></ProtectedRoute>} />
@@ -134,7 +133,6 @@ function AppContent() {
                 {/* Footer only if route not in hidden list */}
                 {!hideFooter && <Footer />}
                 <ToastContainer />
-            </div>
         </div>
     );
 }
