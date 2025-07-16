@@ -227,7 +227,102 @@
    .lime-btn:hover {
        background: var(--lime-500)
    }
+         .checkin-card {
+            background: #fff;
+          border-radius: 1.2rem;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+          padding: 1.5rem 1.2rem;
+          font-family: 'Inter', sans-serif;
+          max-width: 100%;
+                }
 
+          .checkin-header {
+            display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-weight: 600;
+          margin-bottom: 1.2rem;
+                }
+
+          .checkin-header h3 {
+            font-size: 1.1rem;
+                }
+
+          .checkin-rule {
+            font-size: 0.85rem;
+          color: #444;
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+                }
+
+          .checkin-days {
+            display: flex;
+          justify-content: space-between;
+          gap: 0.5rem;
+          margin-bottom: 1.5rem;
+          flex-wrap: wrap;
+                }
+
+          .checkin-day {
+            flex: 1;
+          min-width: 45px;
+          text-align: center;
+          font-size: 0.75rem;
+                }
+
+          .reward-box {
+            background: #f4f4f4;
+          border-radius: 0.6rem;
+          padding: 0.4rem;
+          margin-bottom: 0.3rem;
+          position: relative;
+          font-weight: 600;
+                }
+
+          .reward-box.active {
+            background: #c6ff30;
+          color: #000;
+                }
+
+          .reward-icon {
+            width: 20px;
+          height: 20px;
+          margin: 0.3rem auto 0;
+          background: #000;
+          color: #fff;
+          border-radius: 50%;
+          font-size: 0.65rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+                }
+
+          .reward-x2 {
+            position: absolute;
+          top: -6px;
+          right: -6px;
+          background: #c6ff30;
+          color: #000;
+          font-size: 0.55rem;
+          padding: 2px 4px;
+          border-radius: 1rem;
+          font-weight: bold;
+                }
+
+          .checkin-button {
+            width: 100%;
+          background: linear-gradient(to right, #111 0%, #333 40%, #111 100%);
+          color: #fff;
+          font-weight: 700;
+          border: none;
+          padding: 0.9rem;
+          font-size: 1rem;
+          border-radius: 9999px;
+          cursor: pointer;
+                }
+    
    /* === 9. Bottom nav ==================================================== */
    nav {
        position: fixed;
