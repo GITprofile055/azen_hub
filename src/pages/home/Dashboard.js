@@ -196,7 +196,7 @@ const Dashboard = () => {
             <button className="add-btn">+ Add Devices</button>
           </div>
           <img
-            src="assets/image copy.png"
+            src="static/img/image.png"
             alt="Connected Devices Illustration"
             style={{
               flex: 1,

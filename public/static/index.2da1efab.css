@@ -1,0 +1,462 @@
+*,
+   *::before,
+   *::after {
+       box-sizing: border-box;
+       margin: 0;
+       padding: 0
+   }
+
+   :root {
+       --lime-400: #c6ff30;
+       --lime-500: #a3ff0a;
+       --gray-900: #0f0f0f;
+       --gray-600: #6b7280;
+       --gray-200: #e5e7eb;
+       --bottom-nav-h: 64px;
+       /* new → nav height */
+   }
+
+   body {
+       font-family: "Inter", system-ui, sans-serif;
+       background: linear-gradient(180deg, var(--lime-400)0%, var(--lime-400)20%, var(--lime-500)100%);
+       display: flex;
+       justify-content: center;
+       align-items: flex-start;
+       min-height: 100vh;
+   }
+
+   /* === 2. Phone shell =================================================== */
+   .phone {
+       position: relative;
+       width: 390px;
+       max-width: 100%;
+       background: #fff;
+       /* border-radius: 1.4rem; */
+       overflow: hidden;
+       box-shadow: 0 8px 24px rgba(0, 0, 0, .14);
+       padding-bottom: var(--bottom-nav-h);
+       /* space for fixed nav */
+       height: 100vh;
+       /* fills viewport */
+       overflow-y: auto;
+       /* inner scrolling */
+   }
+
+   /* === 3. Header ======================================================== */
+   header {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       padding: 1.4rem 1.25rem .9rem
+   }
+
+   header h1 {
+       font-size: 1.8rem;
+       font-weight: 800
+   }
+
+   .bell {
+       width: 1.25rem;
+       height: 1.25rem;
+       stroke-width: 2.4
+   }
+
+   /* === 4. Earnings card ================================================ */
+   .card {
+       background: var(--gray-900);
+       border-radius: 1.4rem;
+       padding: 1.25rem;
+       color: #fff;
+       margin: 0 1.25rem
+   }
+
+   .card .value {
+       font-size: 2.3rem;
+       font-weight: 900
+   }
+
+   .sparkline {
+       width: 100%;
+       height: 90px;
+       margin-top: .5rem
+   }
+
+   .tag {
+       background: var(--lime-500);
+       color: #000;
+       font-size: .75rem;
+       font-weight: 600;
+       padding: .25rem .75rem;
+       border-radius: 9999px;
+       display: inline-block;
+       margin-top: .75rem
+   }
+
+   /* === 5. Section headings ============================================= */
+   .section-wrap {
+       padding: 1.8rem 1.25rem 0
+   }
+
+   .sec-head {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       margin-bottom: .5rem
+   }
+
+   .sec-head h2 {
+       font-size: 1.1rem;
+       font-weight: 700
+   }
+
+   .sec-head a {
+       font-size: .85rem;
+       font-weight: 700;
+       color: var(--gray-600);
+       text-decoration: none
+   }
+
+   /* === 6. DePIN card ==================================================== */
+   .depin-card {
+       border: 1px solid var(--gray-200);
+       border-radius: 1.4rem;
+       padding: 1rem 1.25rem 1.25rem;
+       display: flex;
+       gap: 1.1rem
+   }
+
+   .depin-card .big-num {
+       font-size: 2.5rem;
+       font-weight: 900;
+       line-height: 1
+   }
+
+   .add-btn {
+       margin-top: .75rem;
+       background: #000;
+       color: #fff;
+       font-size: .8rem;
+       font-weight: 500;
+       padding: .45rem 1.2rem;
+       border: none;
+       border-radius: 1.6rem;
+       cursor: pointer
+   }
+
+   .add-btn:hover {
+       opacity: .9
+   }
+
+   .metrics {
+       display: flex;
+       gap: 1rem;
+       margin-top: 1rem
+   }
+
+   .metric {
+       flex: 1;
+       text-align: center
+   }
+
+   .metric p {
+       font-weight: 800
+   }
+
+   .metric span {
+       font-size: .75rem;
+       color: var(--gray-600)
+   }
+
+   /* === 7. Referral banner ============================================== */
+   .banner {
+       width: 100%;
+       border-radius: 1.4rem;
+       overflow: hidden;
+       margin-top: 1.5rem
+   }
+
+   /* === 8. Earning center =============================================== */
+   .grid2 {
+       display: grid;
+       grid-template-columns: repeat(2, 1fr);
+       gap: .75rem
+   }
+
+   .mini-card {
+       border: 1px solid var(--gray-200);
+       border-radius: 1rem;
+       padding: 1rem 1.1rem;
+       display: flex;
+       flex-direction: column;
+       gap: .7rem
+   }
+
+   .mini-card .label {
+       display: flex;
+       align-items: center;
+       gap: .35rem;
+       font-size: .8rem;
+       font-weight: 700
+   }
+
+   .mini-card .big {
+       font-size: 1.8rem;
+       font-weight: 900;
+       line-height: 1
+   }
+
+   .mini-card button {
+       font-size: .75rem;
+       padding: .42rem .9rem;
+       border-radius: 1.25rem;
+       border: none;
+       cursor: pointer
+   }
+
+   .disabled-btn {
+       background: var(--gray-200);
+       color: var(--gray-600)
+   }
+
+   .lime-btn {
+       background: var(--lime-400);
+       font-weight: 600
+   }
+
+   .lime-btn:hover {
+       background: var(--lime-500)
+   }
+         .checkin-card {
+            background: #fff;
+          border-radius: 1.2rem;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+          padding: 1.5rem 1.2rem;
+          font-family: 'Inter', sans-serif;
+          max-width: 100%;
+                }
+
+          .checkin-header {
+            display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-weight: 600;
+          margin-bottom: 1.2rem;
+                }
+
+          .checkin-header h3 {
+            font-size: 1.1rem;
+                }
+
+          .checkin-rule {
+            font-size: 0.85rem;
+          color: #444;
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+                }
+
+          .checkin-days {
+            display: flex;
+          justify-content: space-between;
+          gap: 0.5rem;
+          margin-bottom: 1.5rem;
+          flex-wrap: wrap;
+                }
+
+          .checkin-day {
+            flex: 1;
+          min-width: 45px;
+          text-align: center;
+          font-size: 0.75rem;
+                }
+
+          .reward-box {
+            background: #f4f4f4;
+          border-radius: 0.6rem;
+          padding: 0.4rem;
+          margin-bottom: 0.3rem;
+          position: relative;
+          font-weight: 600;
+                }
+
+          .reward-box.active {
+            background: #c6ff30;
+          color: #000;
+                }
+
+          .reward-icon {
+            width: 20px;
+          height: 20px;
+          margin: 0.3rem auto 0;
+          background: #000;
+          color: #fff;
+          border-radius: 50%;
+          font-size: 0.65rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+                }
+
+          .reward-x2 {
+            position: absolute;
+          top: -6px;
+          right: -6px;
+          background: #c6ff30;
+          color: #000;
+          font-size: 0.55rem;
+          padding: 2px 4px;
+          border-radius: 1rem;
+          font-weight: bold;
+                }
+
+          .checkin-button {
+            width: 100%;
+          background: linear-gradient(to right, #111 0%, #333 40%, #111 100%);
+          color: #fff;
+          font-weight: 700;
+          border: none;
+          padding: 0.9rem;
+          font-size: 1rem;
+          border-radius: 9999px;
+          cursor: pointer;
+                }
+    
+   /* === 9. Bottom nav ==================================================== */
+   nav {
+       position: fixed;
+       /* key change → stays visible */
+       bottom: 0;
+       left: 50%;
+       transform: translateX(-50%);
+       width: 100%;
+       max-width: 390px;
+       display: flex;
+       justify-content: space-around;
+       align-items: center;
+       background: #fff;
+       padding: .62rem 0;
+       border-top: 1px solid var(--gray-200);
+       font-size: .75rem;
+       z-index: 1000;
+   }
+
+   nav .nav-item {
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       gap: .1rem;
+       color: var(--gray-600);
+       cursor: pointer
+   }
+
+   nav .nav-item.active svg{
+       color: var(--lime-500)
+   }
+
+   nav svg {
+       width: 1.25rem;
+       height: 1.25rem;
+       stroke-width: 2.4
+   }
+
+   nav a {
+       text-decoration-line: none;
+   }
+
+
+   /* login  */
+
+
+   .logo {
+       text-align: center;
+       margin-bottom: 2rem;
+   }
+
+   .logo h1 {
+       font-size: 1.8rem;
+       font-weight: 800;
+       color: #000;
+   }
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  padding: 0 1.25rem;
+}
+
+.login-form .form-group {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.login-form label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray-600);
+  margin-bottom: 0.4rem;
+  padding-left: 0.1rem;
+}
+
+.login-form input {
+  padding: 0.65rem 0.9rem;
+  font-size: 1rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 0.6rem;
+  background: #f9fafb;
+  transition: border 0.3s ease;
+}
+
+.login-form input:focus {
+  border-color: var(--lime-500);
+  outline: none;
+  background: #fff;
+}
+
+.login-btn {
+  margin-top: 1.2rem;
+  background: var(--gray-900);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-btn:hover {
+  background: var(--gray-600);
+}
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  .phone {
+    padding: 1.25rem 1rem; /* Previously 2rem → now tighter */
+  }
+
+  .logo h1 {
+    font-size: 1.6rem;
+  }
+
+  .login-btn {
+    font-size: 0.95rem;
+  }
+
+  .form-group input {
+    font-size: 0.95rem;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .form-group label {
+    font-size: 0.8rem;
+  }
+
+  .footer-text {
+    font-size: 0.8rem;
+    padding: 0 0.5rem;
+  }
+}
