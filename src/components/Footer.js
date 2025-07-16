@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next';
 export default function Footer() {
   const location = useLocation();
   const currentPath = location.pathname;
-   const { t } = useTranslation();
+  const { t } = useTranslation();
   const activeFilter = 'invert(78%) sepia(24%) saturate(1531%) hue-rotate(124deg) brightness(85%) contrast(100%)';
   const activeColor = '#15d5c7';
 
   return (
 
- <nav>
+    <nav>
       <a href="index.html">
         <div className="nav-item active" data-tab="home">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -24,33 +24,30 @@ export default function Footer() {
           Home
         </div>
       </a>
- 
+
       <a href="earning.html">
         <div className="nav-item" data-tab="earning">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3 12h3m3 0h4m3 0h4m3 0h2"
-            />
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10" />
+            <circle cx="12" cy="12" r="1.5" />
           </svg>
           Earning
         </div>
       </a>
- 
+
       <a href="refer.html">
         <div className="nav-item" data-tab="referral">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M17 20h5v-2a4 4 0 00-3-3.87m-6-.13A4 4 0 005 14v2m0 0H3m0 0v2a4 4 0 004 4h5"
-            />
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <ellipse cx="12" cy="5" rx="7" ry="3" />
+            <path d="M5 5v5c0 1.657 3.134 3 7 3s7-1.343 7-3V5" />
+            <path d="M5 10v5c0 1.657 3.134 3 7 3s7-1.343 7-3v-5" />
+            <path d="M19 15h4m-2 -2v4" stroke="currentColor" />
           </svg>
+
           Referral
         </div>
       </a>
- 
+
       <a href="wallet.html">
         <div className="nav-item" data-tab="wallet">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
