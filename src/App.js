@@ -5,24 +5,17 @@ import {
     Route,
     useLocation
 } from "react-router-dom";
-
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
-
 import Language from "./components/Langauge";
-
-
 import Dashboard from "./pages/home/Dashboard";
 import Notice from "./pages/home/Notice";
 import Faq from "./pages/home/Faq";
 import TradingChart from "./pages/home/TradingChart";
 import Smartrade from "./pages/home/Smartrade";
-
-
 import Deposit from "./pages/invest/Deposit";
 import History from "./pages/invest/History";
-
 import WithdrawReq from "./pages/Withdraw/WithdrawReq";
 import Assets from "./pages/Withdraw/Assets";
 import Transaction from "./pages/Withdraw/Transaction";
@@ -30,14 +23,11 @@ import Whistory from "./pages/Withdraw/Whistory";
 import Wallet from "./pages/Withdraw/Wallet";
 import AddWallet from "./pages/Withdraw/AddWallet";
 import AddWalletAddress from "./pages/Withdraw/AddWalletAddress";
-
 import Server from "./pages/server/Server";
-
 import Profile from "./pages/profile/Profile";
 import ServerCommission from "./pages/profile/ServerCommission";
 import ChangePassword from "./pages/profile/ChangePassword";
 import PaymentPassword from "./pages/profile/PaymentPassword";
-
 import Refer from "./pages/profile/Refer";
 import Kyc from "./pages/profile/Kyc";
 import Team from "./pages/profile/Team";
@@ -112,7 +102,7 @@ function AppContent() {
                     <Route path="/transaction" element={<ProtectedRoute><Transaction /></ProtectedRoute>} />
                     <Route path="/server" element={<ProtectedRoute><Server /></ProtectedRoute>} />
                     <Route path="/wallet" element={<ProtectedRoute><Wallet /></ProtectedRoute>} />
-                    <Route path="/refer" element={<ProtectedRoute><Refer /></ProtectedRoute>} />
+                    <Route path="/refer" element={<Refer />} />
                     <Route path="/Kyc" element={<ProtectedRoute><Kyc /></ProtectedRoute>} />
                     <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                     <Route path="/server-commission" element={<ProtectedRoute><ServerCommission /></ProtectedRoute>} />
