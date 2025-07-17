@@ -1,0 +1,150 @@
+/* Container */
+.dp-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 16px;
+  background: #eef0ed;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Header */
+.dp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.dp-back, .dp-back-placeholder {
+  font-size: 24px;
+}
+
+.dp-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Card */
+.dp-card {
+  background: #eef0ed;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+/* Input Groups */
+.dp-input-group {
+  margin-bottom: 20px;
+}
+
+.dp-input-group label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* Deposit amount and wallet selector */
+.dp-input-wrapper, .dp-select-wallet {
+  background: #f7f7f7;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+}
+
+.dp-input-wrapper input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  outline: none;
+}
+
+.dp-currency {
+  margin-left: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dp-select-wallet img {
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+}
+
+.dp-select-wallet span {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Button */
+.dp-button {
+  width: 100%;
+  margin-top: 8px;
+  background: #ccc;
+  color: #777;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 30px;
+  cursor: not-allowed;
+}
+
+/* Steps */
+.dp-steps {
+  margin-top: 24px;
+}
+
+.dp-steps h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+/* Step items */
+.dp-step {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  background-color: #fff;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+.dp-step-number {
+  width: 28px;
+  height: 28px;
+  background: #a4e786;
+  color: #fff;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.dp-step-info p {
+  margin: 0 0 4px;
+  font-weight: 600;
+}
+
+.dp-step-info ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: #555;
+}
+
+.dp-step-info ul li {
+  margin-bottom: 4px;
+}
+.dp-icon {
+width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-left: 0px;
+}
