@@ -11,6 +11,7 @@ const Wallet = () => {
   const [availbal, setAvailableBal] = useState();
   const [userDetails, setUserDetails] = useState(null);
   const { t } = useTranslation();
+const navigate = useNavigate();
 
   useEffect(() => {
     fetchUserDetails();
@@ -93,18 +94,22 @@ const Wallet = () => {
           </div>
 
           <h2 style={{ fontSize: '2rem', fontWeight: 900, margin: 0 }}>34,324.21</h2>
-          <button style={{
-            width: '100%',
-            marginTop: '1rem',
-            padding: '.6rem',
-            borderRadius: '9999px',
-            border: 'none',
-            background: '#000',
-            color: '#fff',
-            fontWeight: 600
-          }}>
-            Withdraw to Wallet
-          </button>
+         <button
+  onClick={() => navigate("/withdraw-req")}
+  style={{
+    width: '100%',
+    marginTop: '1rem',
+    padding: '.6rem',
+    borderRadius: '9999px',
+    border: 'none',
+    background: '#000',
+    color: '#fff',
+    fontWeight: 600
+  }}
+>
+  Withdraw to Wallet
+</button>
+
           <hr style={{ height: '0.5px', backgroundColor: 'rgb(232, 232, 232)', border: 0, marginTop: '15px' }} />
           <p style={{ textAlign: 'center', fontSize: '.75rem', color: 'gray', marginTop: '.8rem' }}>
             Understand the aZen ecosystem token $XaZen
