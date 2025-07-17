@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
 import axios from "axios";
 import Api from "../../Requests/Api";
 import { useTranslation } from 'react-i18next';
@@ -40,12 +41,15 @@ const Wallet = () => {
     <div>
       <header>
         <h1>Wallet</h1>
+       <Link to="/setting">
+       
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" stroke="currentColor"
           strokeWidth="2" viewBox="0 0 24 24" style={{ background: '#f0f0f0', borderRadius: '50%', padding: '8px' }}>
           <path strokeLinecap="round" strokeLinejoin="round"
             d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.591 1.1c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.1 2.592c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.1 2.591c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.591 1.1c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.592-1.1c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.1-2.591c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.1-2.592c-.94-1.543.826-3.31 2.37-2.37.996.608 2.302.075 2.592-1.1z" />
           <circle cx="12" cy="12" r="3.5" />
-        </svg>
+        </svg></Link>
+
       </header>
 
       <section className="section-wrap">

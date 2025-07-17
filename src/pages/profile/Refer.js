@@ -147,7 +147,7 @@ const Refer = () => {
             <div style={{ fontSize: "0.9rem", color: "#888" }}>O₂</div>
             <div style={{ fontWeight: 700 }}>160.825</div>
           </div>
-        </div>
+        </div >
 
         {/* Referral User Card */}
         <div
@@ -166,31 +166,83 @@ const Refer = () => {
               marginBottom: "0.8rem",
             }}
           >
-            <strong>Ella</strong>
+            <strong>Invest History</strong>
             <span
               style={{
                 fontSize: "0.8rem",
                 background: "#ccc",
                 padding: "0.2rem 0.5rem",
                 borderRadius: "1rem",
+                cursor: "pointer",
               }}
             >
-              DM
+              View all
             </span>
           </div>
-          <div
-            style={{
-              fontSize: "0.8rem",
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "0.5rem",
-            }}
-          >
-            <span>🔗 Link X</span>
-            <span>🔗 Link DePIN</span>
-            <span>🟢 Today Active</span>
+
+          {/* Investment entries start here */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
+            {[
+              {
+                amount: "₹5,000",
+                date: "16 July, 2025",
+                status: "Success",
+              },
+              {
+                amount: "₹2,000",
+                date: "12 July, 2025",
+                status: "Pending",
+              },
+              {
+                amount: "₹7,500",
+                date: "04 July, 2025",
+                status: "Failed",
+              },
+            ].map((entry, i) => (
+              <div
+                key={i}
+                style={{
+                  padding: "0.8rem",
+                  background: "#f9f9f9",
+                  borderRadius: "0.75rem",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <div>
+                  <div style={{ fontWeight: "bold" }}>{entry.amount}</div>
+                  <div style={{ fontSize: "0.75rem", color: "#666" }}>{entry.date}</div>
+                </div>
+                <div>
+                  <span
+                    style={{
+                      fontSize: "0.7rem",
+                      padding: "0.3rem 0.6rem",
+                      borderRadius: "1rem",
+                      background:
+                        entry.status === "Success"
+                          ? "#d4edda"
+                          : entry.status === "Pending"
+                            ? "#fff3cd"
+                            : "#f8d7da",
+                      color:
+                        entry.status === "Success"
+                          ? "#155724"
+                          : entry.status === "Pending"
+                            ? "#856404"
+                            : "#721c24",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {entry.status}
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
+
       </section>
     </div>
   );

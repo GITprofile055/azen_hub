@@ -98,9 +98,9 @@ function AppContent() {
                     <Route path="/trade" element={<ProtectedRoute><Trade /></ProtectedRoute>} />
                     <Route path="/assets" element={<ProtectedRoute><Assets /></ProtectedRoute>} />
                     <Route path="/transaction" element={<ProtectedRoute><Transaction /></ProtectedRoute>} />
-                    <Route path="/server" element={<Server />} />
-                    <Route path="/wallet" element={<Wallet />} />
-                    <Route path="/refer" element={<Refer />} />
+                    <Route path="/server" element={<ProtectedRoute><Server /></ProtectedRoute>} />
+                    <Route path="/wallet" element={<ProtectedRoute><Wallet /></ProtectedRoute>} />
+                    <Route path="/refer" element={<ProtectedRoute><Refer /></ProtectedRoute>} />
                     <Route path="/Kyc" element={<ProtectedRoute><Kyc /></ProtectedRoute>} />
                     <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                     <Route path="/server-commission" element={<ProtectedRoute><ServerCommission /></ProtectedRoute>} />
