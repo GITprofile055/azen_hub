@@ -186,24 +186,23 @@ const Dashboard = () => {
       {/* === aZen DePIN === */}
       <div className="section-wrap">
         <div className="sec-head">
-          <h2>aZen DePIN</h2>
-          <a href="#">More ›</a>
+          <h2>Earning Center</h2>
         </div>
         <div className="depin-card">
           <div>
-            <p className="big-num">06</p>
-            <p className="connected-devices">Connected Devices</p>
-            <button className="add-btn">+ Add Devices</button>
+            <p className="big-num">20</p>
+            <p className="connected-devices">Total $ZEN </p>
+            <button className="add-btn">Earn Now</button>
           </div>
           <img
             src="static/img/image.png"
             alt="Connected Devices Illustration"
             style={{
               flex: 1,
-              maxWidth: '160px',
+              maxWidth: '138px',
               width: '100%',
               imageRendering: 'crisp-edges',
-              borderRadius: '.6rem',
+              borderRadius: '.6rem',marginLeft: '43px',
             }}
           />
         </div>
