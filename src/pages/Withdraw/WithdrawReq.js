@@ -1,11 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 const WithdrawToWallet = () => {
+
+      const navigate = useNavigate();
+   const backClick = () => {
+        navigate(-1);
+    };
   return (
     <div className="withdraw-container">
       <div className="top-bar">
-        <span className="back-icon">&#8592;</span>
+        <span className="back-icon" onClick={backClick}>&#8592;</span>
         <h3>Withdraw to Wallet</h3>
         <span></span>
       </div>

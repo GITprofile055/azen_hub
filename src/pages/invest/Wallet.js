@@ -80,28 +80,44 @@ const Wallet = () => {
             Mystery Box2323
           </span>
         </div>
-  <div className="card inapp-balance-card">
+        <div className="card inapp-balance-card">
           <p className="section-title">In-App Balance</p>
 
           <h2 className="main-balance">0 <span className="unit">$AZEN</span> <span className="usd">≈ 0 USD</span></h2>
 
-          <div className="action-row">                           
+          <div className="action-row">
             <div className="action-icon">
-              <img src="static/img/deposit.png" alt="withdraw" style={{width:'42px',height:'42px'}} />
-           
-              <p>Deposit</p>
+              <Link to="/deposit"style={{textDecorationLine:'none'}}>
+
+                <img src="static/img/deposit.png" alt="withdraw" style={{ width: '42px', height: '42px' }} />
+
+                <p>Deposit</p>
+              </Link>
+
             </div>
             <div className="action-icon">
-              <img src="static/img/withdrawal.png" alt="withdraw"style={{width:'42px',height:'42px'}} />
-              <p>Withdraw</p>
+              <Link to="/withdraw-req" style={{textDecorationLine:'none'}}>
+
+                <img src="static/img/withdrawal.png" alt="withdraw" style={{ width: '42px', height: '42px' }} />
+                <p>Withdraw</p>
+              </Link>
+
             </div>
             <div className="action-icon">
-              <img src="static/img/transfer.png" alt="transfer"style={{width:'42px',height:'42px'}} />
-              <p>Transfer</p>
+              <Link to="/transfer" style={{textDecorationLine:'none'}}>
+
+                <img src="static/img/transfer.png" alt="transfer" style={{ width: '42px', height: '42px' }} />
+                <p>Transfer</p>
+              </Link>
+
             </div>
             <div className="action-icon">
-              <img src="static/img/details.png" alt="details" style={{width:'42px',height:'42px'}}/>
-              <p>Details</p>
+              <Link to="/transaction"style={{textDecorationLine:'none'}}>
+
+                <img src="static/img/details.png" alt="details" style={{ width: '42px', height: '42px' }} />
+                <p>Details</p>
+              </Link>
+
             </div>
           </div>
 
@@ -114,7 +130,7 @@ const Wallet = () => {
               <p className="footer-label">0 USD</p>
               <p className="footer-text">Other Assets&gt;</p>
             </div>
-            <button className="withdraw-btn"  onClick={() => navigate("/withdraw-req")}>Withdraw</button>
+            <button className="withdraw-btn" onClick={() => navigate("/withdraw-req")}>Withdraw</button>
           </div>
         </div>
 
@@ -141,7 +157,7 @@ const Wallet = () => {
           </button>
         </div>
 
-     
+
       </section>
     </div>
   );
