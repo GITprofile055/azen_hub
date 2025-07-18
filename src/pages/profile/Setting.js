@@ -16,6 +16,7 @@ const Setting = () => {
 
         navigate("/login");
     };
+    // <div className="email">Email: {userDetails?.email}</div>
 
 
     const [userDetails, setUserDetails] = useState(null);
@@ -36,42 +37,44 @@ const Setting = () => {
 
     return (
 
-        <div className="settings-page">
-            <div className="top-bar">
-                <span className="back-arrow">←</span>
-                <h2>Setting</h2>
+        <div className="page-settings">
+            <div className="settings-header">
+                <span className="settings-back">←</span>
+                <h2 className="settings-title ">Setting</h2>
             </div>
 
-            <div className="content">
-                <div className="email">Email: {userDetails?.email}</div>
+            <div className="settings-body">
+                <div className="settings-email">Email: {userDetails?.email}</div>
 
-                 <div className="setting-item">
+                <div className="settings-item">
                     <span>Account Password</span>
                     <Link to="/change-password">
-                    <span className="edit">Edit ›</span></Link>
-                </div> 
-
-                <div className="setting-item">
-                    <span>Payment Password</span>
-                    <Link to="/payment-password">
-                    <span className="edit">Edit ›</span>
+                        <span className="settings-edit">Edit ›</span>
                     </Link>
                 </div>
 
-                <div className="setting-item link">Privacy Policy</div>
-                <div className="setting-item link">User Agreement</div>
-
-                <div className="setting-item">
-                    <span>Version</span>
-                    <span className="edit">v1.5.1</span>
+                <div className="settings-item">
+                    <span>Payment Password</span>
+                    <Link to="/payment-password">
+                        <span className="settings-edit">Edit ›</span>
+                    </Link>
                 </div>
 
-                <div className="buttons">
-                    <button className="logout" onClick={handleLogout}>Log out</button>
-                    <button className="deregister">Deregister Account</button>
+                <div className="settings-link">Privacy Policy</div>
+                <div className="settings-link">User Agreement</div>
+
+                <div className="settings-item">
+                    <span>Version</span>
+                    <span className="settings-edit">v1.5.1</span>
+                </div>
+
+                <div className="settings-buttons">
+                    <button className="btn-logout" onClick={handleLogout}>Log out</button>
+                    <button className="btn-deregister">Deregister Account</button>
                 </div>
             </div>
         </div>
+
     );
 };
 

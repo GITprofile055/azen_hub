@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const WithdrawToWallet = () => {
   return (
@@ -16,7 +17,7 @@ const WithdrawToWallet = () => {
             <p className="balance-value">0 <span>$AZEN</span></p>
             <p className="balance-text">Balance</p>
           </div>
-<img src="static/assets/wallet-icon.png" alt="wallet" style={{ width: "80px", height: "80px" }} />
+          <img src="static/assets/wallet-icon.png" alt="wallet" style={{ width: "80px", height: "80px" }} />
         </div>
 
         {/* Withdrawal Amount */}
@@ -33,7 +34,9 @@ const WithdrawToWallet = () => {
           <label>TO</label>
           <div className="input-wrapper">
             <input type="text" placeholder="Please enter wallet address" />
+           <Link to="/add-wallet">
             <button className="wallet-button">Wallet</button>
+           </Link>
           </div>
         </div>
 
@@ -44,7 +47,7 @@ const WithdrawToWallet = () => {
         </div>
 
         {/* Withdraw Button */}
-        <button  className="withdraw-button" >Withdraw</button>
+        <button className="withdraw-button" >Withdraw</button>
       </div>
     </div>
   );
