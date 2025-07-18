@@ -54,64 +54,28 @@ const saveAddress = async () => {
       navigate(-1); // 👈 Go back to the previous page in history
   };
     return (
-    <div class="uni-body pages-user-addCard">
-        <uni-app class="uni-app--maxwidth">
-            <uni-page data-page="pages/user/addCard">
-                <uni-page-wrapper>
-                    <uni-page-body>
-                        <uni-view data-v-b918f992="" class="page">
-                            <uni-view data-v-b918f992="" class="ellipse"></uni-view>
-                             <uni-view data-v-b918f992="" class="top-box">
-                                <uni-view data-v-636c600c="" data-v-b918f992="" class="uni-row" style={{marginLeft: '0px', marginRight: '0px'}}>
-                                    <uni-view data-v-35b9a113="" data-v-b918f992="" class="uni-col uni-col-6" style={{paddingLeft: '0px', paddingRight: '0px'}}>
-                                        <Link to="/Add-Wallet">
-                                              <uni-view data-v-53c5f33f="" class="back"><img data-v-53c5f33f="" src="/static/img/back.png" alt="" style={{width: '35px',filter: 'brightness(0) invert(0)'}} /></uni-view>
-                                      
-                                            </Link>
-                                    </uni-view>
-                                    <uni-view data-v-35b9a113="" data-v-b918f992="" class="uni-col uni-col-12" style={{paddingLeft: '0px', paddingRight: '0px'}}>
-                                        <uni-view data-v-b918f992="" class="page-title">Add Wallet Address</uni-view>
-                                    </uni-view>
-                                    <uni-view data-v-35b9a113="" data-v-b918f992="" class="uni-col uni-col-6" style={{paddingLeft: '0px', paddingRight: '0px'}}></uni-view>
-                                </uni-view>
-                            </uni-view>
-                            <uni-view data-v-b918f992="" class="trc-box">
-                                <uni-view data-v-b918f992="" class="input-layer">
-                                    <uni-view data-v-b918f992="" class="input-title">Wallet Address({ networkType.toUpperCase() })</uni-view>
-                                    <uni-view data-v-30449abe="" data-v-b918f992="" class="uni-easyinput" style={{color: 'rgb(255, 255, 255)'}}>
-                                        <uni-view data-v-30449abe="" class="uni-easyinput__content is-input-border " style={{borderColor: 'rgb(22 191 179)', backgroundColor: 'unset'}}>
-                                            <uni-input data-v-30449abe="" class="uni-easyinput__content-input" style={{paddingLeft: '10px'}}>
-                                                <div class="uni-input-wrapper">
-                                                    {/* <div class="uni-input-placeholder uni-easyinput__placeholder-class" data-v-30449abe="" data-v-b918f992=""></div> */}
-                                                    <input maxlength="140" step="" enterkeyhint="done" autocomplete="off"value={address} onChange={(e) => setAddress(e.target.value)} type=""placeholder="Please Enter Wallet Address" class="uni-input-input"required/>
-                                                </div>
-                                            </uni-input>
-                                        </uni-view>
-                                    </uni-view>
-                                </uni-view>
-                                <uni-view data-v-b918f992="" class="input-layer">
-                                    <uni-view data-v-b918f992="" class="input-title">Verification Code</uni-view>
-                                    <uni-view data-v-30449abe="" data-v-b918f992="" class="uni-easyinput" style={{color: 'rgb(255, 255, 255)'}}>
-                                        <uni-view data-v-30449abe="" class="uni-easyinput__content is-input-border " style={{borderColor: 'rgb(22 191 179)', backgroundColor: 'unset'}}>
-                                            <uni-input data-v-30449abe="" class="uni-easyinput__content-input" style={{paddingRight: '10px', paddingLeft: '10px'}}>
-                                                <div class="uni-input-wrapper">
-                                                    {/* <div class="uni-input-placeholder uni-easyinput__placeholder-class" data-v-30449abe="" data-v-b918f992=""></div> */}
-                                                    <input maxlength="140" step="" enterkeyhint="done" autocomplete="off"value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} type=""placeholder="Please Enter Verification Code" class="uni-input-input"/>
-                                                </div>
-                                            </uni-input>
-                                            <uni-view data-v-b918f992="" class="resend"onClick={handleSendRequest} style={{color:'#000'}}>Send</uni-view>
-                                        </uni-view>
-                                    </uni-view>
-                                </uni-view>
-                                <uni-view data-v-b918f992="" class="submit" onClick={saveAddress}>Submit</uni-view>
-                            </uni-view>
-                        </uni-view>
-                    </uni-page-body>
-                </uni-page-wrapper>
-            </uni-page>
+ <div className="withdraw-container">
+      <div className="top-bar">
+        <span className="back-icon" onClick={backClick}>&#8592;</span>
+        <h3>Manage Wallet</h3>
+        <span></span>
+      </div>
 
-        </uni-app>
+      <div className="withdraw-box">
 
+     
+
+        {/* Wallet Address */}
+        <div className="form-group">
+          {/* <label>Enter Wallet Address</label> */}
+          <div className="input-wrapper">
+            <input type="text" placeholder="Please enter wallet address" />
+          </div>
+        </div>
+
+        {/* Withdraw Button */}
+        <button className="withdraw-button" >Confirm</button>
+      </div>
     </div>
 
   );
