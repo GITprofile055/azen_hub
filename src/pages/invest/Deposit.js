@@ -1,97 +1,111 @@
-import React from "react";
-import { useNavigate, Link } from "react-router-dom";
-
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Api from "../../Requests/Api"; 
+import { toast } from "react-toastify";
 
 const Deposit = () => {
   const navigate = useNavigate();
+  const [address, setAddress] = useState("");
+  const [qrCode, setQrCode] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const backClick = () => {
     navigate(-1);
   };
+
+  const fetchDepositDetails = async () => {
+    try {
+      const res = await Api.get("/buyFund");
+      if (res.data.status) {
+        const depositAddress = res.data.data.address_in;
+        setAddress(depositAddress);
+        setQrCode(
+          `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
+            depositAddress
+          )}`
+        );
+      } else {
+        toast.error(res.data.message || "Failed to load deposit address");
+      }
+    } catch (error) {
+      console.error("Error fetching deposit address:", error);
+      toast.error(error.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const copyWalletAddress = () => {
+    navigator.clipboard.writeText(address).then(() => {
+      toast.success("Wallet address copied!");
+    });
+  };
+
+  useEffect(() => {
+    fetchDepositDetails();
+  }, []);
+
   return (
-    <div className="dp-container">
-      {/* Header */}
-      <div className="dp-header">
-        <span className="dp-back" onClick={backClick}>&#8592;</span>
-        <h2 className="dp-title">Deposit $AZEN into APP</h2>
-        <span className="dp-back-placeholder"></span>
-      </div>
+    <div>
+      <header>
+        <span onClick={backClick} style={{ cursor: "pointer" }}>
+          ←
+        </span>
+        <h1>Deposit</h1>
+        <span style={{ width: "24px" }}></span>
+      </header>
 
-      {/* Content Box */}
-      <div className="dp-card">
-        {/* Deposit Amount */}
-        <div className="dp-input-group">
-          <label>Deposit Amount</label>
-          <div className="dp-input-wrapper">
-            <input type="text" placeholder="Please enter deposit amount" />
-            <span className="dp-currency">$AZEN</span>
-          </div>
+      <div className="section-wrap">
+        <div className="card" style={{ textAlign: "center" }}>
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <>
+              <div className="qrcode" style={{ margin: "1rem 0" }}>
+                <img
+                  src={qrCode}
+                  alt="QR Code"
+                  style={{ maxWidth: "150px" }}
+                />
+              </div>
+
+              <div className="tag">Minimum deposit: 2 USDT (BEP20)</div>
+
+              <div
+                style={{
+                  background: "#fcfcfcff",
+                  padding: "0.75rem",
+                  borderRadius: "0.75rem",
+                  marginTop: "1rem",
+                  wordBreak: "break-word",
+                  fontFamily: "monospace",
+                  fontSize: "0.9rem",
+                  color:"#000",
+                }}
+              >
+                {address || "Address not found"}
+              </div>
+
+              <button
+                className="add-btn"
+                style={{ marginTop: "1rem" }}
+                onClick={copyWalletAddress}
+              >
+                Copy Address
+              </button>
+            </>
+          )}
         </div>
 
-        {/* Wallet Selector */}
-        <div className="dp-input-group">
-          <label>Select Wallet to Deposit</label>
-          <div className="dp-select-wallet">
-            <img src="static/assets/wallet-icon.png" alt="wallet" className="dp-icon" />
-            <span>OKX Wallet</span>
-          </div>
+        <div className="section-wrap" style={{ marginTop: "2rem" }}>
+          <h2 style={{ fontWeight: "700", fontSize: "1rem" }}>Instructions</h2>
+          <ul style={{ fontSize: "0.85rem", color: "#333", marginTop: "0.75rem", paddingLeft: "1rem" }}>
+            <li>Send USDT (BEP20) to the above wallet address.</li>
+            <li>Only send from wallets you control (avoid exchanges).</li>
+            <li>Transaction will be confirmed after 1 block confirmation.</li>
+            <li>Gas fee is very low (~0.0001 ETH).</li>
+          </ul>
         </div>
-
-        {/* Confirm Button */}
-        <button className="dp-button" disabled>Confirm</button>
-
-        {/* Steps Section */}
-        <div className="dp-steps">
-          <h3>Steps</h3>
-
-          <div className="dp-step">
-            <span className="dp-step-number">1</span>
-            <div className="dp-step-info">
-              <p>Send $AZEN &amp; ETH (Arbitrum) to ETH</p>
-              <ul>
-                <li>$AZEN is available for trading on MEXC and Bitmart</li>
-                <li>Add a small amount of ETH (Arb) for gas fee</li>
-                <li>e.g. 0.0001 ETH – around $0.01 per transaction</li>
-              </ul>
-            </div>
-            <img src="static/assets/wallet-icon.png" alt="wallet" className="dp-icon" />
-          </div>
-
-          <div className="dp-step">
-            <span className="dp-step-number">2</span>
-            <div className="dp-step-info">
-              <p>In aZen App</p>
-              <ul>
-                <li>Tap "Deposit"</li>
-                <li>Enter amount</li>
-                <li>Tap "Confirm", Auto‑connect to OKX</li>
-              </ul>
-            </div>
-            <img src="static/assets/wallet-icon.png" alt="wallet" className="dp-icon" />
-          </div>
-
-          {/* <div className="dp-step">
-    <span className="dp-step-number">3</span>
-    <div className="dp-step-info">
-      <p>In OKX Wallet</p>
-      <ul>
-        <li>Confirm the staking amount</li>
-        <li>Complete the transfer</li>
-      </ul>
-    </div>
-    <img src="static/assets/wallet-icon.png" alt="wallet" className="dp-icon" />
-  </div> */}
-
-          <div className="dp-step">
-            <span className="dp-step-number">3</span>
-            <div className="dp-step-info">
-              <p>Go back to aZen Hub, Deposit complete!</p>
-            </div>
-            <img src="static/assets/wallet-icon.png" alt="wallet" className="dp-icon" />
-          </div>
-        </div>
-
-
       </div>
     </div>
   );

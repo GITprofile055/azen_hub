@@ -17,8 +17,7 @@ const Dashboard = () => {
    const [selectedSymbol, setSelectedSymbol] = useState(null);
    const navigate = useNavigate();
    const [user, setUser] = useState(null);
-
-   const [isOpen, setIsOpen] = useState(true); // Modal visibility state
+   const [isOpen, setIsOpen] = useState(true); 
 
    const closeModal = () => {
       setIsOpen(false);
@@ -26,11 +25,11 @@ const Dashboard = () => {
 
    const handleAccept = () => {
       console.log("Account connected with Telegram!");
-      setIsOpen(false); // Close the modal after accepting
+      setIsOpen(false); 
    };
    const [cryptoData, setCryptoData] = useState({});
    const [binanceSymbols, setBinanceSymbols] = useState([]);
-   const [showAll, setShowAll] = useState(false); // toggle state
+   const [showAll, setShowAll] = useState(false); 
    const toggleDropdown = () => setIsOpen(!isOpen);
 
 

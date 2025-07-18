@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Api from "../../Requests/Api";
 
 const Refer = () => {
-   const [directTeam, setDirectTeam] = useState([]);
+  const [directTeam, setDirectTeam] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
