@@ -48,14 +48,14 @@ const Setting = () => {
 
                 <div className="settings-item">
                     <span>Account Password</span>
-                    <Link to="/change-password">
+                    <Link to="/change-password" style={{ textDecorationLine: 'none' }}>
                         <span className="settings-edit">Edit ›</span>
                     </Link>
                 </div>
 
                 <div className="settings-item">
                     <span>Payment Password</span>
-                    <Link to="/payment-password">
+                    <Link to="/payment-password" style={{ textDecorationLine: 'none' }}>
                         <span className="settings-edit">Edit ›</span>
                     </Link>
                 </div>

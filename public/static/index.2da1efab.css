@@ -462,4 +462,142 @@
   }
 }
   /* chnagepass  */
-  
+  /* slider  */
+
+/* Outer Section */
+.slider-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 16px;
+
+  padding: 20px;
+  background-color: #000;
+  color: #fff;
+  max-width: 390px;
+  margin: auto;
+}
+
+@media (min-width: 768px) {
+  .slider-section {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+/* Left Text Column */
+.slider-text {
+  flex: 1;
+}
+
+.slider-text h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #c6ff30;
+}
+
+.slider-text p {
+  font-size: 14px;
+  color: #ccc;
+  margin-bottom: 12px;
+}
+
+.explore-btn {
+  padding: 8px 14px;
+  background-color: #15d5c7;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  color: #000;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.explore-btn:hover {
+  background-color: #0fdac1;
+}
+
+/* Right Slider Box */
+.slider-box {
+  flex: 1;
+  width: 150px;
+}
+
+
+/* ---------------- SLIDE STYLING ---------------- */
+
+/* Slide Container */
+.slide-wrapper {
+  position: relative;
+  width: 150px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.slide-wrapper:hover {
+  transform: translateY(-4px);
+}
+
+/* Slide Image */
+.slide-image {
+  width:100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 25px;
+}
+
+/* Overlay Container */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 16px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 80%);
+  color: #fff;
+  border-radius: 0 0 16px 16px;
+}
+
+/* Top Row (Price + Button) */
+.overlay-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: 700;
+  color: #c6ff30;
+  letter-spacing: 0.3px;
+}
+
+.buy-now {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  background-color: #c6ff30;
+  color: #000;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.buy-now:hover {
+  background-color: #b5ef24;
+  transform: scale(1.05);
+}
+
+/* Description */
+.slide-description {
+  font-size: 12px;
+  color: #e1e1e1;
+  line-height: 1.5;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}

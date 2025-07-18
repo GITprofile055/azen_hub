@@ -1,5 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, Link, Outlet } from "react-router-dom";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Pagination } from 'swiper/modules';
+
 import axios from "axios";
 import Api from "../../Requests/Api";
 import Collapse from 'react-collapse';
@@ -14,142 +19,170 @@ const symbols = ["dogeusdt", "ethusdt", "dotusdt", "nearusdt"];
 
 
 const Dashboard = () => {
-   const [selectedSymbol, setSelectedSymbol] = useState(null);
-   const navigate = useNavigate();
-   const [user, setUser] = useState(null);
-   const [isOpen, setIsOpen] = useState(true); 
+  const [selectedSymbol, setSelectedSymbol] = useState(null);
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
 
-   const closeModal = () => {
-      setIsOpen(false);
-   };
+  const [isOpen, setIsOpen] = useState(true); // Modal visibility state
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [slides, setSlides] = useState([]);
+  const [servers, setServers] = useState([])
 
-   const handleAccept = () => {
-      console.log("Account connected with Telegram!");
-      setIsOpen(false); 
-   };
-   const [cryptoData, setCryptoData] = useState({});
-   const [binanceSymbols, setBinanceSymbols] = useState([]);
-   const [showAll, setShowAll] = useState(false); 
-   const toggleDropdown = () => setIsOpen(!isOpen);
+  useEffect(() => {
+    fetchwallet();
+  }, []);
+  const fetchwallet = async () => {
+    try {
+      const response = await Api.get("/fetchserver");
 
+      if (response.data?.success && Array.isArray(response.data.server)) {
+        const serverSlides = response.data.server.map((item, index) => ({
+          title: `S${index + 1}-IntelliCalc Edition`,
+          heading: "Benefits",
+          text: ` ${item.invest_amount} `,
+          text1: `Optional investment period (hours): ${item.plan}`,
+          text2: `To: ${item.period_end}`,
+          price: item.plan === "Free" ? "Free" : item.plan,
+          days: item.days,
+        }));
 
-   useEffect(() => {
-      const fetchCrypto = async () => {
-         try {
-            const res = await axios.get("https://api.coingecko.com/api/v3/coins/markets", {
-               params: {
-                  vs_currency: "usd",
-                  order: "market_cap_desc",
-                  per_page: 20,
-                  page: 1,
-                  sparkline: false
-               }
-            });
-
-            const formatted = {};
-            const binanceSyms = [];
-
-            res.data.forEach((coin) => {
-               const symbol = `${coin.symbol}usdt`.toUpperCase();
-               formatted[symbol] = {
-                  id: coin.id,
-                  name: coin.name,
-                  symbol: symbol,
-                  image: coin.image,
-                  price: coin.current_price,
-                  change: coin.price_change_24h,
-                  percent: coin.price_change_percentage_24h,
-                  volume: (coin.total_volume / 1_000_000).toFixed(2) + "M"
-               };
-               binanceSyms.push(symbol.toLowerCase());
-            });
-
-            setCryptoData(formatted);
-            setBinanceSymbols(binanceSyms);
-         } catch (error) {
-            console.error("CoinGecko fetch error:", error);
-         }
-      };
-
-      fetchCrypto();
-   }, []);
-
-   useEffect(() => {
-      if (binanceSymbols.length === 0) return;
-
-      const ws = new WebSocket(
-         `wss://stream.binance.com:9443/stream?streams=${binanceSymbols
-            .map((s) => `${s}@ticker`)
-            .join("/")}`
-      );
-
-      ws.onmessage = (event) => {
-         const msg = JSON.parse(event.data);
-         const data = msg.data;
-
-         setCryptoData((prev) => {
-            const existing = prev[data.s];
-            if (!existing) return prev;
-
-            return {
-               ...prev,
-               [data.s]: {
-                  ...existing,
-                  price: parseFloat(data.c),
-                  change: parseFloat(data.p),
-                  percent: parseFloat(data.P),
-                  volume: (parseFloat(data.v) / 1_000_000).toFixed(2) + "M"
-               }
-            };
-         });
-      };
-
-      return () => ws.close();
-   }, [binanceSymbols]);
-
-   const allCoins = Object.values(cryptoData);
-   const coinsToShow = showAll ? allCoins : allCoins.slice(0, 5);
-   const [loading, setLoading] = useState(true);
-   const [availbal, setAvailableBal] = useState();
-
-
-
-   const [userDetails, setUserDetails] = useState(null);
-   const token = localStorage.getItem('authToken'); // Retrieve token from localStorage
-
-   useEffect(() => {
-      fetchUserDetails();
-   }, []);
-
-   const fetchUserDetails = async () => {
-      try {
-         const response = await Api.get('/user');
-         setUserDetails(response.data); // This should be your user object
-      } catch (error) {
-         console.error("Error fetching user details:", error);
+        setSlides(serverSlides);
       }
-   };
-   // }, [token]);
-   useEffect(() => {
-      withfatch();
-   }, []);
+    } catch (error) {
+      console.error("Error fetching plans:", error);
+    }
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
-   const withfatch = async () => {
+  const handleAccept = () => {
+    console.log("Account connected with Telegram!");
+    setIsOpen(false); // Close the modal after accepting
+  };
+  const [cryptoData, setCryptoData] = useState({});
+  const [binanceSymbols, setBinanceSymbols] = useState([]);
+  const [showAll, setShowAll] = useState(false); // toggle state
+  const toggleDropdown = () => setIsOpen(!isOpen);
+
+
+  useEffect(() => {
+    const fetchCrypto = async () => {
       try {
-         const response = await Api.get("/availbal");
-         if (response.data?.AvailBalance !== undefined) {
-            setAvailableBal(response.data.AvailBalance);
-         }
+        const res = await axios.get("https://api.coingecko.com/api/v3/coins/markets", {
+          params: {
+            vs_currency: "usd",
+            order: "market_cap_desc",
+            per_page: 20,
+            page: 1,
+            sparkline: false
+          }
+        });
+
+        const formatted = {};
+        const binanceSyms = [];
+
+        res.data.forEach((coin) => {
+          const symbol = `${coin.symbol}usdt`.toUpperCase();
+          formatted[symbol] = {
+            id: coin.id,
+            name: coin.name,
+            symbol: symbol,
+            image: coin.image,
+            price: coin.current_price,
+            change: coin.price_change_24h,
+            percent: coin.price_change_percentage_24h,
+            volume: (coin.total_volume / 1_000_000).toFixed(2) + "M"
+          };
+          binanceSyms.push(symbol.toLowerCase());
+        });
+
+        setCryptoData(formatted);
+        setBinanceSymbols(binanceSyms);
       } catch (error) {
-         console.error("Error:", error);
+        console.error("CoinGecko fetch error:", error);
       }
-   };
+    };
 
-   const { t } = useTranslation();
+    fetchCrypto();
+  }, []);
 
-   return (
+  useEffect(() => {
+    if (binanceSymbols.length === 0) return;
 
-       <div>
+    const ws = new WebSocket(
+      `wss://stream.binance.com:9443/stream?streams=${binanceSymbols
+        .map((s) => `${s}@ticker`)
+        .join("/")}`
+    );
+
+    ws.onmessage = (event) => {
+      const msg = JSON.parse(event.data);
+      const data = msg.data;
+
+      setCryptoData((prev) => {
+        const existing = prev[data.s];
+        if (!existing) return prev;
+
+        return {
+          ...prev,
+          [data.s]: {
+            ...existing,
+            price: parseFloat(data.c),
+            change: parseFloat(data.p),
+            percent: parseFloat(data.P),
+            volume: (parseFloat(data.v) / 1_000_000).toFixed(2) + "M"
+          }
+        };
+      });
+    };
+
+    return () => ws.close();
+  }, [binanceSymbols]);
+
+  const allCoins = Object.values(cryptoData);
+  const coinsToShow = showAll ? allCoins : allCoins.slice(0, 5);
+  const [loading, setLoading] = useState(true);
+  const [availbal, setAvailableBal] = useState();
+
+
+
+  const [userDetails, setUserDetails] = useState(null);
+  const token = localStorage.getItem('authToken'); // Retrieve token from localStorage
+
+  useEffect(() => {
+    fetchUserDetails();
+  }, []);
+
+  const fetchUserDetails = async () => {
+    try {
+      const response = await Api.get('/user');
+      setUserDetails(response.data); // This should be your user object
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+  // }, [token]);
+  useEffect(() => {
+    withfatch();
+  }, []);
+
+  const withfatch = async () => {
+    try {
+      const response = await Api.get("/availbal");
+      if (response.data?.AvailBalance !== undefined) {
+        setAvailableBal(response.data.AvailBalance);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const { t } = useTranslation();
+
+  return (
+
+    <div>
       <header>
         <h1>aZen Hub</h1>
         <svg className="bell" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -160,7 +193,7 @@ const Dashboard = () => {
           />
         </svg>
       </header>
- 
+
       {/* === Earnings Card === */}
       <section className="card">
         <p style={{ fontSize: '.75rem', color: 'rgba(255,255,255,.7)' }}>Today Earning</p>
@@ -181,7 +214,7 @@ const Dashboard = () => {
           <span className="tag">34,3400 $XaZen</span>
         </div>
       </section>
- 
+
       {/* === aZen DePIN === */}
       <div className="section-wrap">
         <div className="sec-head">
@@ -216,7 +249,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
- 
+
       {/* === Referral Banner === */}
       <div className="section-wrap">
         <a href="#" className="banner">
@@ -227,7 +260,47 @@ const Dashboard = () => {
           />
         </a>
       </div>
- 
+      <div className="section-wrap">
+        <div className="slider-section">
+          {/* Left content */}
+
+          <div className="slider-text">
+            {slides[activeIndex] && (
+              <>
+                <h2>{slides[activeIndex].text} USDT</h2>
+                <p>{slides[activeIndex].text1}/days</p>
+                <button className="buy-now">Buy</button>
+              </>
+            )}
+          </div>
+
+          {/* Right slider */}
+          <div className="slider-box">
+            <Swiper spaceBetween={20} slidesPerView={1} onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}>
+              {[1, 2, 3].map((slide, index) => (
+                <SwiperSlide key={index}>
+                  <div className="slide-wrapper">
+                    <img
+                      src={`/static/img/slide${slide}.jpeg`}
+                      alt={`Slide ${slide}`}
+                      className="slide-image" style={{ width: '100%', height: '160px' }}
+                    />
+
+                    <div className="overlay">
+                      <div className="overlay-top">
+                        {/* <button className="buy-now">Buy Now</button> */}
+                      </div>
+
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        </div>
+
+      </div>
+
       {/* === Earning Center === */}
       <div className="section-wrap" style={{ paddingBottom: '2rem' }}>
         <div className="sec-head">
@@ -254,7 +327,7 @@ const Dashboard = () => {
               Check +10
             </button>
           </div>
- 
+
           {/* Pending Rewards */}
           <div className="mini-card">
             <div className="label">
@@ -274,10 +347,10 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-     
+
     </div>
- 
-   );
+
+  );
 
 };
 export default Dashboard;
