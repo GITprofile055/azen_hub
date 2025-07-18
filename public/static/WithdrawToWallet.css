@@ -341,7 +341,7 @@ body {
 }
 
 .btn-logout {
-  background-color: #a0fa51;
+  background-color: #000000;
   color: #fff;
 }
 
@@ -357,3 +357,8 @@ body {
 .btn-deregister:hover {
   background-color: #ffcccc;
 }
+
+
+
+
+
