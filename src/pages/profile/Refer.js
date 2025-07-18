@@ -221,7 +221,7 @@ const Refer = () => {
               >
                 <div>
                   <div style={{ fontWeight: "bold" }}>{member.name}</div>
-                  <div style={{ fontSize: "0.75rem", color: "#666" }}>   {member.username} | {member.email}</div>
+                  <div style={{ fontSize: "0.75rem", color: "#666" }}>  {member.email}</div>
                 </div>
                 <div>
                   <span
@@ -230,13 +230,13 @@ const Refer = () => {
                       padding: "0.3rem 0.6rem",
                       borderRadius: "1rem",
                       background:
-                        member.status === "Success"
+                        member.active_status === "Active"
                           ? "#d4edda"
                           : member.active_status === "Pending"
                             ? "#fff3cd"
                             : "#f8d7da",
                       color:
-                        member.active_status === "Success"
+                        member.active_status === "Active"
                           ? "#155724"
                           : member.active_status === "Pending"
                             ? "#856404"
