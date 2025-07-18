@@ -1,6 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Api from "../../Requests/Api";
 
 const Refer = () => {
+   const [directTeam, setDirectTeam] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDirectTeam = async () => {
+      try {
+        const response = await Api.get("/getDirectTeam"); // <-- Make sure this endpoint is correct
+        if (response.data.status) {
+          setDirectTeam(response.data.data);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching direct team:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchDirectTeam();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="uni-body pages-user-invite">
       <header>
@@ -179,26 +203,11 @@ const Refer = () => {
               View all
             </span>
           </div>
-
-          {/* Investment entries start here */}
+ {directTeam.length === 0 ? (
+          <p>No direct team members yet.</p>
+        ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
-            {[
-              {
-                amount: "₹5,000",
-                date: "16 July, 2025",
-                status: "Success",
-              },
-              {
-                amount: "₹2,000",
-                date: "12 July, 2025",
-                status: "Pending",
-              },
-              {
-                amount: "₹7,500",
-                date: "04 July, 2025",
-                status: "Failed",
-              },
-            ].map((entry, i) => (
+            {directTeam.map((member, i) => (
               <div
                 key={i}
                 style={{
@@ -211,8 +220,8 @@ const Refer = () => {
                 }}
               >
                 <div>
-                  <div style={{ fontWeight: "bold" }}>{entry.amount}</div>
-                  <div style={{ fontSize: "0.75rem", color: "#666" }}>{entry.date}</div>
+                  <div style={{ fontWeight: "bold" }}>{member.name}</div>
+                  <div style={{ fontSize: "0.75rem", color: "#666" }}>   {member.username} | {member.email}</div>
                 </div>
                 <div>
                   <span
@@ -221,26 +230,27 @@ const Refer = () => {
                       padding: "0.3rem 0.6rem",
                       borderRadius: "1rem",
                       background:
-                        entry.status === "Success"
+                        member.status === "Success"
                           ? "#d4edda"
-                          : entry.status === "Pending"
+                          : member.active_status === "Pending"
                             ? "#fff3cd"
                             : "#f8d7da",
                       color:
-                        entry.status === "Success"
+                        member.active_status === "Success"
                           ? "#155724"
-                          : entry.status === "Pending"
+                          : member.active_status === "Pending"
                             ? "#856404"
                             : "#721c24",
                       fontWeight: 500,
                     }}
                   >
-                    {entry.status}
+                      {member.active_status}
                   </span>
                 </div>
               </div>
             ))}
           </div>
+        )}
         </div>
 
       </section>
