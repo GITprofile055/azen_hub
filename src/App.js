@@ -20,6 +20,7 @@ import WithdrawReq from "./pages/Withdraw/WithdrawReq";
 import Assets from "./pages/Withdraw/Assets";
 import Transaction from "./pages/Withdraw/Transaction";
 import Whistory from "./pages/Withdraw/Whistory";
+import Transfer from "./pages/Withdraw/Transfer";
 import Wallet from "./pages/invest/Wallet";
 import AddWallet from "./pages/Withdraw/AddWallet";
 import AddWalletAddress from "./pages/Withdraw/AddWalletAddress";
@@ -66,8 +67,8 @@ function AppContent() {
         "/langauge",
         "/faq",
         "/setting",
-        "/level"
-        // "/transaction"
+        "/level",
+        "/transaction"
     ];
 
     // Check if current path matches any of the above OR dynamic TradingChart route
@@ -107,6 +108,8 @@ function AppContent() {
                     <Route path="/payment-password" element={<ProtectedRoute><PaymentPassword /></ProtectedRoute>} />
                     <Route path="/level" element={<ProtectedRoute><Level/></ProtectedRoute>}/>
                     <Route path="/team" element={<ProtectedRoute><Team /></ProtectedRoute>} />
+
+                    <Route path="/transfer" element={<ProtectedRoute><Transfer /></ProtectedRoute>} />
                     
                     <Route path="/withdraw-req" element={<ProtectedRoute><WithdrawReq /></ProtectedRoute>} />
                     <Route path="/deposit-history" element={<ProtectedRoute><History /></ProtectedRoute>} />
