@@ -3,8 +3,9 @@ import { useNavigate, Link, Outlet } from "react-router-dom";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-// import { Pagination } from 'swiper/modules';
-import { Autoplay } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
+import { toast } from "react-toastify";
+
 import axios from "axios";
 import Api from "../../Requests/Api";
 import Collapse from 'react-collapse';
@@ -25,6 +26,28 @@ const Dashboard = () => {
   const [slides, setSlides] = useState([]);
   const [servers, setServers] = useState([])
 
+
+  
+  const handleBuy = async () => {
+    const selectedAmount = slides[activeIndex]?.text;
+
+    try {
+      const response = await Api.post("/Deposit", {
+        amount: selectedAmount
+      });
+
+      if (response.data.success) {
+        toast.success(response.data.message || "Investment successful!");
+      } else {
+        toast.error(response.data.message || "Investment failed!");
+      }
+    } catch (error) {
+      console.error("Investment Error:", error);
+      toast.error("Something went wrong!");
+    }
+  };
+
+  
   useEffect(() => {
     fetchwallet();
   }, []);
@@ -62,90 +85,17 @@ const Dashboard = () => {
   const [showAll, setShowAll] = useState(false); // toggle state
   const toggleDropdown = () => setIsOpen(!isOpen);
 
-
-  useEffect(() => {
-    const fetchCrypto = async () => {
-      try {
-        const res = await axios.get("https://api.coingecko.com/api/v3/coins/markets", {
-          params: {
-            vs_currency: "usd",
-            order: "market_cap_desc",
-            per_page: 20,
-            page: 1,
-            sparkline: false
-          }
-        });
-
-        const formatted = {};
-        const binanceSyms = [];
-
-        res.data.forEach((coin) => {
-          const symbol = `${coin.symbol}usdt`.toUpperCase();
-          formatted[symbol] = {
-            id: coin.id,
-            name: coin.name,
-            symbol: symbol,
-            image: coin.image,
-            price: coin.current_price,
-            change: coin.price_change_24h,
-            percent: coin.price_change_percentage_24h,
-            volume: (coin.total_volume / 1_000_000).toFixed(2) + "M"
-          };
-          binanceSyms.push(symbol.toLowerCase());
-        });
-
-        setCryptoData(formatted);
-        setBinanceSymbols(binanceSyms);
-      } catch (error) {
-        console.error("CoinGecko fetch error:", error);
-      }
-    };
-
-    fetchCrypto();
-  }, []);
-
-  useEffect(() => {
-    if (binanceSymbols.length === 0) return;
-
-    const ws = new WebSocket(
-      `wss://stream.binance.com:9443/stream?streams=${binanceSymbols
-        .map((s) => `${s}@ticker`)
-        .join("/")}`
-    );
-
-    ws.onmessage = (event) => {
-      const msg = JSON.parse(event.data);
-      const data = msg.data;
-
-      setCryptoData((prev) => {
-        const existing = prev[data.s];
-        if (!existing) return prev;
-
-        return {
-          ...prev,
-          [data.s]: {
-            ...existing,
-            price: parseFloat(data.c),
-            change: parseFloat(data.p),
-            percent: parseFloat(data.P),
-            volume: (parseFloat(data.v) / 1_000_000).toFixed(2) + "M"
-          }
-        };
-      });
-    };
-
-    return () => ws.close();
-  }, [binanceSymbols]);
-
   const allCoins = Object.values(cryptoData);
   const coinsToShow = showAll ? allCoins : allCoins.slice(0, 5);
   const [loading, setLoading] = useState(true);
   const [availbal, setAvailableBal] = useState();
 
 
-
   const [userDetails, setUserDetails] = useState(null);
   const token = localStorage.getItem('authToken'); // Retrieve token from localStorage
+
+
+
 
   useEffect(() => {
     fetchUserDetails();
@@ -303,15 +253,52 @@ const Dashboard = () => {
         </div> */}
       </div>
 
+      {/* === Referral Banner === */}
+      <div className="section-wrap">
+        <a href="#" className="banner">
+          <img
+            src="https://placehold.co/350x96/BAFF2C/000?text=Referral+Rewards+"
+            alt="Referral Rewards"
+            style={{ width: '100%', display: 'block', borderRadius: '1rem' }}
+          />
+        </a>
+      </div>
+      <div className="section-wrap">
+        <div className="slider-section">
+          {/* Left content */}
 
+         <div className="slider-text">
+      {slides[activeIndex] && (
+        <>
+          <h2>{slides[activeIndex].text} USDT</h2>
+          <p>{slides[activeIndex].text1}/days</p>
+          <button className="buy-now" onClick={handleBuy}>Buy</button>
+        </>
+      )}
+    </div>
 
+          {/* Right slider */}
+          <div className="slider-box">
+            <Swiper spaceBetween={20} slidesPerView={1} onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}>
+              {[1, 2, 3].map((slide, index) => (
+                <SwiperSlide key={index}>
+                  <div className="slide-wrapper">
+                    <img
+                      src={`/static/img/slide${slide}.jpeg`}
+                      alt={`Slide ${slide}`}
+                      className="slide-image" style={{ width: '100%', height: '160px' }}
+                    />
 
-      <div class="community-card">
-        <div class="ai-banner">
-          <img src="static/img/ai_bot.png" class="bot-icon" />
-          <div class="ai-text">
-            <h3>Train AI Agent</h3>
-            <p>Grow Your Influence Earn Rewards.</p>
+                    <div className="overlay">
+                      <div className="overlay-top">
+                        {/* <button className="buy-now">Buy Now</button> */}
+                      </div>
+
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
           ◉
         </div>
