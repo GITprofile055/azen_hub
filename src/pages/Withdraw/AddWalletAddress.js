@@ -15,7 +15,7 @@ const saveAddress = async () => {
       {
         address,
         verificationCode,
-        networkType  
+        // networkType  
       },
    
     );
@@ -64,7 +64,40 @@ const saveAddress = async () => {
       <div className="withdraw-box">
 
      
+ <div className="form-group" style={{ position: "relative", marginBottom: "16px" }}>
+          <div className="input-wrapper">
 
+          <input
+            type="text"
+            name="code"
+            required
+            value={verificationCode}
+            onChange={(e) => setVerificationCode(e.target.value)}
+            placeholder="Enter Verification Code"
+         
+          />
+        </div>
+
+          <button
+            type="button"
+            onClick={handleSendRequest}
+            style={{
+              position: "absolute",
+              right: "8px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              padding: "6px 12px",
+              backgroundColor: "#8ccd41ff",
+              color: "#fff",
+              fontSize: "12px",
+              border: "none",
+              borderRadius: "6px",
+              cursor: "pointer",
+            }}
+          >
+            Send
+          </button>
+        </div>
         {/* Wallet Address */}
         <div className="form-group">
           {/* <label>Enter Wallet Address</label> */}

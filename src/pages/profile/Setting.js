@@ -45,7 +45,12 @@ const Setting = () => {
 
             <div className="settings-body">
                 <div className="settings-email">Email: {userDetails?.email}</div>
-
+                <div className="settings-item">
+                    <span>Update Profile</span>
+                    <Link to="/profile" style={{ textDecorationLine: 'none' }}>
+                        <span className="settings-edit">Edit ›</span>
+                    </Link>
+                </div>
                 <div className="settings-item">
                     <span>Account Password</span>
                     <Link to="/change-password" style={{ textDecorationLine: 'none' }}>

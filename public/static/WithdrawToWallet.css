@@ -204,22 +204,37 @@ body {
   text-align: center;
   flex: 1;
 }
+.action-icons {
+  text-align: center;
+  flex: 1;
+}
 
+.action-icons img {
+  width: 60px;
+  height: 60px;
+  /* background: var(--lime-400); */
+  padding: 0 5px 0 5px;
+  border-radius: 50%;
+  /* margin-bottom: 5px; */
+}
 .action-icon img {
   width: 48px;
-  height: 48px;
+  height: 48px; 
   background: var(--lime-400);
   padding: 10px;
   border-radius: 50%;
   margin-bottom: 5px;
 }
-
 .action-icon p {
   font-size: 12px;
   font-weight: 500;
   color: #000;
 }
-
+.action-icons p {
+  font-size: 12px;
+  font-weight: 500;
+  color: #000;
+}
 .asset-footer {
   background: #f6f6f6;
   padding: 12px;
@@ -360,5 +375,11 @@ body {
 
 
 
+
+
+.withdraw-button.active {
+  background-color: rgb(165, 242, 70);
+  cursor: pointer;
+}
 
 

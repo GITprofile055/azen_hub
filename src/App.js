@@ -10,6 +10,7 @@ import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import Language from "./components/Langauge";
 import Dashboard from "./pages/home/Dashboard";
+import NodeDetails from "./pages/home/NodeDetails";
 import Notice from "./pages/home/Notice";
 import Faq from "./pages/home/Faq";
 import TradingChart from "./pages/home/TradingChart";
@@ -91,6 +92,7 @@ function AppContent() {
  
                     {/* Protected Routes */}
                     <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                    <Route path="/nodeDetails" element={<ProtectedRoute><NodeDetails /></ProtectedRoute>} />
                     <Route path="/notice" element={<ProtectedRoute><Notice /></ProtectedRoute>} />
                     <Route path="/setting" element={<ProtectedRoute><Setting /></ProtectedRoute>} />
                     <Route path="/faq" element={<ProtectedRoute><Faq /></ProtectedRoute>} />

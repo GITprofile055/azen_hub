@@ -83,7 +83,7 @@ const Wallet = () => {
         <div className="card inapp-balance-card">
           <p className="section-title">In-App Balance</p>
 
-          <h2 className="main-balance">0 <span className="unit">$AZEN</span> <span className="usd">≈ 0 USD</span></h2>
+          <h2 className="main-balance">{availbal}<span className="unit">$</span> <span className="usd"></span></h2>
 
           <div className="action-row">
             <div className="action-icon">

@@ -1,19 +1,151 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, Outlet } from "react-router-dom";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Pagination } from 'swiper/modules';
 
-import { toast } from "react-toastify";
-import { useAuth } from "../../components/AuthContext";
-
+import axios from "axios";
 import Api from "../../Requests/Api";
-import Level from "../../pages/team/Level";
+import Collapse from 'react-collapse';
+
+
+import { SlArrowRight } from "react-icons/sl";
+import TradingChart from "./TradingChart";
+import { jwtDecode } from 'jwt-decode';
+import { useTranslation } from 'react-i18next';
+
+const symbols = ["dogeusdt", "ethusdt", "dotusdt", "nearusdt"];
+
 
 const NodeDetails = () => {
+  const [selectedSymbol, setSelectedSymbol] = useState(null);
   const navigate = useNavigate();
-  const handleLogout = () => {
-    // Remove the token from localStorage
-    localStorage.removeItem("authToken");
-    navigate("/login");
+  const [user, setUser] = useState(null);
+
+  const [isOpen, setIsOpen] = useState(true); // Modal visibility state
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [slides, setSlides] = useState([]);
+  const [servers, setServers] = useState([])
+
+  useEffect(() => {
+    fetchwallet();
+  }, []);
+  const fetchwallet = async () => {
+    try {
+      const response = await Api.get("/fetchserver");
+
+      if (response.data?.success && Array.isArray(response.data.server)) {
+        const serverSlides = response.data.server.map((item, index) => ({
+          title: `S${index + 1}-IntelliCalc Edition`,
+          heading: "Benefits",
+          text: ` ${item.invest_amount} `,
+          text1: `Optional investment period (hours): ${item.plan}`,
+          text2: `To: ${item.period_end}`,
+          price: item.plan === "Free" ? "Free" : item.plan,
+          days: item.days,
+        }));
+
+        setSlides(serverSlides);
+      }
+    } catch (error) {
+      console.error("Error fetching plans:", error);
+    }
   };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleAccept = () => {
+    console.log("Account connected with Telegram!");
+    setIsOpen(false); // Close the modal after accepting
+  };
+  const [cryptoData, setCryptoData] = useState({});
+  const [binanceSymbols, setBinanceSymbols] = useState([]);
+  const [showAll, setShowAll] = useState(false); // toggle state
+  const toggleDropdown = () => setIsOpen(!isOpen);
+
+
+  useEffect(() => {
+    const fetchCrypto = async () => {
+      try {
+        const res = await axios.get("https://api.coingecko.com/api/v3/coins/markets", {
+          params: {
+            vs_currency: "usd",
+            order: "market_cap_desc",
+            per_page: 20,
+            page: 1,
+            sparkline: false
+          }
+        });
+
+        const formatted = {};
+        const binanceSyms = [];
+
+        res.data.forEach((coin) => {
+          const symbol = `${coin.symbol}usdt`.toUpperCase();
+          formatted[symbol] = {
+            id: coin.id,
+            name: coin.name,
+            symbol: symbol,
+            image: coin.image,
+            price: coin.current_price,
+            change: coin.price_change_24h,
+            percent: coin.price_change_percentage_24h,
+            volume: (coin.total_volume / 1_000_000).toFixed(2) + "M"
+          };
+          binanceSyms.push(symbol.toLowerCase());
+        });
+
+        setCryptoData(formatted);
+        setBinanceSymbols(binanceSyms);
+      } catch (error) {
+        console.error("CoinGecko fetch error:", error);
+      }
+    };
+
+    fetchCrypto();
+  }, []);
+
+  useEffect(() => {
+    if (binanceSymbols.length === 0) return;
+
+    const ws = new WebSocket(
+      `wss://stream.binance.com:9443/stream?streams=${binanceSymbols
+        .map((s) => `${s}@ticker`)
+        .join("/")}`
+    );
+
+    ws.onmessage = (event) => {
+      const msg = JSON.parse(event.data);
+      const data = msg.data;
+
+      setCryptoData((prev) => {
+        const existing = prev[data.s];
+        if (!existing) return prev;
+
+        return {
+          ...prev,
+          [data.s]: {
+            ...existing,
+            price: parseFloat(data.c),
+            change: parseFloat(data.p),
+            percent: parseFloat(data.P),
+            volume: (parseFloat(data.v) / 1_000_000).toFixed(2) + "M"
+          }
+        };
+      });
+    };
+
+    return () => ws.close();
+  }, [binanceSymbols]);
+
+  const allCoins = Object.values(cryptoData);
+  const coinsToShow = showAll ? allCoins : allCoins.slice(0, 5);
+  const [loading, setLoading] = useState(true);
+  const [availbal, setAvailableBal] = useState();
+
+
 
   const [userDetails, setUserDetails] = useState(null);
   const token = localStorage.getItem('authToken'); // Retrieve token from localStorage
@@ -21,7 +153,7 @@ const NodeDetails = () => {
   useEffect(() => {
     fetchUserDetails();
   }, []);
-  
+
   const fetchUserDetails = async () => {
     try {
       const response = await Api.get('/user');
@@ -30,114 +162,198 @@ const NodeDetails = () => {
       console.error("Error fetching user details:", error);
     }
   };
+  // }, [token]);
+  useEffect(() => {
+    withfatch();
+  }, []);
 
-  
+  const withfatch = async () => {
+    try {
+      const response = await Api.get("/availbal");
+      if (response.data?.AvailBalance !== undefined) {
+        setAvailableBal(response.data.AvailBalance);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const { t } = useTranslation();
 
   return (
 
-    <div class="uni-body pages-user-user">
-      <uni-app class="uni-app--maxwidth">
-        <uni-page data-page="pages/user/user">
-          <uni-page-wrapper>
-            <uni-page-body>
-              <uni-view data-v-3dcfa33c="" class="page">
-                <uni-view data-v-3dcfa33c="" class="ellipse">
-                </uni-view>
-                <uni-view data-v-3dcfa33c="" class="top-box">
-                  <uni-view data-v-636c600c="" data-v-3dcfa33c="" class="uni-row" style={{ marginLeft: '0px', marginRight: '0px' }}>
-                    <uni-view data-v-35b9a113="" data-v-3dcfa33c="" class="uni-col uni-col-6" style={{ paddingLeft: '0px', paddingRight: '0px' }}>
-                      <Link to="/dashboard"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           >
+    <div>
+      <header>
+        <h1>Purchage</h1>
+        <svg className="bell" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+          />
+        </svg>
+      </header>
 
-                        <uni-view data-v-1011963f="" class="back"><img data-v-1011963f="" src="/static/img/back.png" alt="" style={{ width: '35px',filter: 'brightness(0) invert(0)'}} /></uni-view>
-                      </Link>                    </uni-view>
-                    <uni-view data-v-35b9a113="" data-v-3dcfa33c="" class="uni-col uni-col-12" style={{ paddingLeft: '0px', paddingRight: '0px' }}>
-                      <uni-view data-v-3dcfa33c="" class="page-title">User</uni-view>
-                    </uni-view>
-                    <uni-view data-v-35b9a113="" data-v-3dcfa33c="" class="uni-col uni-col-6" style={{ paddingLeft: '0px', paddingRight: '0px' }}>
-                      <Link to="/Setting">
-                        <uni-view data-v-3dcfa33c="" class="set"><img data-v-3dcfa33c="" src="/static/img/setting.png" alt="" style={{ width: '35px',filter: 'brightness(0) invert(0)' }} /></uni-view>
 
-                      </Link>
-                    </uni-view>
-                  </uni-view>
-                </uni-view>
-                <uni-view data-v-3dcfa33c="" class="ava-box">
-                  <uni-view data-v-3dcfa33c="" class="ava"><img data-v-3dcfa33c="" src="/static/ava/ava4.jpg" alt="" /></uni-view>
+  
+      <div className="section-wrap">
+        <div className="slider-section">
+          {/* Left content */}
 
-                    <uni-view >
-                      <uni-view
-                        data-v-3dcfa33c="" class="nickname">{userDetails?.name}</uni-view>
-                      <uni-view data-v-3dcfa33c="" class="uid">UID: {userDetails?.username}</uni-view>
+          <div className="slider-text">
+            {slides[activeIndex] && (
+              <>
+                <h2>{slides[activeIndex].text} USDT</h2>
+                <p>{slides[activeIndex].text1}/days</p>
+                <button className="buy-now">Buy</button>
+              </>
+            )}
+          </div>
 
-                    </uni-view>
-              
-                </uni-view>
-                <uni-view data-v-3dcfa33c="" class="two-group">
-                  <uni-view data-v-3dcfa33c="" class="item">
-                    <Link to="/ServerCommission" style={{ textDecorationLine: 'none' }}>
+          {/* Right slider */}
+          <div className="slider-box">
+            <Swiper spaceBetween={20} slidesPerView={1} onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}>
+              {[1, 2, 3].map((slide, index) => (
+                <SwiperSlide key={index}>
+                  <div className="slide-wrapper">
+                    <img
+                      src={`/static/img/slide${slide}.jpeg`}
+                      alt={`Slide ${slide}`}
+                      className="slide-image" style={{ width: '100%', height: '160px' }}
+                    />
 
-                      <uni-view data-v-3dcfa33c="" class="title">Server Commission</uni-view>
-                      <uni-view data-v-3dcfa33c="" translate="no" class="value"><img data-v-3dcfa33c="" src="/static/img/db.png" alt="" style={{filter: 'brightness(0) invert(0)'}}/>0.0000</uni-view>
-                    </Link>
+                    <div className="overlay">
+                      <div className="overlay-top">
+                        {/* <button className="buy-now">Buy Now</button> */}
+                      </div>
 
-                  </uni-view>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        </div>
 
-                  <uni-view data-v-3dcfa33c="" class="item"> <Link to="/Team" style={{ textDecorationLine: 'none' }}>
-                    <uni-view data-v-3dcfa33c="" class="title">My Team</uni-view>
-                    <uni-view data-v-3dcfa33c="" class="value"><img data-v-3dcfa33c="" src="/static/img/people.png" alt="" style={{filter: 'brightness(0) invert(0)'}} />0<span data-v-3dcfa33c="" style={{ fontSize: '14px', fontWeight: '400', marginLeft: '3px' }}>(0Activated)</span></uni-view>
-                  </Link>
-
-                  </uni-view>
-                </uni-view>
-                <uni-view data-v-3dcfa33c="" class="email-box">
-                  <uni-view data-v-3dcfa33c="" class="title" style={{color:'#000'}}>Email Address</uni-view>
-                  <uni-view data-v-3dcfa33c="" class="value">****kor55@gmail.com</uni-view>
-                </uni-view>
-                 <Link to="/Refer"style={{ textDecorationLine: 'none' }}>
-                <uni-view data-v-3dcfa33c="" class="invite-box">
-
-                  <img data-v-3dcfa33c="" src="/static/img/giftbox.png" alt="" />
-                  <uni-view data-v-3dcfa33c="" class="invite">
-                    <uni-view data-v-3dcfa33c="" class="title">Invite Friends!</uni-view>
-                    <uni-view data-v-3dcfa33c="" class="text">Invite friends and earn referral commission</uni-view>
-                  </uni-view>
-                </uni-view>
-                </Link>
-
-                {/* <uni-view data-v-3dcfa33c="" class="kyc-box"><Link to="/Kyc"style={{ textDecorationLine: 'none' }}>
-                  <uni-view data-v-3dcfa33c="" class="value"><img data-v-3dcfa33c="" src="/static/img/warn.png" alt="" />KYC Certification</uni-view>
-                  <uni-view data-v-3dcfa33c="" class="title">Your account is not verified yet please add add your personal details to verify</uni-view>
-                  <uni-view data-v-3dcfa33c="" class="go-kyc">Verify Now</uni-view>
-                  </Link>
-                </uni-view> */}
-               <Link to="/Wallet" style={{ textDecorationLine: 'none' }}>
-                <uni-view data-v-3dcfa33c="" class="invite-box">
-                  <img data-v-3dcfa33c="" src="/static/img/wallet.png" alt="" />
-                  <uni-view data-v-3dcfa33c="" class="invite">
-                    <uni-view data-v-3dcfa33c="" class="title">Wallet</uni-view>
-                    <uni-view data-v-3dcfa33c="" class="text">Manage wallet addresses and bank cards</uni-view>
-                  </uni-view>
-                </uni-view>
-                </Link>
-                <uni-view data-v-3dcfa33c="" class="invite-box">
-                  <img data-v-3dcfa33c="" src="/static/img/service.png" alt="" />
-                  <uni-view data-v-3dcfa33c="" class="invite">
-                    <uni-view data-v-3dcfa33c="" class="title">Service</uni-view>
-                    <uni-view data-v-3dcfa33c="" class="text">If you have any questions, please contact the customer service team in time</uni-view>
-                  </uni-view>
-                </uni-view>
-                <uni-view data-v-3dcfa33c="" class="logout" onClick={handleLogout}>Logout</uni-view>
-
-              </uni-view>
-            </uni-page-body>
-          </uni-page-wrapper>
-        </uni-page>
+      </div>
 
 
 
-      </uni-app>
     </div>
-  );
-};
 
+  );
+
+};
 export default NodeDetails;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// binance api implement
+
+
+
+
+// import TradingChart from "./TradingChart";
+
+// const symbols = ["dogeusdt", "ethusdt", "dotusdt", "nearusdt"];
+
+// const [prices, setPrices] = useState({});
+// const [selectedSymbol, setSelectedSymbol] = useState(null); // 👈 chart state
+
+// useEffect(() => {
+//    const ws = new WebSocket(
+//       `wss://stream.binance.com:9443/stream?streams=${symbols
+//          .map((s) => `${s}@ticker`)
+//          .join("/")}`
+//    );
+
+//    ws.onmessage = (event) => {
+//       const message = JSON.parse(event.data);
+//       const data = message.data;
+//       setPrices((prev) => ({
+//          ...prev,
+//          [data.s]: {
+//             symbol: data.s,
+//             price: parseFloat(data.c),
+//             change: parseFloat(data.p),
+//             percent: parseFloat(data.P),
+//             volume: (parseFloat(data.v) / 1_000_000).toFixed(2) + "M"
+//          }
+//       }));
+//    };
+
+//    return () => ws.close();
+// }, []);
+
+// return (
+//    <div style={{ padding: "16px", background: "#141417", color: "#fff", borderRadius: "10px", maxWidth: "600px" }}>
+//       {Object.values(prices).map((coin) => {
+//          const isPositive = coin.percent >= 0;
+//          return (
+//             <div
+//                key={coin.symbol}
+//                onClick={() => setSelectedSymbol(coin.symbol)} // 👈 set chart
+//                style={{
+//                   cursor: "pointer",
+//                   display: "flex",
+//                   alignItems: "center",
+//                   justifyContent: "space-between",
+//                   background: "#1e1e22",
+//                   padding: "12px",
+//                   borderRadius: "10px",
+//                   marginBottom: "10px"
+//                }}
+//             >
+//                <div style={{ display: "flex", alignItems: "center" }}>
+//                   <img
+//                      src={`https://cryptologos.cc/logos/${coin.symbol.toLowerCase().replace("usdt", "")}-logo.png`}
+//                      onError={(e) => (e.target.style.display = "none")}
+//                      alt={coin.symbol}
+//                      style={{ width: "40px", height: "40px", borderRadius: "50%", marginRight: "10px" }}
+//                   />
+//                   <div>
+//                      <div style={{ fontWeight: "bold" }}>{coin.symbol}</div>
+//                      <div style={{ fontSize: "12px", color: "#aaa" }}>{coin.volume}</div>
+//                   </div>
+//                </div>
+
+//                <div style={{ textAlign: "right", marginRight: "10px" }}>
+//                   <div>${coin.price.toFixed(4)}</div>
+//                   <div style={{ fontSize: "12px", color: isPositive ? "#0f0" : "#f44" }}>
+//                      {coin.change.toFixed(4)}
+//                   </div>
+//                </div>
+
+//                <div style={{
+//                   backgroundColor: isPositive ? "#00d0aa" : "#f44336",
+//                   color: "#fff",
+//                   padding: "4px 10px",
+//                   borderRadius: "12px",
+//                   fontSize: "13px",
+//                   minWidth: "60px",
+//                   textAlign: "center"
+//                }}>
+//                   {isPositive ? "+" : ""}
+//                   {coin.percent.toFixed(2)}%
+//                </div>
+//             </div>
+//          );
+//       })}
+
+//       {/* 👇 Show chart below if selected */}
+//       {selectedSymbol && <TradingChart symbol={selectedSymbol} />}
+//    </div>

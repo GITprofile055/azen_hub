@@ -34,9 +34,9 @@ const AddWallet = () => {
                                 <path d="M21 7H3V5H21V7ZM21 9H3C1.9 9 1 9.9 1 11V19C1 20.1 1.9 21 3 21H21C22.1 21 23 20.1 23 19V11C23 9.9 22.1 9 21 9ZM17 15C16.45 15 16 14.55 16 14C16 13.45 16.45 13 17 13C17.55 13 18 13.45 18 14C18 14.55 17.55 15 17 15Z"
                                     fill="currentColor" />
                             </svg>
-                            <span>OKX Wallet</span>
+                            <span>BEP20 Wallet</span>
                         </p>
-                        <p className="balance-text">+ Add Address</p>
+                        <p className="balance-text">ofgdj9823bx237vytwgxhb83vywegh</p>
                     </div>
                     <p className="balance-text">Link</p>
                 </div>
