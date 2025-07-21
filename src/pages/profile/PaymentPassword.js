@@ -20,14 +20,14 @@ const PaymentPassword = () => {
       toast.error("Passwords do not match!");
       return;
     }
-  
+
     try {
       const response = await Api.post('/PaymentPassword', {
         password,
         password_confirmation: passwordConfirmation,
         verification_code: verificationCode
       });
-  
+
       if (response.data.success) {
         toast.success(response.data.message);
         setPassword('');
@@ -41,7 +41,7 @@ const PaymentPassword = () => {
       toast.error(err.response?.data?.message || "Server error");
     }
   };
-  
+
 
   const handleSendRequest = async () => {
     try {
@@ -103,20 +103,22 @@ const PaymentPassword = () => {
         </h2>
       </div>
 
-      <form className="login-form" style={{ padding: "0 1.5rem" }}>
-        <div
-          className="form-group"
-          style={{ position: "relative", marginBottom: "16px" }}
-        >
+      <form className="login-form" style={{ padding: "0 1.5rem" }} onSubmit={(e) => {
+        e.preventDefault(); // prevent default form submission
+        handleChangePassword();
+      }}>
+        {/* Verification Code */}
+        <div className="form-group" style={{ position: "relative", marginBottom: "16px" }}>
           <input
             type="text"
             name="code"
             required
-         
+            value={verificationCode}
+            onChange={(e) => setVerificationCode(e.target.value)}
             placeholder="Enter Verification Code"
             style={{
               width: "100%",
-              padding: "12px 80px 12px 14px", // space for button on the right
+              padding: "12px 80px 12px 14px",
               fontSize: "14px",
               border: "1px solid #ccc",
               borderRadius: "10px",
@@ -125,7 +127,7 @@ const PaymentPassword = () => {
           />
           <button
             type="button"
-            // define this function
+            onClick={handleSendRequest}
             style={{
               position: "absolute",
               right: "8px",
@@ -144,26 +146,37 @@ const PaymentPassword = () => {
           </button>
         </div>
 
+        {/* Password */}
         <div className="form-group">
-          {/* <label htmlFor="password">Password</label> */}
           <input
             type="password"
             name="password"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter password"
+            placeholder="Enter payment password"
+          />
+        </div>
+
+        {/* Confirm Password */}
+        <div className="form-group">
+          <input
+            type="password"
+            name="confirm_password"
+            required
+            value={passwordConfirmation}
+            onChange={(e) => setPasswordConfirmation(e.target.value)}
+            placeholder="Enter confirm payment password"
           />
         </div>
 
         <button type="submit" className="login-btn">
-          submit
+          Submit
         </button>
       </form>
 
-      {/* <div className="footer-text" style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.9rem' }}>
-         Don’t have an account? <Link to="/register">Register</Link>
-       </div> */}
+
+
     </div>
   );
 };

@@ -15,8 +15,8 @@ const Register = () => {
     phone: "",
     password: "",
     password_confirmation: "",
-    countryCode: "",
-    country: "",
+    // countryCode: "",
+    // country: "",
   });
 
   const navigate = useNavigate();
@@ -33,8 +33,6 @@ const Register = () => {
       toast.error("Passwords do not match");
       return;
     }
-
-
     try {
       const res = await Api.post("/register", {
         sponsor: formData.sponsor,
@@ -42,7 +40,7 @@ const Register = () => {
         email: formData.email,
         phone: formData.phone,
         password: formData.password,
-        countryCode: formData.countryCode,
+        // countryCode: formData.countryCode,
       });
       if (res.status === 201) {
         toast.success(res.data.message);
@@ -62,28 +60,40 @@ const Register = () => {
         <p style={{ fontSize: '0.9rem', color: 'var(--gray-600)' }}>Sign up to continue</p>
       </div>
 
-      <form
+      <div
         className="login-form"
-        action="/login"
-        method="POST"
+       
         style={{ padding: '0 1.5rem' }}
       >
         {/* Name Field */}
         <div className="form-group">
           <label htmlFor="name">Name</label>
-          <input type="text" id="name" name="name" placeholder="enter your name" required />
+          <input type="text" id="name" name="name"value={formData.name}
+                              onChange={handleChange} placeholder="enter your name" required />
         </div>
-
+        <div className="form-group">
+          <label htmlFor="email">Username</label>
+          <input type="text" id="username" name="sponsor"value={formData.sponsor}
+                              onChange={handleChange} placeholder="enter your sponsor" required />
+        </div>
+        {/* Email Field */}
+        <div className="form-group">
+          <label htmlFor="email">Phone</label>
+          <input type="number" id="phone" name="phone"value={formData.phone}
+                              onChange={handleChange} placeholder="enter your phone" required />
+        </div>
         {/* Email Field */}
         <div className="form-group">
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" name="email"placeholder="enter your email" required />
+          <input type="email" id="email" name="email"value={formData.email}
+                              onChange={handleChange} placeholder="enter your email" required />
         </div>
 
         {/* Password Field */}
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" name="password"placeholder="enter your password" required />
+          <input type="password" id="password" name="password"value={formData.password}
+                              onChange={handleChange} placeholder="enter your password" required />
         </div>
 
         {/* Confirm Password Field */}
@@ -92,14 +102,16 @@ const Register = () => {
           <input
             type="password"
             id="confirmPassword"
-            name="confirmPassword"
+            name="password_confirmation"
+            value={formData.password_confirmation}
+                              onChange={handleChange}
             placeholder="enter your confirm password"
             required
           />
         </div>
 
-        <button type="submit" className="login-btn">Register</button>
-      </form>
+        <button  className="login-btn" onClick={handleRegister} >Register</button>
+      </div>
 
 
       <div className="footer-text" style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.9rem' }}>

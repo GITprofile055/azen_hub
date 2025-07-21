@@ -3,9 +3,8 @@ import { useNavigate, Link, Outlet } from "react-router-dom";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Pagination } from 'swiper/modules';
-import { toast } from "react-toastify";
-
+// import { Pagination } from 'swiper/modules';
+import { Autoplay } from 'swiper/modules';
 import axios from "axios";
 import Api from "../../Requests/Api";
 import Collapse from 'react-collapse';
@@ -26,28 +25,6 @@ const Dashboard = () => {
   const [slides, setSlides] = useState([]);
   const [servers, setServers] = useState([])
 
-
-  
-  const handleBuy = async () => {
-    const selectedAmount = slides[activeIndex]?.text;
-
-    try {
-      const response = await Api.post("/Deposit", {
-        amount: selectedAmount
-      });
-
-      if (response.data.success) {
-        toast.success(response.data.message || "Investment successful!");
-      } else {
-        toast.error(response.data.message || "Investment failed!");
-      }
-    } catch (error) {
-      console.error("Investment Error:", error);
-      toast.error("Something went wrong!");
-    }
-  };
-
-  
   useEffect(() => {
     fetchwallet();
   }, []);
@@ -80,22 +57,14 @@ const Dashboard = () => {
     console.log("Account connected with Telegram!");
     setIsOpen(false); // Close the modal after accepting
   };
-  const [cryptoData, setCryptoData] = useState({});
-  const [binanceSymbols, setBinanceSymbols] = useState([]);
-  const [showAll, setShowAll] = useState(false); // toggle state
-  const toggleDropdown = () => setIsOpen(!isOpen);
 
-  const allCoins = Object.values(cryptoData);
-  const coinsToShow = showAll ? allCoins : allCoins.slice(0, 5);
   const [loading, setLoading] = useState(true);
   const [availbal, setAvailableBal] = useState();
 
 
+
   const [userDetails, setUserDetails] = useState(null);
   const token = localStorage.getItem('authToken'); // Retrieve token from localStorage
-
-
-
 
   useEffect(() => {
     fetchUserDetails();
@@ -253,52 +222,15 @@ const Dashboard = () => {
         </div> */}
       </div>
 
-      {/* === Referral Banner === */}
-      <div className="section-wrap">
-        <a href="#" className="banner">
-          <img
-            src="https://placehold.co/350x96/BAFF2C/000?text=Referral+Rewards+"
-            alt="Referral Rewards"
-            style={{ width: '100%', display: 'block', borderRadius: '1rem' }}
-          />
-        </a>
-      </div>
-      <div className="section-wrap">
-        <div className="slider-section">
-          {/* Left content */}
 
-         <div className="slider-text">
-      {slides[activeIndex] && (
-        <>
-          <h2>{slides[activeIndex].text} USDT</h2>
-          <p>{slides[activeIndex].text1}/days</p>
-          <button className="buy-now" onClick={handleBuy}>Buy</button>
-        </>
-      )}
-    </div>
 
-          {/* Right slider */}
-          <div className="slider-box">
-            <Swiper spaceBetween={20} slidesPerView={1} onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}>
-              {[1, 2, 3].map((slide, index) => (
-                <SwiperSlide key={index}>
-                  <div className="slide-wrapper">
-                    <img
-                      src={`/static/img/slide${slide}.jpeg`}
-                      alt={`Slide ${slide}`}
-                      className="slide-image" style={{ width: '100%', height: '160px' }}
-                    />
 
-                    <div className="overlay">
-                      <div className="overlay-top">
-                        {/* <button className="buy-now">Buy Now</button> */}
-                      </div>
-
-                    </div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+      <div class="community-card">
+        <div class="ai-banner">
+          <img src="static/img/ai_bot.png" class="bot-icon" />
+          <div class="ai-text">
+            <h3>Train AI Agent</h3>
+            <p>Grow Your Influence Earn Rewards.</p>
           </div>
           ◉
         </div>
@@ -322,115 +254,3 @@ const Dashboard = () => {
 
 };
 export default Dashboard;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// binance api implement
-
-
-
-
-// import TradingChart from "./TradingChart";
-
-// const symbols = ["dogeusdt", "ethusdt", "dotusdt", "nearusdt"];
-
-// const [prices, setPrices] = useState({});
-// const [selectedSymbol, setSelectedSymbol] = useState(null); // 👈 chart state
-
-// useEffect(() => {
-//    const ws = new WebSocket(
-//       `wss://stream.binance.com:9443/stream?streams=${symbols
-//          .map((s) => `${s}@ticker`)
-//          .join("/")}`
-//    );
-
-//    ws.onmessage = (event) => {
-//       const message = JSON.parse(event.data);
-//       const data = message.data;
-//       setPrices((prev) => ({
-//          ...prev,
-//          [data.s]: {
-//             symbol: data.s,
-//             price: parseFloat(data.c),
-//             change: parseFloat(data.p),
-//             percent: parseFloat(data.P),
-//             volume: (parseFloat(data.v) / 1_000_000).toFixed(2) + "M"
-//          }
-//       }));
-//    };
-
-//    return () => ws.close();
-// }, []);
-
-// return (
-//    <div style={{ padding: "16px", background: "#141417", color: "#fff", borderRadius: "10px", maxWidth: "600px" }}>
-//       {Object.values(prices).map((coin) => {
-//          const isPositive = coin.percent >= 0;
-//          return (
-//             <div
-//                key={coin.symbol}
-//                onClick={() => setSelectedSymbol(coin.symbol)} // 👈 set chart
-//                style={{
-//                   cursor: "pointer",
-//                   display: "flex",
-//                   alignItems: "center",
-//                   justifyContent: "space-between",
-//                   background: "#1e1e22",
-//                   padding: "12px",
-//                   borderRadius: "10px",
-//                   marginBottom: "10px"
-//                }}
-//             >
-//                <div style={{ display: "flex", alignItems: "center" }}>
-//                   <img
-//                      src={`https://cryptologos.cc/logos/${coin.symbol.toLowerCase().replace("usdt", "")}-logo.png`}
-//                      onError={(e) => (e.target.style.display = "none")}
-//                      alt={coin.symbol}
-//                      style={{ width: "40px", height: "40px", borderRadius: "50%", marginRight: "10px" }}
-//                   />
-//                   <div>
-//                      <div style={{ fontWeight: "bold" }}>{coin.symbol}</div>
-//                      <div style={{ fontSize: "12px", color: "#aaa" }}>{coin.volume}</div>
-//                   </div>
-//                </div>
-
-//                <div style={{ textAlign: "right", marginRight: "10px" }}>
-//                   <div>${coin.price.toFixed(4)}</div>
-//                   <div style={{ fontSize: "12px", color: isPositive ? "#0f0" : "#f44" }}>
-//                      {coin.change.toFixed(4)}
-//                   </div>
-//                </div>
-
-//                <div style={{
-//                   backgroundColor: isPositive ? "#00d0aa" : "#f44336",
-//                   color: "#fff",
-//                   padding: "4px 10px",
-//                   borderRadius: "12px",
-//                   fontSize: "13px",
-//                   minWidth: "60px",
-//                   textAlign: "center"
-//                }}>
-//                   {isPositive ? "+" : ""}
-//                   {coin.percent.toFixed(2)}%
-//                </div>
-//             </div>
-//          );
-//       })}
-
-//       {/* 👇 Show chart below if selected */}
-//       {selectedSymbol && <TradingChart symbol={selectedSymbol} />}
-//    </div>

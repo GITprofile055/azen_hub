@@ -118,9 +118,9 @@ function AppContent() {
                     <Route path="/withdraw-history" element={<ProtectedRoute><Whistory /></ProtectedRoute>} />
                     <Route path="/smartrade" element={<ProtectedRoute><Smartrade /></ProtectedRoute>} />
                     <Route path="/deposit" element={<ProtectedRoute><Deposit /></ProtectedRoute>} />
-                    <Route path="/dashboard/TradingChart/:symbol" element={<ProtectedRoute><TradingChart /></ProtectedRoute>} />
+                    {/* <Route path="/dashboard/TradingChart/:symbol" element={<ProtectedRoute><TradingChart /></ProtectedRoute>} /> */}
                     <Route path="/add-wallet" element={<ProtectedRoute><AddWallet /></ProtectedRoute>} />
-                    <Route path="/add-walletAddress" element={  <ProtectedRoute><AddWalletAddress /></ProtectedRoute>} />
+                    <Route path="/add-walletAddress/:networkType" element={  <ProtectedRoute><AddWalletAddress /></ProtectedRoute>} />
                 </Routes>
 
                 {/* Footer only if route not in hidden list */}

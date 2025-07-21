@@ -61,7 +61,18 @@ const Login = () => {
             placeholder="Enter password"
           />
         </div>
-
+      <Link to="/forgot-password" style={{ textDecorationLine:'none'}}>
+      
+        <p style={{
+          textAlign: 'right',
+          fontSize: '14px',
+        color: '#333',
+       
+          fontFamily: 'Arial, sans-serif',
+          marginLeft: '20px'
+        }}>
+          Reset Password  
+        </p></Link>
         <button type="submit" className="login-btn">Login</button>
       </form>
 

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Api from "../../Requests/Api";
 import { toast } from "react-toastify";
- 
- 
+
+
 
 const WithdrawToWallet = () => {
 
@@ -14,6 +14,7 @@ const WithdrawToWallet = () => {
   const [amount, setAmount] = useState("");
   const [transactionPassword, setTransactionPassword] = useState("");
   const [availbal, setAvailableBal] = useState(0);
+    const [notFound, setNotFound] = useState(false);
   useEffect(() => {
     fetchAvailableBalance();
     withreq();
@@ -114,12 +115,15 @@ const WithdrawToWallet = () => {
           <div className="input-wrapper">
             <select
               value={walletAddress}
+              
               onChange={(e) => {
                 setWalletAddress(e.target.value);
                 setWalletType(e.target.value === wallets.bep20 ? "BEP20" : "TRC20");
               }}
               className="wallet-dropdown"
-            >
+            > 
+              <option>Select wallet type</option>
+
               {wallets.bep20 && <option value={wallets.bep20}>BEP20</option>}
               {wallets.trc20 && <option value={wallets.trc20}>TRC20</option>}
             </select>
@@ -137,7 +141,7 @@ const WithdrawToWallet = () => {
               onChange={(e) => setWalletAddress(e.target.value)}
               placeholder="Please enter wallet address"
             />
-                        <Link to="/add-wallet">
+            <Link to="/add-wallet">
               <button className="wallet-button">Wallet</button>
             </Link>
 
@@ -160,13 +164,13 @@ const WithdrawToWallet = () => {
         </div>
 
         {/* Withdraw Button */}
-       <button
-  type="submit"
-  onClick={handleSubmit}
-  className={`withdraw-button ${amount ? 'active' : ''}`}
->
-  Withdraw
-</button>
+        <button
+          type="submit"
+          onClick={handleSubmit}
+          className={`withdraw-button ${amount ? 'active' : ''}`}
+        >
+          Withdraw
+        </button>
 
 
       </div>
