@@ -57,7 +57,88 @@ const Dashboard = () => {
     console.log("Account connected with Telegram!");
     setIsOpen(false); // Close the modal after accepting
   };
+  const [cryptoData, setCryptoData] = useState({});
+  const [binanceSymbols, setBinanceSymbols] = useState([]);
+  const [showAll, setShowAll] = useState(false); // toggle state
+  const toggleDropdown = () => setIsOpen(!isOpen);
 
+
+  useEffect(() => {
+    const fetchCrypto = async () => {
+      try {
+        const res = await axios.get("https://api.coingecko.com/api/v3/coins/markets", {
+          params: {
+            vs_currency: "usd",
+            order: "market_cap_desc",
+            per_page: 20,
+            page: 1,
+            sparkline: false
+          }
+        });
+
+        const formatted = {};
+        const binanceSyms = [];
+
+        res.data.forEach((coin) => {
+          const symbol = `${coin.symbol}usdt`.toUpperCase();
+          formatted[symbol] = {
+            id: coin.id,
+            name: coin.name,
+            symbol: symbol,
+            image: coin.image,
+            price: coin.current_price,
+            change: coin.price_change_24h,
+            percent: coin.price_change_percentage_24h,
+            volume: (coin.total_volume / 1_000_000).toFixed(2) + "M"
+          };
+          binanceSyms.push(symbol.toLowerCase());
+        });
+
+        setCryptoData(formatted);
+        setBinanceSymbols(binanceSyms);
+      } catch (error) {
+        console.error("CoinGecko fetch error:", error);
+      }
+    };
+
+    fetchCrypto();
+  }, []);
+
+  useEffect(() => {
+    if (binanceSymbols.length === 0) return;
+
+    const ws = new WebSocket(
+      `wss://stream.binance.com:9443/stream?streams=${binanceSymbols
+        .map((s) => `${s}@ticker`)
+        .join("/")}`
+    );
+
+    ws.onmessage = (event) => {
+      const msg = JSON.parse(event.data);
+      const data = msg.data;
+
+      setCryptoData((prev) => {
+        const existing = prev[data.s];
+        if (!existing) return prev;
+
+        return {
+          ...prev,
+          [data.s]: {
+            ...existing,
+            price: parseFloat(data.c),
+            change: parseFloat(data.p),
+            percent: parseFloat(data.P),
+            volume: (parseFloat(data.v) / 1_000_000).toFixed(2) + "M"
+          }
+        };
+      });
+    };
+
+    return () => ws.close();
+  }, [binanceSymbols]);
+
+  const allCoins = Object.values(cryptoData);
+  const coinsToShow = showAll ? allCoins : allCoins.slice(0, 5);
   const [loading, setLoading] = useState(true);
   const [availbal, setAvailableBal] = useState();
 
@@ -254,3 +335,115 @@ const Dashboard = () => {
 
 };
 export default Dashboard;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// binance api implement
+
+
+
+
+// import TradingChart from "./TradingChart";
+
+// const symbols = ["dogeusdt", "ethusdt", "dotusdt", "nearusdt"];
+
+// const [prices, setPrices] = useState({});
+// const [selectedSymbol, setSelectedSymbol] = useState(null); // 👈 chart state
+
+// useEffect(() => {
+//    const ws = new WebSocket(
+//       `wss://stream.binance.com:9443/stream?streams=${symbols
+//          .map((s) => `${s}@ticker`)
+//          .join("/")}`
+//    );
+
+//    ws.onmessage = (event) => {
+//       const message = JSON.parse(event.data);
+//       const data = message.data;
+//       setPrices((prev) => ({
+//          ...prev,
+//          [data.s]: {
+//             symbol: data.s,
+//             price: parseFloat(data.c),
+//             change: parseFloat(data.p),
+//             percent: parseFloat(data.P),
+//             volume: (parseFloat(data.v) / 1_000_000).toFixed(2) + "M"
+//          }
+//       }));
+//    };
+
+//    return () => ws.close();
+// }, []);
+
+// return (
+//    <div style={{ padding: "16px", background: "#141417", color: "#fff", borderRadius: "10px", maxWidth: "600px" }}>
+//       {Object.values(prices).map((coin) => {
+//          const isPositive = coin.percent >= 0;
+//          return (
+//             <div
+//                key={coin.symbol}
+//                onClick={() => setSelectedSymbol(coin.symbol)} // 👈 set chart
+//                style={{
+//                   cursor: "pointer",
+//                   display: "flex",
+//                   alignItems: "center",
+//                   justifyContent: "space-between",
+//                   background: "#1e1e22",
+//                   padding: "12px",
+//                   borderRadius: "10px",
+//                   marginBottom: "10px"
+//                }}
+//             >
+//                <div style={{ display: "flex", alignItems: "center" }}>
+//                   <img
+//                      src={`https://cryptologos.cc/logos/${coin.symbol.toLowerCase().replace("usdt", "")}-logo.png`}
+//                      onError={(e) => (e.target.style.display = "none")}
+//                      alt={coin.symbol}
+//                      style={{ width: "40px", height: "40px", borderRadius: "50%", marginRight: "10px" }}
+//                   />
+//                   <div>
+//                      <div style={{ fontWeight: "bold" }}>{coin.symbol}</div>
+//                      <div style={{ fontSize: "12px", color: "#aaa" }}>{coin.volume}</div>
+//                   </div>
+//                </div>
+
+//                <div style={{ textAlign: "right", marginRight: "10px" }}>
+//                   <div>${coin.price.toFixed(4)}</div>
+//                   <div style={{ fontSize: "12px", color: isPositive ? "#0f0" : "#f44" }}>
+//                      {coin.change.toFixed(4)}
+//                   </div>
+//                </div>
+
+//                <div style={{
+//                   backgroundColor: isPositive ? "#00d0aa" : "#f44336",
+//                   color: "#fff",
+//                   padding: "4px 10px",
+//                   borderRadius: "12px",
+//                   fontSize: "13px",
+//                   minWidth: "60px",
+//                   textAlign: "center"
+//                }}>
+//                   {isPositive ? "+" : ""}
+//                   {coin.percent.toFixed(2)}%
+//                </div>
+//             </div>
+//          );
+//       })}
+
+//       {/* 👇 Show chart below if selected */}
+//       {selectedSymbol && <TradingChart symbol={selectedSymbol} />}
+//    </div>

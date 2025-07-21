@@ -1,0 +1,385 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.withdraw-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Top Bar */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.top-bar h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.back-icon {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+/* Withdraw Box */
+.withdraw-box {
+  background: #fff;
+  padding: 3px;
+  border-radius: 16px;
+}
+
+/* Balance Card */
+
+
+.balance-left .balance-value {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.balance-left .balance-value span {
+  font-size: 14px;
+}
+
+.balance-left .balance-text {
+  font-size: 14px;
+  color: #333;
+  margin-top: 5px;
+}
+
+.wallet-image {
+  width: 50px;
+}
+
+/* Input Fields */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 15px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background: #f3f3f3;
+  border-radius: 30px;
+  overflow: hidden;
+  padding: 0 8px;
+}
+
+.input-wrapper input {
+  border: none;
+  background: transparent;
+  padding: 12px 14px;
+  flex: 1;
+  font-size: 14px;
+  outline: none;
+}
+
+.currency-label {
+  font-weight: 600;
+  font-size: 14px;
+  padding-right: 10px;
+}
+
+.wallet-button {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Gas Fee Row */
+.gas-fee-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin: 20px 0;
+}
+
+.gas-value {
+  font-weight: bold;
+}
+
+.green {
+  color: #2ecc71;
+}
+
+/* Withdraw Button */
+.withdraw-button {
+  width: 100%;
+  padding: 14px;
+  background: #ddd;
+  color: #777;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+}
+  
+
+
+/* =================== */
+.balance-value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+}
+
+.balance-card {
+    background: linear-gradient(to right, #c7ff83, #b4f679);
+
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+  color: rgb(30, 30, 30);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.balance-text {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+.inapp-balance-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.section-title {
+  font-size: 16px;
+  color: #222;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.main-balance {
+  font-size: 28px;
+  font-weight: bold;
+  color: #000;
+}
+
+.unit {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  margin-left: 6px;
+}
+
+.usd {
+  font-size: 12px;
+  color: #999;
+  margin-left: 8px;
+}
+
+.action-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.action-icon {
+  text-align: center;
+  flex: 1;
+}
+.action-icons {
+  text-align: center;
+  flex: 1;
+}
+
+.action-icons img {
+  width: 60px;
+  height: 60px;
+  /* background: var(--lime-400); */
+  padding: 0 5px 0 5px;
+  border-radius: 50%;
+  /* margin-bottom: 5px; */
+}
+.action-icon img {
+  width: 48px;
+  height: 48px; 
+  background: var(--lime-400);
+  padding: 10px;
+  border-radius: 50%;
+  margin-bottom: 5px;
+}
+.action-icon p {
+  font-size: 12px;
+  font-weight: 500;
+  color: #000;
+}
+.action-icons p {
+  font-size: 12px;
+  font-weight: 500;
+  color: #000;
+}
+.asset-footer {
+  background: #f6f6f6;
+  padding: 12px;
+  border-radius: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-label {
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+}
+
+.footer-text {
+  font-size: 12px;
+  color: #888;
+}
+
+.withdraw-btn {
+  background: #fff;
+  color: #000;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  box-shadow: 0 0 0 1px #ccc inset;
+}
+.page-settings {
+  max-width: 390px;
+  margin: 0 auto;
+  background-color: #fff;
+  color: #000;
+  padding: 16px;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+}
+
+/* setting */
+.settings-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 12px;
+}
+
+.settings-back {
+  font-size: 24px;
+  cursor: pointer;
+  color: #000;
+}
+
+.settings-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Content */
+.settings-body {
+  padding-top: 20px;
+}
+
+.settings-email {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Settings Items */
+.settings-item {
+  background: #f5f5f5;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.settings-edit {
+  /* color: #007bff; Blue accent */
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Text Links */
+.settings-link {
+  background: #f5f5f5;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  /* color: #acff64; */
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Buttons */
+.settings-buttons {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-logout,
+.btn-deregister {
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-logout {
+  background-color: #000000;
+  color: #fff;
+}
+
+.btn-logout:hover {
+  background-color: #a0fa51;
+}
+
+.btn-deregister {
+  background-color: #ffdddd;
+  color: #d00;
+}
+
+.btn-deregister:hover {
+  background-color: #ffcccc;
+}
+
+
+
+
+
+.withdraw-button.active {
+  background-color: rgb(165, 242, 70);
+  cursor: pointer;
+}
+
+

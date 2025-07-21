@@ -31,7 +31,7 @@
        position: relative;
        width: 390px;
        max-width: 100%;
-       background: #fff;
+       background: rgb(247, 247, 247);
        /* border-radius: 1.4rem; */
        overflow: hidden;
        box-shadow: 0 8px 24px rgba(0, 0, 0, .14);
@@ -119,7 +119,8 @@
 
    /* === 6. DePIN card ==================================================== */
    .depin-card {
-       border: 1px solid var(--gray-200);
+       background: rgb(255, 255, 255);
+
        border-radius: 1.4rem;
        padding: 1rem 1.25rem 1.25rem;
        display: flex;
@@ -127,19 +128,18 @@
    }
 
    .depin-card .big-num {
-       font-size: 2.5rem;
-       font-weight: 900;
+       font-size: 2.2rem;
+       font-weight: 800;
        line-height: 1
    }
 
    .add-btn {
        margin-top: .75rem;
-       background: #000;
-       color: #fff;
-       font-size: .8rem;
-       font-weight: 500;
-       padding: .45rem 1.2rem;
-       border: none;
+       background-color: #ffffff;
+       font-size: .7rem;
+       font-weight: 600;
+       padding: .3rem;
+       border: 1px solid black;
        border-radius: 1.6rem;
        cursor: pointer
    }
@@ -227,7 +227,102 @@
    .lime-btn:hover {
        background: var(--lime-500)
    }
+         .checkin-card {
+            background: #fff;
+          border-radius: 1.2rem;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+          padding: 1.5rem 1.2rem;
+          font-family: 'Inter', sans-serif;
+          max-width: 100%;
+                }
 
+          .checkin-header {
+            display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-weight: 600;
+          margin-bottom: 1.2rem;
+                }
+
+          .checkin-header h3 {
+            font-size: 1.1rem;
+                }
+
+          .checkin-rule {
+            font-size: 0.85rem;
+          color: #444;
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+                }
+
+          .checkin-days {
+            display: flex;
+          justify-content: space-between;
+          gap: 0.5rem;
+          margin-bottom: 1.5rem;
+          flex-wrap: wrap;
+                }
+
+          .checkin-day {
+            flex: 1;
+          min-width: 45px;
+          text-align: center;
+          font-size: 0.75rem;
+                }
+
+          .reward-box {
+            background: #f4f4f4;
+          border-radius: 0.6rem;
+          padding: 0.4rem;
+          margin-bottom: 0.3rem;
+          position: relative;
+          font-weight: 600;
+                }
+
+          .reward-box.active {
+            background: #c6ff30;
+          color: #000;
+                }
+
+          .reward-icon {
+            width: 20px;
+          height: 20px;
+          margin: 0.3rem auto 0;
+          background: #000;
+          color: #fff;
+          border-radius: 50%;
+          font-size: 0.65rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+                }
+
+          .reward-x2 {
+            position: absolute;
+          top: -6px;
+          right: -6px;
+          background: #c6ff30;
+          color: #000;
+          font-size: 0.55rem;
+          padding: 2px 4px;
+          border-radius: 1rem;
+          font-weight: bold;
+                }
+
+          .checkin-button {
+            width: 100%;
+          background: linear-gradient(to right, #111 0%, #333 40%, #111 100%);
+          color: #fff;
+          font-weight: 700;
+          border: none;
+          padding: 0.9rem;
+          font-size: 1rem;
+          border-radius: 9999px;
+          cursor: pointer;
+                }
+    
    /* === 9. Bottom nav ==================================================== */
    nav {
        position: fixed;
@@ -288,7 +383,7 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  /* gap: 1.5rem; */
   margin-top: 2rem;
   padding: 0 1.25rem;
 }
@@ -330,7 +425,7 @@
   font-weight: 600;
   padding: 0.75rem;
   border: none;
-  border-radius: 0.6rem;
+  border-radius: 0.6rem; 
   cursor: pointer;
   transition: background 0.3s;
 }
@@ -365,4 +460,234 @@
     font-size: 0.8rem;
     padding: 0 0.5rem;
   }
+}
+  /* chnagepass  */
+  /* slider  */
+
+/* Outer Section */
+.slider-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 16px;
+
+  padding: 20px;
+  background-color: #000;
+  color: #fff;
+  max-width: 390px;
+  margin: auto;
+}
+
+@media (min-width: 768px) {
+  .slider-section {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+/* Left Text Column */
+.slider-text {
+  flex: 1;
+}
+
+.slider-text h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #c6ff30;
+}
+
+.slider-text p {
+  font-size: 14px;
+  color: #ccc;
+  margin-bottom: 12px;
+}
+
+.explore-btn {
+  padding: 8px 14px;
+  background-color: #15d5c7;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  color: #000;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.explore-btn:hover {
+  background-color: #0fdac1;
+}
+
+/* Right Slider Box */
+.slider-box {
+  flex: 1;
+  width: 150px;
+}
+
+
+/* ---------------- SLIDE STYLING ---------------- */
+
+/* Slide Container */
+.slide-wrapper {
+  position: relative;
+  width: 150px;
+  border-radius: 16px;
+  overflow: hidden;
+  /* box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25); */
+  transition: transform 0.3s ease;
+}
+
+.slide-wrapper:hover {
+  transform: translateY(-4px);
+}
+
+/* Slide Image */
+.slide-image {
+  width:100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 25px;
+}
+
+/* Overlay Container */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 16px;
+  /* background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 80%); */
+  color: #fff;
+  border-radius: 0 0 16px 16px;
+}
+
+/* Top Row (Price + Button) */
+.overlay-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: 700;
+  color: #c6ff30;
+  letter-spacing: 0.3px;
+}
+
+.buy-now {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  background-color: #c6ff30;
+  color: #000;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.buy-now:hover {
+  background-color: #b5ef24;
+  transform: scale(1.05);
+}
+
+/* Description */
+.slide-description {
+  font-size: 12px;
+  color: #e1e1e1;
+  line-height: 1.5;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.wallet-dropdown {
+  width: 100%;
+  padding: 10px;
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+    background-color: #f3f3f3;
+    color: #000000;
+  font-size: 14px;
+  outline: none;
+}
+
+
+/* community  */
+.community-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  max-width: 360px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.ai-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bot-icon {
+  width: 50px;
+  height: 50px;
+}
+
+.ai-text {
+  flex: 1;
+  padding: 0 0.75rem;
+}
+
+.ai-text h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #000;
+}
+
+.ai-text p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #555;
+}
+
+.ai-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.divider {
+  margin: 1rem 0 0.5rem;
+  border: none;
+  border-top: 1px solid #ddd;
+}
+
+.join-title {
+  text-align: center;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+  color: #333;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.icon-box {
+  background: white;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  font-size: 1.2rem;
+  color: #111;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.icon-box:hover {
+  background: #c6ff30;
+  color: black;
 }

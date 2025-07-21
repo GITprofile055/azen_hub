@@ -7,16 +7,16 @@ import "react-international-phone/style.css";
 import 'react-phone-input-2/lib/style.css';
 import '../../index.css'
 const Register = () => {
-  
-  
+
+
   const [formData, setFormData] = useState({
     sponsor: "",
     email: "",
     phone: "",
     password: "",
     password_confirmation: "",
-    countryCode:"",
-    country: "",
+    // countryCode: "",
+    // country: "",
   });
 
   const navigate = useNavigate();
@@ -33,16 +33,14 @@ const Register = () => {
       toast.error("Passwords do not match");
       return;
     }
-
-
     try {
       const res = await Api.post("/register", {
         sponsor: formData.sponsor,
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        password: formData.password,  
-        countryCode: formData.countryCode,     
+        password: formData.password,
+        // countryCode: formData.countryCode,
       });
       if (res.status === 201) {
         toast.success(res.data.message);
@@ -55,33 +53,66 @@ const Register = () => {
 
 
   return (
-     <div>
+    <div>
 
       <div className="logo" style={{ textAlign: 'center', padding: '2rem 1rem 1rem' }}>
         <h1>aZen Hub</h1>
         <p style={{ fontSize: '0.9rem', color: 'var(--gray-600)' }}>Sign up to continue</p>
       </div>
 
-      <form className="login-form" action="/login" method="POST" style={{ padding: '0 1.5rem' }}>
+      <div
+        className="login-form"
+       
+        style={{ padding: '0 1.5rem' }}
+      >
+        {/* Name Field */}
         <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <input type="text" id="username" name="username" required />
+          <label htmlFor="name">Name</label>
+          <input type="text" id="name" name="name"value={formData.name}
+                              onChange={handleChange} placeholder="enter your name" required />
         </div>
         <div className="form-group">
-          <label htmlFor="username">Email</label>
-          <input type="text" id="username" name="username" required />
+          <label htmlFor="email">Username</label>
+          <input type="text" id="username" name="sponsor"value={formData.sponsor}
+                              onChange={handleChange} placeholder="enter your sponsor" required />
         </div>
+        {/* Email Field */}
         <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input type="password" id="password" name="password" required />
+          <label htmlFor="email">Phone</label>
+          <input type="number" id="phone" name="phone"value={formData.phone}
+                              onChange={handleChange} placeholder="enter your phone" required />
         </div>
-         <div className="form-group">
-          <label htmlFor="password">Confirm Password</label>
-          <input type="password" id="password" name="password" required />
+        {/* Email Field */}
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" name="email"value={formData.email}
+                              onChange={handleChange} placeholder="enter your email" required />
         </div>
 
-        <button type="submit" className="login-btn">Login</button>
-      </form>
+        {/* Password Field */}
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" name="password"value={formData.password}
+                              onChange={handleChange} placeholder="enter your password" required />
+        </div>
+
+        {/* Confirm Password Field */}
+        <div className="form-group">
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="password_confirmation"
+            value={formData.password_confirmation}
+                              onChange={handleChange}
+            placeholder="enter your confirm password"
+            required
+          />
+        </div>
+
+        <button  className="login-btn" onClick={handleRegister} >Register</button>
+      </div>
+
 
       <div className="footer-text" style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.9rem' }}>
         Don’t have an account? <a href="/">Login</a>

@@ -51,71 +51,109 @@ const Transaction = () => {
         }
     };
     const backClick = () => {
-        navigate(-1); // 👈 Go back to the previous page in history
+        navigate(-1);
     };
     return (
-        <div class="uni-body pages-assets-assets">
-            <uni-app class="uni-app--showtabbar uni-app--maxwidth">
-                <uni-page
-                    data-page="pages/assets/assets">
-                    <uni-page-wrapper>
-                        <uni-page-body>
-                            <uni-view data-v-248ca5b8=""
-                                class="page">
-                                <uni-view data-v-248ca5b8="" class="ellipse"></uni-view>
-                                <uni-view data-v-35b9a113="" data-v-b0a5c882="" class="uni-col uni-col-6" style={{ paddingLeft: '0px', paddingRight: '0px' }}>
-                  
-                  <uni-view data-v-53c5f33f="" class="back"onClick={backClick}><img data-v-53c5f33f="" src="/static/img/back.png" alt="" style={{ width: '35px', marginTop: '5px' }} /></uni-view>
+       <div className="withdraw-container">
+          <div className="top-bar">
+            <span className="back-icon" onClick={backClick}>&#8592;</span>
+            <h3>Transaction Records</h3>
+            <span></span>
+          </div>
+    
+          <div
+          style={{
+            background: "#fff",
+            borderRadius: "1rem",
+            padding: "1rem",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "0.8rem",
+            }}
+          >
+            <strong>Transaction</strong>
+            <span
+              style={{
+                fontSize: "0.8rem",
+                background: "#ccc",
+                padding: "0.2rem 0.5rem",
+                borderRadius: "1rem",
+                cursor: "pointer",
+              }}
+            >
+              View all
+            </span>
+          </div>
 
-        
-          </uni-view>
-                                <uni-view
-                                    data-v-248ca5b8="" class="page-title">All Transaction</uni-view>
-                      
-                             
-                                <uni-view data-v-248ca5b8="" class="user-title"
-                                    style={{ marginTop: '30px' }}>Funding Details</uni-view>
-
-
-                                {['investment', 'income', 'withdraw'].map((type) =>
-                                    transactions[type] && transactions[type].length > 0 ? (
-                                        transactions[type]
-                                            .slice() // create copy
-                                            .reverse() // reverse order
-                                            .map((item, index) => (
-                                                <uni-view data-v-248ca5b8="" class="item" >
-                                                    <uni-view data-v-248ca5b8="" class="first">
-                                                        <uni-view data-v-248ca5b8="" class="left">
-                                                            {new Date(item.created_at).toLocaleString()}
-                                                        </uni-view>
-                                                        <uni-view data-v-248ca5b8=""
-                                                            class="right"
-                                                            style={{ color: type === 'withdraw' ? 'rgb(53, 247, 231)' : 'rgb(255, 61, 61)' }}
-                                                        >
-                                                            {type === 'withdraw' ? '+ ' : '- '}{item.amount ? Number(item.amount).toFixed(4) : '0.0000'}
-                                                        </uni-view>
-                                                    </uni-view>
-
-                                                    <uni-view data-v-248ca5b8="" class="layer">
-                                                        <uni-view data-v-248ca5b8="" class="title">Fund Flow</uni-view>
-                                                        <uni-view data-v-248ca5b8="" class="value">
-                                                            {item.remarks || item.source || 'Quantified Order Settlement'}
-                                                        </uni-view>
-                                                    </uni-view>
-                                                </uni-view>
-                                            ))
-                                    ) : null
-                                )}
-
-             
-
-                            </uni-view>
-                        </uni-page-body>
-                    </uni-page-wrapper>
-                </uni-page>
-
-            </uni-app>
-        </div >
+          {/* Investment entries start here */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
+            {[
+              {
+                amount: "₹5,000",
+                date: "16 July, 2025",
+                status: "Success",
+              },
+              {
+                amount: "₹2,000",
+                date: "12 July, 2025",
+                status: "Pending",
+              },
+              {
+                amount: "₹7,500",
+                date: "04 July, 2025",
+                status: "Failed",
+              },
+            ].map((entry, i) => (
+              <div
+                key={i}
+                style={{
+                  padding: "0.8rem",
+                  background: "#f9f9f9",
+                  borderRadius: "0.75rem",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <div>
+                  <div style={{ fontWeight: "bold" }}>{entry.amount}</div>
+                  <div style={{ fontSize: "0.75rem", color: "#666" }}>{entry.date}</div>
+                </div>
+                <div>
+                  <span
+                    style={{
+                      fontSize: "0.7rem",
+                      padding: "0.3rem 0.6rem",
+                      borderRadius: "1rem",
+                      background:
+                        entry.status === "Success"
+                          ? "#d4edda"
+                          : entry.status === "Pending"
+                            ? "#fff3cd"
+                            : "#f8d7da",
+                      color:
+                        entry.status === "Success"
+                          ? "#155724"
+                          : entry.status === "Pending"
+                            ? "#856404"
+                            : "#721c24",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {entry.status}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        </div>
     );
 };
 

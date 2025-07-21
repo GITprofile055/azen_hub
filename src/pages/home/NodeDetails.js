@@ -1,27 +1,96 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-
+import { useNavigate, Link, Outlet } from "react-router-dom";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import { toast } from "react-toastify";
-import { useAuth } from "../../components/AuthContext";
 
 import Api from "../../Requests/Api";
-import Level from "../../pages/team/Level";
+import { Autoplay } from 'swiper/modules';
+import { useTranslation } from 'react-i18next';
 
 const NodeDetails = () => {
+  const [selectedSymbol, setSelectedSymbol] = useState(null);
   const navigate = useNavigate();
-  const handleLogout = () => {
-    // Remove the token from localStorage
-    localStorage.removeItem("authToken");
-    navigate("/login");
+  const [user, setUser] = useState(null);
+
+  const [isOpen, setIsOpen] = useState(true); // Modal visibility state
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [slides, setSlides] = useState([]);
+
+
+
+  const handleBuy = async () => {
+    const selectedAmount = slides[activeIndex]?.text;
+
+    try {
+      const response = await Api.post("/Deposit", {
+        amount: selectedAmount
+      });
+
+      if (response.data.success) {
+        toast.success(response.data.message || "Investment successful!");
+      } else {
+        toast.error(response.data.message || "Investment failed!");
+      }
+    } catch (error) {
+      console.error("Investment Error:", error);
+      toast.error("Something went wrong!");
+    }
   };
+
+
+  useEffect(() => {
+    fetchwallet();
+  }, []);
+  const fetchwallet = async () => {
+    try {
+      const response = await Api.get("/fetchserver");
+
+      if (response.data?.success && Array.isArray(response.data.server)) {
+        const serverSlides = response.data.server.map((item, index) => ({
+          title: `S${index + 1}-IntelliCalc Edition`,
+          heading: "Benefits",
+          text: ` ${item.invest_amount} `,
+          text1: `Optional investment period (hours): ${item.plan}`,
+          text2: `To: ${item.period_end}`,
+          price: item.plan === "Free" ? "Free" : item.plan,
+          days: item.days,
+        }));
+
+        setSlides(serverSlides);
+      }
+    } catch (error) {
+      console.error("Error fetching plans:", error);
+    }
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleAccept = () => {
+    console.log("Account connected with Telegram!");
+    setIsOpen(false); // Close the modal after accepting
+  };
+
+  const [showAll, setShowAll] = useState(false); // toggle state
+  const toggleDropdown = () => setIsOpen(!isOpen);
+
+
+  const [loading, setLoading] = useState(true);
+  const [availbal, setAvailableBal] = useState();
+
 
   const [userDetails, setUserDetails] = useState(null);
   const token = localStorage.getItem('authToken'); // Retrieve token from localStorage
 
+
+
+
   useEffect(() => {
     fetchUserDetails();
   }, []);
-  
+
   const fetchUserDetails = async () => {
     try {
       const response = await Api.get('/user');
@@ -30,114 +99,86 @@ const NodeDetails = () => {
       console.error("Error fetching user details:", error);
     }
   };
+  // }, [token]);
+  useEffect(() => {
+    withfatch();
+  }, []);
 
-  
+  const withfatch = async () => {
+    try {
+      const response = await Api.get("/availbal");
+      if (response.data?.AvailBalance !== undefined) {
+        setAvailableBal(response.data.AvailBalance);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const { t } = useTranslation();
 
   return (
 
-    <div class="uni-body pages-user-user">
-      <uni-app class="uni-app--maxwidth">
-        <uni-page data-page="pages/user/user">
-          <uni-page-wrapper>
-            <uni-page-body>
-              <uni-view data-v-3dcfa33c="" class="page">
-                <uni-view data-v-3dcfa33c="" class="ellipse">
-                </uni-view>
-                <uni-view data-v-3dcfa33c="" class="top-box">
-                  <uni-view data-v-636c600c="" data-v-3dcfa33c="" class="uni-row" style={{ marginLeft: '0px', marginRight: '0px' }}>
-                    <uni-view data-v-35b9a113="" data-v-3dcfa33c="" class="uni-col uni-col-6" style={{ paddingLeft: '0px', paddingRight: '0px' }}>
-                      <Link to="/dashboard"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           >
+    <div>
+      <header>
+        <h1>aZen Hub</h1>
+        <svg className="bell" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+          />
+        </svg>
+      </header>
+     
+ 
+      <div className="section-wrap">
+        <div className="slider-section">
+          {/* Left content */}
 
-                        <uni-view data-v-1011963f="" class="back"><img data-v-1011963f="" src="/static/img/back.png" alt="" style={{ width: '35px',filter: 'brightness(0) invert(0)'}} /></uni-view>
-                      </Link>                    </uni-view>
-                    <uni-view data-v-35b9a113="" data-v-3dcfa33c="" class="uni-col uni-col-12" style={{ paddingLeft: '0px', paddingRight: '0px' }}>
-                      <uni-view data-v-3dcfa33c="" class="page-title">User</uni-view>
-                    </uni-view>
-                    <uni-view data-v-35b9a113="" data-v-3dcfa33c="" class="uni-col uni-col-6" style={{ paddingLeft: '0px', paddingRight: '0px' }}>
-                      <Link to="/Setting">
-                        <uni-view data-v-3dcfa33c="" class="set"><img data-v-3dcfa33c="" src="/static/img/setting.png" alt="" style={{ width: '35px',filter: 'brightness(0) invert(0)' }} /></uni-view>
+          <div className="slider-text">
+            {slides[activeIndex] && (
+              <>
+                <h2>{slides[activeIndex].text} USDT</h2>
+                <p>{slides[activeIndex].text1}/days</p>
+                <button className="buy-now" onClick={handleBuy}>Buy</button>
+              </>
+            )}
+          </div>
 
-                      </Link>
-                    </uni-view>
-                  </uni-view>
-                </uni-view>
-                <uni-view data-v-3dcfa33c="" class="ava-box">
-                  <uni-view data-v-3dcfa33c="" class="ava"><img data-v-3dcfa33c="" src="/static/ava/ava4.jpg" alt="" /></uni-view>
+          {/* Right slider */}
+          <div className="slider-box">
+            <Swiper spaceBetween={20} slidesPerView={1} onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}>
+              {[1, 2, 3].map((slide, index) => (
+                <SwiperSlide key={index}>
+                  <div className="slide-wrapper">
+                    <img
+                      src={`/static/img/slide${slide}.jpeg`}
+                      alt={`Slide ${slide}`}
+                      className="slide-image" style={{ width: '100%', height: '160px' }}
+                    />
 
-                    <uni-view >
-                      <uni-view
-                        data-v-3dcfa33c="" class="nickname">{userDetails?.name}</uni-view>
-                      <uni-view data-v-3dcfa33c="" class="uid">UID: {userDetails?.username}</uni-view>
+                    <div className="overlay">
+                      <div className="overlay-top">
+                        {/* <button className="buy-now">Buy Now</button> */}
+                      </div>
 
-                    </uni-view>
-              
-                </uni-view>
-                <uni-view data-v-3dcfa33c="" class="two-group">
-                  <uni-view data-v-3dcfa33c="" class="item">
-                    <Link to="/ServerCommission" style={{ textDecorationLine: 'none' }}>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        </div>
 
-                      <uni-view data-v-3dcfa33c="" class="title">Server Commission</uni-view>
-                      <uni-view data-v-3dcfa33c="" translate="no" class="value"><img data-v-3dcfa33c="" src="/static/img/db.png" alt="" style={{filter: 'brightness(0) invert(0)'}}/>0.0000</uni-view>
-                    </Link>
-
-                  </uni-view>
-
-                  <uni-view data-v-3dcfa33c="" class="item"> <Link to="/Team" style={{ textDecorationLine: 'none' }}>
-                    <uni-view data-v-3dcfa33c="" class="title">My Team</uni-view>
-                    <uni-view data-v-3dcfa33c="" class="value"><img data-v-3dcfa33c="" src="/static/img/people.png" alt="" style={{filter: 'brightness(0) invert(0)'}} />0<span data-v-3dcfa33c="" style={{ fontSize: '14px', fontWeight: '400', marginLeft: '3px' }}>(0Activated)</span></uni-view>
-                  </Link>
-
-                  </uni-view>
-                </uni-view>
-                <uni-view data-v-3dcfa33c="" class="email-box">
-                  <uni-view data-v-3dcfa33c="" class="title" style={{color:'#000'}}>Email Address</uni-view>
-                  <uni-view data-v-3dcfa33c="" class="value">****kor55@gmail.com</uni-view>
-                </uni-view>
-                 <Link to="/Refer"style={{ textDecorationLine: 'none' }}>
-                <uni-view data-v-3dcfa33c="" class="invite-box">
-
-                  <img data-v-3dcfa33c="" src="/static/img/giftbox.png" alt="" />
-                  <uni-view data-v-3dcfa33c="" class="invite">
-                    <uni-view data-v-3dcfa33c="" class="title">Invite Friends!</uni-view>
-                    <uni-view data-v-3dcfa33c="" class="text">Invite friends and earn referral commission</uni-view>
-                  </uni-view>
-                </uni-view>
-                </Link>
-
-                {/* <uni-view data-v-3dcfa33c="" class="kyc-box"><Link to="/Kyc"style={{ textDecorationLine: 'none' }}>
-                  <uni-view data-v-3dcfa33c="" class="value"><img data-v-3dcfa33c="" src="/static/img/warn.png" alt="" />KYC Certification</uni-view>
-                  <uni-view data-v-3dcfa33c="" class="title">Your account is not verified yet please add add your personal details to verify</uni-view>
-                  <uni-view data-v-3dcfa33c="" class="go-kyc">Verify Now</uni-view>
-                  </Link>
-                </uni-view> */}
-               <Link to="/Wallet" style={{ textDecorationLine: 'none' }}>
-                <uni-view data-v-3dcfa33c="" class="invite-box">
-                  <img data-v-3dcfa33c="" src="/static/img/wallet.png" alt="" />
-                  <uni-view data-v-3dcfa33c="" class="invite">
-                    <uni-view data-v-3dcfa33c="" class="title">Wallet</uni-view>
-                    <uni-view data-v-3dcfa33c="" class="text">Manage wallet addresses and bank cards</uni-view>
-                  </uni-view>
-                </uni-view>
-                </Link>
-                <uni-view data-v-3dcfa33c="" class="invite-box">
-                  <img data-v-3dcfa33c="" src="/static/img/service.png" alt="" />
-                  <uni-view data-v-3dcfa33c="" class="invite">
-                    <uni-view data-v-3dcfa33c="" class="title">Service</uni-view>
-                    <uni-view data-v-3dcfa33c="" class="text">If you have any questions, please contact the customer service team in time</uni-view>
-                  </uni-view>
-                </uni-view>
-                <uni-view data-v-3dcfa33c="" class="logout" onClick={handleLogout}>Logout</uni-view>
-
-              </uni-view>
-            </uni-page-body>
-          </uni-page-wrapper>
-        </uni-page>
+    
+      </div>
 
 
-
-      </uni-app>
     </div>
-  );
-};
 
+  );
+
+};
 export default NodeDetails;
+

@@ -5,39 +5,31 @@ import {
     Route,
     useLocation
 } from "react-router-dom";
-
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
-
 import Language from "./components/Langauge";
-
-
 import Dashboard from "./pages/home/Dashboard";
+import NodeDetails from "./pages/home/NodeDetails";
 import Notice from "./pages/home/Notice";
 import Faq from "./pages/home/Faq";
 import TradingChart from "./pages/home/TradingChart";
 import Smartrade from "./pages/home/Smartrade";
-
-
 import Deposit from "./pages/invest/Deposit";
 import History from "./pages/invest/History";
-
 import WithdrawReq from "./pages/Withdraw/WithdrawReq";
 import Assets from "./pages/Withdraw/Assets";
 import Transaction from "./pages/Withdraw/Transaction";
 import Whistory from "./pages/Withdraw/Whistory";
-import Wallet from "./pages/Withdraw/Wallet";
+import Transfer from "./pages/Withdraw/Transfer";
+import Wallet from "./pages/invest/Wallet";
 import AddWallet from "./pages/Withdraw/AddWallet";
 import AddWalletAddress from "./pages/Withdraw/AddWalletAddress";
-
 import Server from "./pages/server/Server";
-
 import Profile from "./pages/profile/Profile";
 import ServerCommission from "./pages/profile/ServerCommission";
 import ChangePassword from "./pages/profile/ChangePassword";
 import PaymentPassword from "./pages/profile/PaymentPassword";
-
 import Refer from "./pages/profile/Refer";
 import Kyc from "./pages/profile/Kyc";
 import Team from "./pages/profile/Team";
@@ -72,14 +64,12 @@ function AppContent() {
         "/change-password",
         "/notice",
         "/server-commission",
-        "/refer",
         "/kyc",
-        "/wallet",
         "/langauge",
         "/faq",
         "/setting",
-        "/level"
-        // "/transaction"
+        "/level",
+        "/transaction"
     ];
 
     // Check if current path matches any of the above OR dynamic TradingChart route
@@ -101,7 +91,8 @@ function AppContent() {
                     <Route path="/langauge" element={<Language />} />
  
                     {/* Protected Routes */}
-                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                    <Route path="/nodeDetails" element={<ProtectedRoute><NodeDetails /></ProtectedRoute>} />
                     <Route path="/notice" element={<ProtectedRoute><Notice /></ProtectedRoute>} />
                     <Route path="/setting" element={<ProtectedRoute><Setting /></ProtectedRoute>} />
                     <Route path="/faq" element={<ProtectedRoute><Faq /></ProtectedRoute>} />
@@ -119,13 +110,15 @@ function AppContent() {
                     <Route path="/payment-password" element={<ProtectedRoute><PaymentPassword /></ProtectedRoute>} />
                     <Route path="/level" element={<ProtectedRoute><Level/></ProtectedRoute>}/>
                     <Route path="/team" element={<ProtectedRoute><Team /></ProtectedRoute>} />
+
+                    <Route path="/transfer" element={<ProtectedRoute><Transfer /></ProtectedRoute>} />
                     
                     <Route path="/withdraw-req" element={<ProtectedRoute><WithdrawReq /></ProtectedRoute>} />
                     <Route path="/deposit-history" element={<ProtectedRoute><History /></ProtectedRoute>} />
                     <Route path="/withdraw-history" element={<ProtectedRoute><Whistory /></ProtectedRoute>} />
                     <Route path="/smartrade" element={<ProtectedRoute><Smartrade /></ProtectedRoute>} />
                     <Route path="/deposit" element={<ProtectedRoute><Deposit /></ProtectedRoute>} />
-                    <Route path="/dashboard/TradingChart/:symbol" element={<ProtectedRoute><TradingChart /></ProtectedRoute>} />
+                    {/* <Route path="/dashboard/TradingChart/:symbol" element={<ProtectedRoute><TradingChart /></ProtectedRoute>} /> */}
                     <Route path="/add-wallet" element={<ProtectedRoute><AddWallet /></ProtectedRoute>} />
                     <Route path="/add-walletAddress/:networkType" element={  <ProtectedRoute><AddWalletAddress /></ProtectedRoute>} />
                 </Routes>
