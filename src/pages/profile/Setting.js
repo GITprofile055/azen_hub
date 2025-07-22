@@ -9,6 +9,8 @@ import Api from "../../Requests/Api";
 
 const Setting = () => {
     const navigate = useNavigate();
+    const [showPopup, setShowPopup] = useState(false);
+
     const handleLogout = () => {
         localStorage.removeItem("authToken");
 
@@ -35,11 +37,27 @@ const Setting = () => {
         }
     };
 
+
+    const handleLogouts = () => {
+        setShowPopup(true);
+    };
+
+    const confirmLogout = () => {
+        console.log("User logged out");
+        setShowPopup(false);
+    };
+
+    const cancelLogout = () => {
+        setShowPopup(false);
+    };
+    const backClick = () => {
+        navigate(-1);
+    };
     return (
 
         <div className="page-settings">
             <div className="settings-header">
-                <span className="settings-back">←</span>
+                <span className="settings-back" onClick={backClick}>←</span>
                 <h2 className="settings-title ">Setting</h2>
             </div>
 
@@ -65,7 +83,7 @@ const Setting = () => {
                     </Link>
                 </div>
 
-                <div className="settings-link">Privacy Policy</div>
+                <div className="settings-link">Privacy Policy   </div>
                 <div className="settings-link">User Agreement</div>
 
                 <div className="settings-item">
@@ -74,8 +92,68 @@ const Setting = () => {
                 </div>
 
                 <div className="settings-buttons">
-                    <button className="btn-logout" onClick={handleLogout}>Log out</button>
-                    <button className="btn-deregister">Deregister Account</button>
+                    <button className="login-btn" onClick={handleLogouts}>Log out</button>
+                    {showPopup && (
+                        <div
+                            style={{
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100vw",
+                                height: "100vh",
+                                backgroundColor: "rgba(0,0,0,0.4)",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                zIndex: 999,
+                            }}
+                        >
+                            <div
+                                style={{
+                                    background: "#fff",
+                                    padding: "20px 30px",
+                                    borderRadius: "10px",
+                                    textAlign: "center",
+                                    boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
+                                    minWidth: "250px",
+                                }}
+                            >
+                                <p style={{ marginBottom: "20px", fontWeight: "500" }}>
+                                    Are you sure you want to log out?
+                                </p>
+                                <div>
+                                    <button
+                                        onClick={handleLogout}
+                                        style={{
+                                            // backgroundColor: "#dc3545",
+                                            color: "#000",
+                                            border: "none",
+                                            padding: "6px 38px",
+                                            borderRadius: "2rem",
+                                            cursor: "pointer",
+                                            marginRight: "10px",
+                                        }}
+                                    >
+                                        Yes
+                                    </button>
+                                    <button
+                                        onClick={cancelLogout}
+                                        style={{
+                                            backgroundColor: "#000000ff",
+                                            color: "#fff",
+                                            border: "none",
+                                            padding: "6px 33px",
+                                            borderRadius: "2rem",
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    <button className="reg-btn">Deregister Account</button>
                 </div>
             </div>
         </div>

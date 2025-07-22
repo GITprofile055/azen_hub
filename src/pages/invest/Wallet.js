@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import Api from "../../Requests/Api";
 import { useTranslation } from 'react-i18next';
+import { Pencil } from 'lucide-react';
 
 const Wallet = () => {
 
@@ -18,6 +19,9 @@ const Wallet = () => {
     fetchAvailableBalance();
   }, []);
 
+  const handleGoToProfile = () => {
+    navigate('/profile');
+  };
   const fetchUserDetails = async () => {
     try {
       const response = await Api.get('/user');
@@ -66,9 +70,25 @@ const Wallet = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem' }}>
             <img src="https://i.pravatar.cc/60" style={{ width: '50px', height: '50px', borderRadius: '50%' }} alt="avatar" />
             <div>
-              <p style={{ fontWeight: 700 }}>{userDetails?.name}</p>
+
+              <p style={{ fontWeight: 700, display: 'flex', alignItems: 'center' }}>
+                {userDetails?.email ? userDetails.email.slice(0, 6) : ''}
+              
+                <span onClick={handleGoToProfile}
+                  style={{
+                    borderBottom: '1px solid black',
+                    marginLeft: '4px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Pencil size={12} strokeWidth={2} />
+                </span>
+              </p>
+
+
               <p style={{ fontSize: '.75rem' }}>ID: {userDetails?.username}</p>
-              <div style={{ marginTop: '.25rem', display: 'flex', gap: '.3rem' }}>
+              <div style={{ marginTop: '.15rem', display: 'flex', gap: '.3rem' }}>
                 <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" width="18" alt="icon1" />
                 <img src="https://cdn-icons-png.flaticon.com/512/725/725643.png" width="18" alt="icon2" />
                 <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" width="18" alt="icon3" />
@@ -87,7 +107,7 @@ const Wallet = () => {
 
           <div className="action-row">
             <div className="action-icon">
-              <Link to="/deposit"style={{textDecorationLine:'none'}}>
+              <Link to="/deposit" style={{ textDecorationLine: 'none' }}>
 
                 <img src="static/img/deposit.png" alt="withdraw" style={{ width: '42px', height: '42px' }} />
 
@@ -96,7 +116,7 @@ const Wallet = () => {
 
             </div>
             <div className="action-icon">
-              <Link to="/withdraw-req" style={{textDecorationLine:'none'}}>
+              <Link to="/withdraw-req" style={{ textDecorationLine: 'none' }}>
 
                 <img src="static/img/withdrawal.png" alt="withdraw" style={{ width: '42px', height: '42px' }} />
                 <p>Withdraw</p>
@@ -104,7 +124,7 @@ const Wallet = () => {
 
             </div>
             <div className="action-icon">
-              <Link to="/transfer" style={{textDecorationLine:'none'}}>
+              <Link to="/transfer" style={{ textDecorationLine: 'none' }}>
 
                 <img src="static/img/transfer.png" alt="transfer" style={{ width: '42px', height: '42px' }} />
                 <p>Transfer</p>
@@ -112,7 +132,7 @@ const Wallet = () => {
 
             </div>
             <div className="action-icon">
-              <Link to="/transaction"style={{textDecorationLine:'none'}}>
+              <Link to="/transaction" style={{ textDecorationLine: 'none' }}>
 
                 <img src="static/img/details.png" alt="details" style={{ width: '42px', height: '42px' }} />
                 <p>Details</p>
@@ -135,7 +155,7 @@ const Wallet = () => {
         </div>
 
         <div style={{
-          background: 'linear-gradient(to right, #6a11cb, #2575fc)',
+          background: "linear-gradient(to right, rgb(206, 161, 255), rgb(146, 187, 255))",
           borderRadius: '1.2rem',
           padding: '1.2rem',
           color: 'white',

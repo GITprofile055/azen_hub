@@ -9,7 +9,8 @@
 
    :root {
        --lime-400: #c6ff30;
-       --lime-500: #a3ff0a;
+       --lime-500: #a1e335;
+       --lime-300: #d00000;
        --gray-900: #0f0f0f;
        --gray-600: #6b7280;
        --gray-200: #e5e7eb;
@@ -406,7 +407,7 @@
   padding: 0.65rem 0.9rem;
   font-size: 1rem;
   border: 1px solid var(--gray-200);
-  border-radius: 0.6rem;
+  border-radius: 1rem;
   background: #f9fafb;
   transition: border 0.3s ease;
 }
@@ -419,19 +420,30 @@
 
 .login-btn {
   margin-top: 1.2rem;
-  background: var(--gray-900);
-  color: white;
+  background: var(--lime-400);
+  color: rgb(0, 0, 0);
   font-size: 1rem;
   font-weight: 600;
-  padding: 0.75rem;
+  padding: 0.55rem;
   border: none;
-  border-radius: 0.6rem; 
+  border-radius: 2rem; 
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 1s;
 }
-
+.reg-btn {
+  margin-top: .60rem;
+  background: #ffdddd;
+  color: rgb(0, 0, 0);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.55rem;
+  border: none;
+  border-radius: 2rem; 
+  cursor: pointer;
+  transition: background 1s;
+}
 .login-btn:hover {
-  background: var(--gray-600);
+  background: var(--lime-500);
 }
 /* Responsive tweaks */
 @media (max-width: 480px) {
@@ -631,10 +643,13 @@
 }
 
 .bot-icon {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 70px;
 }
-
+.eye {
+  width: 40px;
+  height: 40px;
+}
 .ai-text {
   flex: 1;
   padding: 0 0.75rem;
@@ -690,4 +705,13 @@
 .icon-box:hover {
   background: #c6ff30;
   color: black;
+}
+ /* bind ai   */
+ .gradient-btn {
+  background: linear-gradient(135deg, rgb(241, 255, 52), rgb(100, 206, 12)); 
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 30px;
+  font-weight: bold;
 }

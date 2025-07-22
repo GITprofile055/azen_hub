@@ -10,6 +10,11 @@ import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import Language from "./components/Langauge";
 import Dashboard from "./pages/home/Dashboard";
+
+import BindAI from "./pages/home/BindAI";
+
+import BindAIReward from "./pages/home/BindAIReward";
+
 import NodeDetails from "./pages/home/NodeDetails";
 import Notice from "./pages/home/Notice";
 import Faq from "./pages/home/Faq";
@@ -57,6 +62,8 @@ function AppContent() {
         "/withdraw-req",
         "/Smartrade",
         "/profile",
+        // "/bindAi",
+        // "/bindAIReward",
         "/deposit",
         "/add-walletAddress",
         "/add-wallet",
@@ -96,6 +103,8 @@ function AppContent() {
                     <Route path="/notice" element={<ProtectedRoute><Notice /></ProtectedRoute>} />
                     <Route path="/setting" element={<ProtectedRoute><Setting /></ProtectedRoute>} />
                     <Route path="/faq" element={<ProtectedRoute><Faq /></ProtectedRoute>} />
+                    <Route path="/bindAi" element={<ProtectedRoute><BindAI /></ProtectedRoute>} />
+                    <Route path="/bindAIReward" element={<ProtectedRoute><BindAIReward /></ProtectedRoute>} />
                     <Route path="/change-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
 
                     <Route path="/trade" element={<ProtectedRoute><Trade /></ProtectedRoute>} />

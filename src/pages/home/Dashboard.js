@@ -8,6 +8,7 @@ import { Autoplay } from 'swiper/modules';
 import axios from "axios";
 import Api from "../../Requests/Api";
 import Collapse from 'react-collapse';
+import { Pencil } from 'lucide-react';
 
 
 import { SlArrowRight } from "react-icons/sl";
@@ -52,7 +53,9 @@ const Dashboard = () => {
   const closeModal = () => {
     setIsOpen(false);
   };
-
+  const handleGoToProfile = () => {
+    navigate('/profile');
+  };
   const handleAccept = () => {
     console.log("Account connected with Telegram!");
     setIsOpen(false); // Close the modal after accepting
@@ -121,7 +124,20 @@ const Dashboard = () => {
         <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem' }}>
           <img src="https://i.pravatar.cc/60" style={{ width: '50px', height: '50px', borderRadius: '50%' }} alt="avatar" />
           <div>
-            <p style={{ fontWeight: 700 }}>{userDetails?.name}</p>
+            <p style={{ fontWeight: 700, display: 'flex', alignItems: 'center' }}>
+              {userDetails?.email ? userDetails.email.slice(0, 6) : ''}
+
+              <span onClick={handleGoToProfile}
+                style={{
+                  borderBottom: '1px solid black',
+                  marginLeft: '2px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                }}
+              >
+                <Pencil size={12} strokeWidth={2} />
+              </span>
+            </p>
             <p style={{ fontSize: '.75rem' }}>ID: {userDetails?.username}</p>
 
           </div>
@@ -159,11 +175,11 @@ const Dashboard = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      {/* <div className="action-row">
+      <div className="action-row">
         <div className="action-icons">
           <Link to="/deposit" style={{ textDecorationLine: 'none' }}>
 
-            <img src="static/img/earn.png" alt="withdraw"  />
+            <img src="static/img/earn.png" alt="withdraw" />
 
             <p>Earn</p>
           </Link>
@@ -186,7 +202,7 @@ const Dashboard = () => {
 
         </div>
 
-      </div> */}
+      </div>
       {/* === aZen DePIN === */}
       <div className="section-wrap">
         <div className="sec-head">
@@ -224,28 +240,32 @@ const Dashboard = () => {
 
 
 
+      <Link to='/bindAi' style={{ textDecorationLine: 'none' }}>
 
-      <div class="community-card">
-        <div class="ai-banner">
-          <img src="static/img/ai_bot.png" class="bot-icon" />
-          <div class="ai-text">
-            <h3>Train AI Agent</h3>
-            <p>Grow Your Influence Earn Rewards.</p>
+        <div class="community-card">
+          <div class="ai-banner">
+            <img src="static/img/ai_bot.png" class="bot-icon" />
+            <div class="ai-text">
+              <h3>Train AI Agent</h3>
+              <p>Grow Your Influence Earn Rewards.</p>
+            </div>
+            <img src="static/img/eye.png" class="eye" />
+
           </div>
-          ◉
-        </div>
 
-        <hr class="divider" />
-        <p class="join-title">Join Community</p>
+          <hr class="divider" />
+          <p class="join-title">Join Community</p>
 
-        <div class="social-icons">
-          <div class="icon-box"><i class="fab fa-x-twitter"></i></div>
-          <div class="icon-box"><i class="fab fa-telegram-plane"></i></div>
-          <div class="icon-box"><i class="fas fa-globe"></i></div>
-          <div class="icon-box"><i class="fab fa-linkedin-in"></i></div>
-          <div class="icon-box"><i class="fas fa-video"></i></div>
+          <div class="social-icons">
+            <div class="icon-box"><i class="fab fa-x-twitter"></i></div>
+            <div class="icon-box"><i class="fab fa-telegram-plane"></i></div>
+            <div class="icon-box"><i class="fas fa-globe"></i></div>
+            <div class="icon-box"><i class="fab fa-linkedin-in"></i></div>
+            <div class="icon-box"><i class="fas fa-video"></i></div>
+          </div>
         </div>
-      </div>
+      </Link>
+
 
 
     </div>

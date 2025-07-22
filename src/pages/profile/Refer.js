@@ -2,13 +2,16 @@ import React, { useState, useEffect } from "react";
 import Api from "../../Requests/Api";
 import { MdContentCopy } from "react-icons/md";
 import { MdPerson } from "react-icons/md";
-
+import { toast } from 'react-toastify';
 
 const Refer = () => {
-  const [directTeam, setDirectTeam] = useState([]);
   const [userDetails, setUserDetails] = useState(null);
-
+  const [allDirectTeam, setAllDirectTeam] = useState([]);
+  const [directTeam, setDirectTeam] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
+  const [income, setIncome] = useState([]);
+  const [error, setError] = useState("");
   useEffect(() => {
     fetchUserDetails();
   }, []);
@@ -25,261 +28,224 @@ const Refer = () => {
   const copyUsername = () => {
     if (userDetails?.username) {
       navigator.clipboard.writeText(userDetails.username);
-      alert("Username copied to clipboard!");
+      toast.success("Username copied to clipboard!");
     }
   };
 
-    useEffect(() => {
-      const fetchDirectTeam = async () => {
-        try {
-          const response = await Api.get("/getDirectTeam"); // <-- Make sure this endpoint is correct
-          if (response.data.status) {
-            setDirectTeam(response.data.data);
-          }
-          setLoading(false);
-        } catch (error) {
-          console.error("Error fetching direct team:", error);
-          setLoading(false);
+  useEffect(() => {
+    const fetchDirectTeam = async () => {
+      try {
+        const response = await Api.get("/getDirectTeam"); // <-- Make sure this endpoint is correct
+        if (response.data.status) {
+          setAllDirectTeam(response.data.data);
+          setDirectTeam(response.data.data.slice(0, 5));
         }
-      };
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching direct team:", error);
+        setLoading(false);
+      }
+    };
 
-      fetchDirectTeam();
-    }, []);
-
-    if (loading) {
-      return <div>Loading...</div>;
+    fetchDirectTeam();
+  }, []);
+  const handleViewToggle = () => {
+    if (showAll) {
+      setDirectTeam(allDirectTeam.slice(0, 5));
+    } else {
+      setDirectTeam(allDirectTeam);
     }
-    return (
-      <div className="uni-body pages-user-invite">
-        <header>
-          <h1>Referral</h1>
-          {/* Round Settings Icon SVG can go here if needed */}
-        </header>
+    setShowAll(!showAll);
+  };
 
-        <section style={{ padding: "1.5rem" }}>
-          {/* Invite Card */}
-          <div
-            style={{
-              background: "linear-gradient(135deg, #f1ff34, #64ce0c)",
-              borderRadius: "1rem",
-              padding: "1.2rem",
-              textAlign: "center",
-              marginBottom: "1.2rem",
-            }}
-          >
-            <h2 style={{ fontSize: "1.25rem", fontWeight: 800, color: "#000" }}>
-              Invite Friends !
-            </h2>
-            <p style={{ fontSize: "0.85rem", margin: "0.5rem 0 1rem" }}>
-              Enjoy Exclusive Rewards Together !
-            </p>
 
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/3595/3595455.png"
-              alt="Gift Box"
-              width="80"
-              style={{ marginBottom: "1rem" }}
-            />
+  useEffect(() => {
+    fetchteam();
+  }, []);
 
-            <div
-              style={{
-                background: "#fff",
-                borderRadius: "1rem",
-                padding: "1rem",
-                textAlign: "left",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-              }}
-            >
-              <div style={{ marginBottom: "1rem" }}>
-                <strong>5000 $XaZen</strong>
-                <br />
-                <small style={{ color: "#666" }}>
-                  Invitee Sign-up, Both earn rewards
-                </small>
-              </div>
-              <div style={{ marginBottom: "1rem" }}>
-                <strong>1200 O₂</strong>
-                <br />
-                <small style={{ color: "#666" }}>
-                  Invitee Links DePIN 600O₂ <br />
-                  Invitee Links X 600O₂
-                </small>
-              </div>
-              <div style={{ marginBottom: "1rem" }}>
-                <strong>10 O₂</strong>
-                <br />
-                <small style={{ color: "#666" }}>
-                  Earnings from Invitees’ Tasks
-                </small>
-              </div>
 
-              <button
-                style={{
-                  width: "100%",
-                  background: "#000",
-                  color: "#fff",
-                  padding: "0.75rem",
-                  fontWeight: 600,
-                  border: "none",
-                  borderRadius: "9999px",
-                  fontSize: "0.95rem",
-                }}
-              >
-                Invite Friends
-              </button>
-            </div>
+  const fetchteam = async () => {
+    try {
+      const response = await Api.get('/team');
+      if (response.data) {
+        setIncome(response.data);
+      }
+      // console.log(response.data)
+    } catch (err) {
+      setError(err.response?.data?.error || "Error fetching income");
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  return (
+    <div className="container p-3" style={{ maxWidth: "450px", fontFamily: "sans-serif" }}>
+      <h5 className="fw-bold mb-4">Referral</h5>
+      <div className="bg-white rounded-4 p-2 shadow-sm mb-4">
+
+        <div className="d-flex justify-content-between text-center m-2">
+          <div>
+            <h5 className="mb-0 fw-bold">0</h5>
+            <small className="text-muted">👥 Invited</small>
           </div>
+          <div className="border-start"></div>
+          <div>
+            <h5 className="mb-0 fw-bold">0</h5>
+            <small className="text-muted">🪙 $ZEN Rewards</small>
+          </div>
+        </div>
+      </div>
+      <div className="bg-white rounded-4 p-2 shadow-sm mb-4" style={{ background: "linear-gradient( rgba(236, 253, 180, 1), rgba(255, 255, 255, 1))" }}>
 
-          {/* Invited Count */}
-          <div
+
+        <div className="mb-3 text-center">
+          <h6 className="fw-bold">Invite Friends</h6>
+          <p className="smalls text-muted mb-0" style={{ background: "rgba(232, 255, 156, 1)" }}>
+            Invite friends and earn exciting bonuses for their participation.
+          </p>
+        </div>
+
+        <h6 className="fw-bold mt-4">Active Account <span title="Referral based actions">🛈</span></h6>
+
+        <div className="d-flex align-items-center p-2 mt-3 rounded-4" style={{ background: "linear-gradient(90deg, rgb(255, 255, 255), rgb(209 255 188))", }}>
+          <img
+            src="/static/img/link.png"
+            alt="Sign up"
+            width="48"
+            className="me-3"
+          />
+          <div className="flex-grow-1">
+            <div className="fw-bold">Sign-up with your link</div>
+            <small className="text-muted">Sign-up their aZen account.</small>
+          </div>
+          <div className="ms-2 fw-bold text-success">200 🪙</div>
+        </div>
+
+        <div className="d-flex align-items-center p-2 mt-3 rounded-4" style={{ background: "linear-gradient(90deg, rgb(255, 255, 255), rgb(209 255 188))", }}>
+          <img
+            src="/static/img/invites.png"
+            alt="Link X"
+            width="48"
+            className="me-3"
+          />
+          <div className="flex-grow-1">
+            <div className="fw-bold">Links X account</div>
+            <small className="text-muted">Friends linked their X account.</small>
+          </div>
+          <div className="ms-2 fw-bold text-success">200 🪙</div>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            gap: "0.5rem", // spacing between button and icon
+          }}
+        >
+          <button
+            className="btn btn-dark mt-4 d-flex justify-content-center align-items-center"
+            style={{ flex: 1 }}
+          >
+            Share Link
+          </button>
+          <span
+            className="ms-2 rounded-circle bg-black text-dark px-2 py-1 mt-4"
             style={{
+              height: "38px",
+              width: "38px",
               display: "flex",
+
               alignItems: "center",
-              justifyContent: "space-between",
-              background: "linear-gradient(135deg, #b8fe3f)",
-              padding: "1rem 1.2rem",
-              borderRadius: "1rem",
-              marginBottom: "1.2rem",
-              boxShadow: "0 1px 5px rgba(0,0,0,0.05)",
+              justifyContent: "center",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-              <MdPerson size={26} color="black" />
-              <span style={{ fontWeight: 600 }}>Invited</span>
-            </div>
-            <span style={{ fontWeight: 700, fontSize: "1.1rem", cursor: "pointer" }} onClick={copyUsername}>
-              {userDetails?.username}{" "}
-              <MdContentCopy size={15} color="black" style={{ verticalAlign: "middle" }} />
-            </span>
+            <MdContentCopy size={13} color="white" style={{ verticalAlign: "middle" }} />
+          </span>
+        </div>
 
-          </div>
+      </div>
 
-          {/* Referral Rewards */}
-          <div
-            style={{
-              background: "#BAFF2C",
-              padding: "1.2rem",
-              borderRadius: "1rem",
-              marginBottom: "1.2rem",
-            }}
-          >
-            <h3
-              style={{
-                textAlign: "center",
-                fontSize: "1rem",
-                fontWeight: 700,
-                marginBottom: "1rem",
-              }}
-            >
-              Referral Rewards
-            </h3>
+     <div className="d-flex justify-content-between">
+        <span className="fw-bold">Invite History</span>
+        <span
+          style={{
+            fontSize: "0.8rem",
+            background: "#ccc",
+            padding: "0.2rem 0.5rem",
+            borderRadius: "1rem",
+            cursor: "pointer",
+          }}
+          onClick={() => setShowAll(!showAll)}
+        >
+          {showAll ? "Show less" : "View all"}
+        </span>
+      </div>
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                background: "#fff",
-                padding: "1rem",
-                borderRadius: "1rem",
-                alignItems: "center",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: "0.8rem" }}>
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/9378/9378390.png"
-                  width="24"
-                  alt="O2 icon"
-                />
-                <span style={{ fontWeight: 700 }}>160.825</span>
-              </div>
-              <div style={{ fontSize: "0.9rem", color: "#888" }}>O₂</div>
-              <div style={{ fontWeight: 700 }}>160.825</div>
-            </div>
-          </div >
-
-          {/* Referral User Card */}
-          <div
-            style={{
-              background: "#fff",
-              borderRadius: "1rem",
-              padding: "1rem",
-              boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: "0.8rem",
-              }}
-            >
-              <strong>Invest History</strong>
-              <span
+      <div
+        style={{
+          borderRadius: "1rem",
+          padding: ".2rem",
+        }}
+      >
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
+            {(showAll ? allDirectTeam : directTeam).map((entry, i) => (
+              <div
+                key={i}
                 style={{
-                  fontSize: "0.8rem",
-                  background: "#ccc",
-                  padding: "0.2rem 0.5rem",
-                  borderRadius: "1rem",
-                  cursor: "pointer",
+                  padding: "0.8rem",
+                  background: "#ffffff",
+                  borderRadius: "0.75rem",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
                 }}
               >
-                View all
-              </span>
-            </div>
-            {directTeam.length === 0 ? (
-              <p>No direct team members yet.</p>
-            ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
-                {directTeam.map((member, i) => (
-                  <div
-                    key={i}
+                <div>
+                  <div >
+                {entry?.email ? entry.email.slice(0, 6) + "*************" : ''}
+                    
+                     </div>
+                  <div style={{ fontSize: "0.75rem", color: "#666" }}>
+                    {entry.username || "N/A"}
+                  </div>
+                </div>
+                <div>
+                  <span
                     style={{
-                      padding: "0.8rem",
-                      background: "#f9f9f9",
-                      borderRadius: "0.75rem",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
+                      fontSize: "0.7rem",
+                      padding: "0.3rem 0.6rem",
+                      borderRadius: "1rem",
+                      background:
+                        entry.active_status === "Active"
+                          ? "#d4edda"
+                          : entry.active_status === "Pending"
+                          ? "#fff3cd"
+                          : "#f8d7da",
+                      color:
+                        entry.active_status === "Active"
+                          ? "#155724"
+                          : entry.active_status === "Pending"
+                          ? "#856404"
+                          : "#721c24",
+                      fontWeight: 500,
                     }}
                   >
-                    <div>
-                      <div style={{ fontWeight: "bold" }}>{member.name}</div>
-                      <div style={{ fontSize: "0.75rem", color: "#666" }}>  {member.email}</div>
-                    </div>
-                    <div>
-                      <span
-                        style={{
-                          fontSize: "0.7rem",
-                          padding: "0.3rem 0.6rem",
-                          borderRadius: "1rem",
-                          background:
-                            member.active_status === "Active"
-                              ? "#d4edda"
-                              : member.active_status === "Pending"
-                                ? "#fff3cd"
-                                : "#f8d7da",
-                          color:
-                            member.active_status === "Active"
-                              ? "#155724"
-                              : member.active_status === "Pending"
-                                ? "#856404"
-                                : "#721c24",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {member.active_status}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                    {entry.active_status || "Unknown"}
+                  </span>
+                </div>
               </div>
-            )}
+            ))}
           </div>
-
-        </section>
+        )}
       </div>
-    );
-  };
+      </div>
+  );
+};
 
-  export default Refer;
+export default Refer;

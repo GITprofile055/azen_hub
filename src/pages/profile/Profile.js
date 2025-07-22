@@ -3,18 +3,20 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Api from "../../Requests/Api"; // your axios instance
+import { useNavigate, Link } from "react-router-dom";
 
 const Profile = () => {
   const [userDetails, setUserDetails] = useState({
     name: "",
     email: "",
   });
+  const navigate = useNavigate();
 
   // Fetch user data once
   useEffect(() => {
     fetchUserDetails();
   }, []);
-
+ 
   const fetchUserDetails = async () => {
     try {
       const response = await Api.get("/user");
@@ -56,88 +58,72 @@ const Profile = () => {
       toast.error(err.response?.data?.message || "Server error");
     }
   };
-
+const backClick = () => {
+    navigate(-1);
+  };
   return (
-    <div>
-      <div
-        className="settings-header"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "12px",
-          padding: "12px 0",
-          borderBottom: "1px solid #ddd",
-        }}
-      >
-        <span
-          className="settings-back"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "36px",
-            height: "36px",
-            borderRadius: "50%",
-            fontSize: "20px",
-            fontWeight: "bold",
-            color: "#333",
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-        >
-          ←
-        </span>
+<div className="withdraw-container">
+  <div className="top-bar">
+    <span className="back-icon" onClick={backClick}>&#8592;</span>
+    <h3>Update Profile</h3>
+    <span></span>
+  </div>
 
-        <h2
-          className="settings-title"
-          style={{
-            fontSize: "18px",
-            fontWeight: "600",
-            margin: 0,
-            color: "#222",
-          }}
-        >
-          Update Profile
-        </h2>
-      </div>
-
-      <form className="login-form" style={{ padding: "0 1.5rem" }}onSubmit={(e) => {
-        e.preventDefault(); // prevent default form submission
-        handleUpdateProfile();
+  <form
+    className="login-form"
+    style={{ padding: "0 1.5rem" }}
+    onSubmit={(e) => {
+      e.preventDefault();
+      handleUpdateProfile();
+    }}
+  >
+    {/* Logo */}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        margin: "1.5rem 0",
       }}
-      >
-     
-
-        {/* Password */}
-          <div className="form-group">
-            <input
-              type="text"
-          name="name"
-          value={userDetails.name}
-          onChange={handleChange}
-          required
-            />
-          </div>
-
-        {/* Confirm Password */}
-        <div className="form-group">
-          <input
-             type="email"
-          name="email"
-          value={userDetails.email}
-          onChange={handleChange}
-          required
-          />
-        </div>
-
-        <button type="submit" className="login-btn">
-          Update
-        </button>
-      </form>
-
-
-
+    >
+      <img
+        src="https://api.dicebear.com/8.x/bottts/svg?seed=Bot"
+        alt="Ali Bot Logo"
+        style={{
+          width: "80px",
+          height: "80px",
+          borderRadius: "50%",
+        }}
+      />
     </div>
+
+    {/* Name Input */}
+    <div className="form-group">
+      <input
+        type="text"
+        name="name"
+        value={userDetails.name}
+        onChange={handleChange}
+        required
+      />
+    </div>
+
+    {/* Email Input */}
+    <div className="form-group">
+      <input
+        type="email"
+        name="email"
+        value={userDetails.email}
+        onChange={handleChange}
+        required
+      />
+    </div>
+
+    <button type="submit" className="login-btn">
+      Update
+    </button>
+  </form>
+</div>
+
  
   );
 };

@@ -10,6 +10,7 @@ const PaymentPassword = () => {
   const [verificationCode, setVerificationCode] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleChangePassword = async () => {
     if (!password || !passwordConfirmation || !verificationCode) {
@@ -59,48 +60,15 @@ const PaymentPassword = () => {
       toast.error(error?.response?.data?.message || "Failed to send OTP!");
     }
   };
+  const backClick = () => {
+    navigate(-1);
+  };
   return (
-    <div>
-      <div
-        className="settings-header"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "12px",
-          padding: "12px 0",
-          borderBottom: "1px solid #ddd",
-        }}
-      >
-        <span
-          className="settings-back"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "36px",
-            height: "36px",
-            borderRadius: "50%",
-            fontSize: "20px",
-            fontWeight: "bold",
-            color: "#333",
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-        >
-          ←
-        </span>
-
-        <h2
-          className="settings-title"
-          style={{
-            fontSize: "18px",
-            fontWeight: "600",
-            margin: 0,
-            color: "#222",
-          }}
-        >
-          Payment Password
-        </h2>
+    <div className="withdraw-container">
+      <div className="top-bar">
+        <span className="back-icon" onClick={backClick}>&#8592;</span>
+        <h3>Payment Password</h3>
+        <span></span>
       </div>
 
       <form className="login-form" style={{ padding: "0 1.5rem" }} onSubmit={(e) => {
@@ -120,8 +88,8 @@ const PaymentPassword = () => {
               width: "100%",
               padding: "12px 80px 12px 14px",
               fontSize: "14px",
-              border: "1px solid #ccc",
-              borderRadius: "10px",
+              border: "1px solid #e5e7eb",
+              borderRadius: "1rem",
               boxSizing: "border-box",
             }}
           />
