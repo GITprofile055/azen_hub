@@ -83,7 +83,21 @@ const Setting = () => {
                     </Link>
                 </div>
 
-                <div className="settings-link">Privacy Policy   </div>
+                <div
+  className="settings-link"
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "0.75rem 1rem",
+    borderBottom: "1px solid #ccc", // optional separator
+    cursor: "pointer",
+  }}
+>
+  <span>Privacy Policy</span>
+  <span style={{ fontSize: "1.2rem" }}>➡️</span>
+</div>
+
                 <div className="settings-link">User Agreement</div>
 
                 <div className="settings-item">

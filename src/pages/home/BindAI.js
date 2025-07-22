@@ -5,10 +5,9 @@ import { MdQrCode } from "react-icons/md";
 
 const BindAI = () => {
     return (
-       <div className="container p-3" style={{ maxWidth: "450px", fontFamily: "sans-serif" }}>
-                <h5 className="text-center mb-4">AI</h5>
-
-             <div className="card mt-4" style={{ borderRadius: '20px', maxWidth: '350px', width: '100%' }}>
+  <div className="container p-3" style={{ maxWidth: "450px", fontFamily: "sans-serif" }}>
+      {/* <h5 className="fw-bold mb-4">Referral</h5> */}
+      <div className="bg-white rounded-4 p-2 shadow-sm mb-4">
 
                 <div>
                     <div className="mb-3">

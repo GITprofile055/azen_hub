@@ -7,7 +7,7 @@ const BindAIReward = () => {
     return (
         <div>
             <div className="container p-3" style={{ maxWidth: "450px", fontFamily: "sans-serif" }}>
-                <h5 className="text-center mb-4">AI</h5>
+                {/* <h5 className="text-center mb-4">AI</h5> */}
 
                 {/* Tabs */}
                 <div className="d-flex bg-light rounded-pill overflow-hidden mb-3">
@@ -66,6 +66,25 @@ const BindAIReward = () => {
 
                 {/* Device Card */}
                 <div className="bg-white shadow-sm p-3 rounded">
+                    <div className="d-flex align-items-center mb-3">
+                        <img
+                            src="https://cdn-icons-png.flaticon.com/512/706/706830.png"
+                            alt="device"
+                            width="35"
+                            className="me-3"
+                        />
+                        <span className="fw-bold">AI–639589994</span>
+                    </div>
+
+                    <div className="d-flex justify-content-between text-muted small">
+                        <div>
+                            <div>f075999ea28a•••</div>
+                            <div className="fw-semibold text-success">Running</div>
+                        </div>
+                        <div className="text-end fw-semibold">1.00<br /><small className="text-muted">Hz/h</small></div>
+                    </div>
+                </div>
+                   <div className="bg-white shadow-sm p-3 mt-4 rounded">
                     <div className="d-flex align-items-center mb-3">
                         <img
                             src="https://cdn-icons-png.flaticon.com/512/706/706830.png"

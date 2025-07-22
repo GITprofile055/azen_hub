@@ -26,7 +26,7 @@ const Dashboard = () => {
   const [slides, setSlides] = useState([]);
   const [servers, setServers] = useState([])
   const [userPackage, setUserPackage] = useState("");
-  const [income ,setIncome] = useState("");
+  const [income, setIncome] = useState("");
   useEffect(() => {
     fetchwallet();
   }, []);
@@ -55,7 +55,7 @@ const Dashboard = () => {
     setIsOpen(false);
   };
   const handleGoToProfile = () => {
-    navigate('/profile');
+    navigate('/');
   };
   const handleAccept = () => {
     console.log("Account connected with Telegram!");
@@ -86,13 +86,13 @@ const Dashboard = () => {
 
   const newpackage = async () => {
     try {
-    const response = await Api.get('/earning');
-    // console.log(response.data.package.amount);
-    setUserPackage(response.data.package.amount || 0); // adjust based on actual API structure
-    setIncome(response.data.income)
-  } catch (error) {
-    console.error("Error fetching user details:", error);
-  } 
+      const response = await Api.get('/earning');
+      // console.log(response.data.package.amount);
+      setUserPackage(response.data.package.amount || 0); // adjust based on actual API structure
+      setIncome(response.data.income)
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
   }
   // }, [token]);
   useEffect(() => {
@@ -134,28 +134,30 @@ const Dashboard = () => {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-      <Link to="/setting" style={{ textDecoration: 'none', color: 'inherit' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem' }}>
-          <img src="https://i.pravatar.cc/60" style={{ width: '50px', height: '50px', borderRadius: '50%' }} alt="avatar" />
-          <div>
-            <p style={{ fontWeight: 700, display: 'flex', alignItems: 'center' }}>
-              {userDetails?.email ? userDetails.email.slice(0, 6) : ''}
+        <Link to="/setting" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem' }}>
+            <img src="https://i.pravatar.cc/60" style={{ width: '50px', height: '50px', borderRadius: '50%' }} alt="avatar" />
+            <div>
+              <p style={{ fontWeight: 700, display: 'flex', alignItems: 'center' }}>
+                {userDetails?.email ? userDetails.email.slice(0, 6) : ''}
+               <Link to="/profile" style={{color:'black'}}>
+                 <span 
+                  style={{
+                    borderBottom: '1px solid black',
+                    marginLeft: '2px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Pencil size={12} strokeWidth={2} />
+                </span>
+               </Link>
+              
+              </p>
+              <p style={{ fontSize: '.75rem' }}>ID: {userDetails?.username}</p>
 
-              <span onClick={handleGoToProfile}
-                style={{
-                  borderBottom: '1px solid black',
-                  marginLeft: '2px',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                }}
-              >
-                <Pencil size={12} strokeWidth={2} />
-              </span>
-            </p>
-            <p style={{ fontSize: '.75rem' }}>ID: {userDetails?.username}</p>
-
+            </div>
           </div>
-        </div>
         </Link>
         <span style={{ background: '#b9ff7bff', padding: '.2rem .6rem', fontSize: '.75rem', borderRadius: '9999px' }}>
           ${userPackage ? userPackage : 0}
@@ -194,7 +196,7 @@ const Dashboard = () => {
         <div className="action-icons">
           <Link to="/deposit" style={{ textDecorationLine: 'none' }}>
 
-            <img src="static/img/guide1.png" alt="withdraw" style={{height:50, marginBottom:10}}/>
+            <img src="static/img/guide1.png" alt="withdraw" style={{ height: 50, marginBottom: 10 }} />
 
             <p>Guide</p>
           </Link>
@@ -203,7 +205,7 @@ const Dashboard = () => {
         <div className="action-icons">
           <Link to="/withdraw-req" style={{ textDecorationLine: 'none' }}>
 
-            <img src="static/img/lottery.png" alt="withdraw" style={{height:50, marginBottom:10}}/>
+            <img src="static/img/lottery.png" alt="withdraw" style={{ height: 50, marginBottom: 10 }} />
             <p>Lottery</p>
           </Link>
 
@@ -226,35 +228,35 @@ const Dashboard = () => {
         <div className="depin-card">
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-  <img
-    src="static/img/usdt.png"
-    alt="USDT Logo"
-    style={{
-      width: '32px',
-      height: '32px',
-      imageRendering: 'crisp-edges',
-      borderRadius: '.6rem',
-    }}
-  />
-  <p className="big-num" style={{ fontSize: '1.8rem', fontWeight: 'bold', margin: 0 }}>
-    {income ? income.toFixed(4) : '0.0000'}
-  </p>
-</div>
+              <img
+                src="static/img/usdt.png"
+                alt="USDT Logo"
+                style={{
+                  width: '30px',
+                  height: '30px',
+                  imageRendering: 'crisp-edges',
+                  borderRadius: '.6rem',
+                }}
+              />
+              <p className="big-num" style={{ fontSize: '1.4rem', fontWeight: 'bold', margin: 0 }}>
+                {income ? income.toFixed(4) : '0.0000'}
+              </p>
+            </div>
 
             <p className="connected-devices">Total $ZEN </p>
             <Link to="/server" style={{ textDecorationLine: 'none' }}>
-            <button className="add-btn">Earn Now</button>
+              <button className="add-btn">Earn Now</button>
             </Link>
           </div>
           <img
-            src="static/img/image.png"
+            src="static/img/image1.png"
             alt="Connected Devices Illustration"
             style={{
               flex: 1,
-              maxWidth: '138px',
+              maxWidth: '130px',
               width: '100%',
               imageRendering: 'crisp-edges',
-              borderRadius: '.6rem', marginLeft: '43px',
+              borderRadius: '.6rem', marginLeft: '15px',
             }}
           />
         </div>
