@@ -11,10 +11,12 @@ const Server = () => {
   const [eligibleRewardId, setEligibleRewardId] = useState(null);
   const [lastClaimedDay, setLastClaimedDay] = useState(null);
     const [claimedRewards, setClaimedRewards] = useState([]);
+    const [loadingTasks, setLoadingTasks] = useState({});
   const [error, setError] = useState();
   const [showPopup, setShowPopup] = useState(false); 
   const [todayReward, setTodayreward] =useState(); 
   const [communityTasks, setTasks] = useState([]); 
+  const [claimableTasks, setClaimableTasks] = useState({});
   useEffect(() => {
     fetchRewards();
     Claimed();
@@ -108,12 +110,25 @@ const Server = () => {
 
 
        const getTaskRecord = async () => {
-    try {
-      const response = await Api.get("/getTasks"); // Axios automatically parses JSON
-      setTasks(response.data); // Use response.data
-    } catch (error) {
-      console.error("Error fetching user info:", error);
-    }
+        try {
+         const response = await Api.get("/getTasks"); // Axios automatically parses JSON
+         setTasks(response.data); // Use response.data
+        } catch (error) {
+         console.error("Error fetching user info:", error);
+       }
+       };
+
+         const handleStart = async (taskId,taskUrl) => {
+    // Change button text after 5 seconds
+    window.open(taskUrl, "_blank");
+    setLoadingTasks((prev) => ({ ...prev, [taskId]: true }));
+    const response = await Api.post("/startTask", {task_id: taskId} ); // Axios automatically parses JSON
+    setTimeout(() => {
+      setLoadingTasks((prev) => ({ ...prev, [taskId]: false }));
+      setClaimableTasks((prev) => ({ ...prev, [taskId]: true }));
+    }, 50000);
+
+
   };
 
   const settings = {
@@ -308,67 +323,37 @@ const Server = () => {
         <div style={{ marginTop: '1.5rem' }}>
           <h3 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '1rem' }}>Beginner Quest</h3>
           <div style={{ display: 'flex', gap: '0.8rem' }}>
-            <div
-              style={{
-                flex: 1,
-                background: '#fff',
-                borderRadius: '1rem',
-                padding: '1rem',
-                textAlign: 'center',
-              }}
-            >
-              <p style={{ marginBottom: '0.4rem' }}>+200 💰</p>
-              <button
-                style={{
-                  background: '#c6ff30',
-                  border: 'none',
-                  padding: '0.5rem 1rem',
-                  borderRadius: '1.5rem',
-                  fontWeight: 600,
-                }}
-              >
-                Link
-              </button>
-            </div>
+            {communityTasks.map(task => (
+  <div
+    key={task.id}
+    style={{
+      flex: 1,
+      background: '#fff',
+      borderRadius: '1rem',
+      padding: '1rem',
+      textAlign: 'center',
+      margin: '0.5rem',
+    }}
+  >
+    <p className="text-black font-bold">{task.name}</p>
+    {/* <img src={task.icon} alt={task.name} className="w-11 h-12" /> */}
+    <p style={{ marginBottom: '0.4rem' }}>+{task.reward}💰</p>
 
-            <div
-              style={{
-                flex: 1,
-                background: '#fff',
-                borderRadius: '1rem',
-                padding: '1rem',
-                textAlign: 'center',
-              }}
-            >
-              <p style={{ marginBottom: '0.4rem' }}>+100 💰</p>
-              <button style={{background: '#000', color: '#fff', border: 'none',padding: '0.5rem 1rem', borderRadius: '1.5rem',fontWeight: 600,}} 
-              >
-                Claim
-              </button>
-            </div>
+    <button
+      style={{
+        background: '#c6ff30',
+        border: 'none',
+        padding: '0.5rem 1rem',
+        borderRadius: '1.5rem',
+        fontWeight: 600,
+      }}
+    >
+      Link
+    </button>
+  </div>
+))}
 
-            <div
-              style={{
-                flex: 1,
-                background: '#fff',
-                borderRadius: '1rem',
-                padding: '1rem',
-                textAlign: 'center',
-              }}
-            >
-              <p style={{ marginBottom: '0.4rem' }}>+200 💰</p>
-              <button
-                style={{
-                  background: '#c6ff30',
-                  border: 'none',
-                  padding: '0.5rem 1rem',
-                  borderRadius: '1.5rem',
-                  fontWeight: 600,
-                }}
-              >
-                Join
-              </button>
-            </div>
+
           </div>
 
         </div>
