@@ -24,7 +24,8 @@ const Dashboard = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [slides, setSlides] = useState([]);
   const [servers, setServers] = useState([])
-
+  const [userPackage, setUserPackage] = useState("");
+  const [income ,setIncome] = useState("");
   useEffect(() => {
     fetchwallet();
   }, []);
@@ -68,6 +69,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchUserDetails();
+    newpackage();
   }, []);
 
   const fetchUserDetails = async () => {
@@ -78,6 +80,17 @@ const Dashboard = () => {
       console.error("Error fetching user details:", error);
     }
   };
+
+  const newpackage = async () => {
+    try {
+    const response = await Api.get('/earning');
+    // console.log(response.data.package.amount);
+    setUserPackage(response.data.package.amount || 0); // adjust based on actual API structure
+    setIncome(response.data.income)
+  } catch (error) {
+    console.error("Error fetching user details:", error);
+  } 
+  }
   // }, [token]);
   useEffect(() => {
     withfatch();
@@ -118,6 +131,7 @@ const Dashboard = () => {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
+      <Link to="/setting" style={{ textDecoration: 'none', color: 'inherit' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem' }}>
           <img src="https://i.pravatar.cc/60" style={{ width: '50px', height: '50px', borderRadius: '50%' }} alt="avatar" />
           <div>
@@ -126,8 +140,9 @@ const Dashboard = () => {
 
           </div>
         </div>
+        </Link>
         <span style={{ background: '#b9ff7bff', padding: '.2rem .6rem', fontSize: '.75rem', borderRadius: '9999px' }}>
-          aZen 0
+          ${userPackage ? userPackage : 0}
         </span>
       </div>
       {/* === Earnings Card === */}
@@ -159,21 +174,21 @@ const Dashboard = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      {/* <div className="action-row">
+      <div className="action-row">
         <div className="action-icons">
           <Link to="/deposit" style={{ textDecorationLine: 'none' }}>
 
-            <img src="static/img/earn.png" alt="withdraw"  />
+            <img src="static/img/guide1.png" alt="withdraw" style={{height:50, marginBottom:10}}/>
 
-            <p>Earn</p>
+            <p>Guide</p>
           </Link>
 
         </div>
         <div className="action-icons">
           <Link to="/withdraw-req" style={{ textDecorationLine: 'none' }}>
 
-            <img src="static/img/trade.png" alt="withdraw" />
-            <p>Trade</p>
+            <img src="static/img/lottery.png" alt="withdraw" style={{height:50, marginBottom:10}}/>
+            <p>Lottery</p>
           </Link>
 
         </div>
@@ -186,7 +201,7 @@ const Dashboard = () => {
 
         </div>
 
-      </div> */}
+      </div>
       {/* === aZen DePIN === */}
       <div className="section-wrap">
         <div className="sec-head">
@@ -194,9 +209,26 @@ const Dashboard = () => {
         </div>
         <div className="depin-card">
           <div>
-            <p className="big-num">20</p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+  <img
+    src="static/img/usdt.png"
+    alt="USDT Logo"
+    style={{
+      width: '32px',
+      height: '32px',
+      imageRendering: 'crisp-edges',
+      borderRadius: '.6rem',
+    }}
+  />
+  <p className="big-num" style={{ fontSize: '1.8rem', fontWeight: 'bold', margin: 0 }}>
+    {income ? income.toFixed(4) : '0.0000'}
+  </p>
+</div>
+
             <p className="connected-devices">Total $ZEN </p>
+            <Link to="/server" style={{ textDecorationLine: 'none' }}>
             <button className="add-btn">Earn Now</button>
+            </Link>
           </div>
           <img
             src="static/img/image.png"

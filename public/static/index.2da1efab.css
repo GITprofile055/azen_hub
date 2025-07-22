@@ -241,7 +241,7 @@
           justify-content: space-between;
           align-items: center;
           font-weight: 600;
-          margin-bottom: 1.2rem;
+          margin-bottom: 4.2rem;
                 }
 
           .checkin-header h3 {
@@ -257,7 +257,7 @@
                 }
 
           .checkin-days {
-            display: flex;
+          display: ruby-text;
           justify-content: space-between;
           gap: 0.5rem;
           margin-bottom: 1.5rem;
@@ -266,9 +266,10 @@
 
           .checkin-day {
             flex: 1;
-          min-width: 45px;
+          min-width: 40px;
+          margin-right: 2px;
           text-align: center;
-          font-size: 0.75rem;
+          font-size: 0.70rem;
                 }
 
           .reward-box {
@@ -297,6 +298,8 @@
           align-items: center;
           justify-content: center;
           font-weight: 700;
+          margin-top: 0px;
+          margin-bottom: 10px;
                 }
 
           .reward-x2 {
@@ -317,7 +320,7 @@
           color: #fff;
           font-weight: 700;
           border: none;
-          padding: 0.9rem;
+          padding: 0.6rem;
           font-size: 1rem;
           border-radius: 9999px;
           cursor: pointer;
