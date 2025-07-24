@@ -14,13 +14,16 @@ const Server = () => {
     const [loadingTasks, setLoadingTasks] = useState({});
   const [error, setError] = useState();
   const [showPopup, setShowPopup] = useState(false); 
+  const [claimedAmount, setClaimedAmount] = useState("0.00 USDT");
   const [todayReward, setTodayreward] =useState(); 
   const [communityTasks, setTasks] = useState([]); 
   const [claimableTasks, setClaimableTasks] = useState({});
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     fetchRewards();
     Claimed();
     getTaskRecord();
+     setShowModal(false);
   }, []);
  
 
@@ -94,6 +97,8 @@ const Server = () => {
       if (response?.data?.success) {
         setClaimedRewards([...claimedRewards, reward.id]);
         // setIsModalOpen(true);
+        console.log(response.data);
+        setClaimedAmount(`${response.data.Reward}0 USDT`);
         setShowPopup(true);
         // toast.success("🎉 Reward claimed successfully!",{ duration: 1000 });
         // alert("🎉 Reward claimed successfully!");
@@ -111,22 +116,53 @@ const Server = () => {
 
        const getTaskRecord = async () => {
         try {
-         const response = await Api.get("/getTasks"); // Axios automatically parses JSON
-         setTasks(response.data); // Use response.data
+         const response = await Api.get("/getTasks");
+         setTasks(response.data); 
         } catch (error) {
          console.error("Error fetching user info:", error);
        }
        };
 
-         const handleStart = async (taskId,taskUrl) => {
-    // Change button text after 5 seconds
+  const handleStart = async (taskId,taskUrl) => {
     window.open(taskUrl, "_blank");
     setLoadingTasks((prev) => ({ ...prev, [taskId]: true }));
-    const response = await Api.post("/startTask", {task_id: taskId} ); // Axios automatically parses JSON
+    const response = await Api.post("/startTask", {task_id: taskId} );
     setTimeout(() => {
       setLoadingTasks((prev) => ({ ...prev, [taskId]: false }));
       setClaimableTasks((prev) => ({ ...prev, [taskId]: true }));
     }, 50000);
+  };
+
+    const handClaim = async (taskId) => {
+      try {
+        const response = await Api.post("/claimTask",{task_id: taskId }); // Axios automatically parses JSON
+       
+        setLoadingTasks((prev) => ({ ...prev, [taskId]: true }));
+        setTimeout(() => {
+          setLoadingTasks((prev) => ({ ...prev, [taskId]: false }));
+          setShowModal(true);
+          setTasks((prevTasks) =>
+            prevTasks.map((task) =>
+              task.id === taskId ? { ...task, status: "completed" } : task
+            )
+          );
+        }, 5000);
+        console.log(response?.data);
+        setClaimedAmount(`${response.data.Reward}0 USDT`);
+        setShowPopup(true);
+      } catch (error) {
+        toast.error("Error fetching user info:", error,{ duration: 1000 });
+        if (error.response) {
+          const errorMessage = error.response.data.message || "An error occurred";
+          // console.log(error.response.data.message);
+          toast.error(errorMessage,{ duration: 1000 });
+          // setIsModalOpen(true);
+        } else {
+          toast.error("Something went wrong. Please try again.",{ duration: 1000 });
+          // setIsModalOpen(true)
+        }
+      }
+   
 
 
   };
@@ -233,7 +269,7 @@ const Server = () => {
                 style={styles.rewardImage}
               />
             </div>
-            <div style={styles.amount}>0.10 USDT</div>
+            <div style={styles.amount}>{claimedAmount}</div>
             <button style={styles.okButton} onClick={() => setShowPopup(false)}>
               OK
             </button>
@@ -322,8 +358,8 @@ const Server = () => {
 
         <div style={{ marginTop: '1.5rem' }}>
           <h3 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '1rem' }}>Beginner Quest</h3>
-          <div style={{ display: 'flex', gap: '0.8rem' }}>
-            {communityTasks.map(task => (
+          <div style={{ display: 'flex', overflow:'scroll',scrollbarWidth: 'none'}}>
+            {communityTasks.map((task) => (
   <div
     key={task.id}
     style={{
@@ -334,25 +370,62 @@ const Server = () => {
       textAlign: 'center',
       margin: '0.5rem',
     }}
-  >
-    <p className="text-black font-bold">{task.name}</p>
-    {/* <img src={task.icon} alt={task.name} className="w-11 h-12" /> */}
-    <p style={{ marginBottom: '0.4rem' }}>+{task.reward}💰</p>
+  >  
+   <div style={{display:'flex'}}>
+    <img src={task.icon} alt={task.name} className="w-11 h-12" style={{width: 20, height: 20}} />
+    <p className="text-black font-bold" style={{marginLeft:5}}>{task.name}</p>
+    </div>
+    <div style={{display:'flex', margin: '5px 0px 0px 10px' }}>
+    <p style={{ marginBottom: '0.4rem',fontWeight: 800, }}>+{parseFloat(task.reward ? task.reward :0).toFixed(2)}</p>
+     <img src="static/img/usdt.png" alt={task.name} className="w-11 h-12" style={{width: 20, height: 20}} />
+     </div>
+    {task.status === "completed" ? (
+      <button disabled
+        style={{
+          background: '#c6ff30',
+          border: 'none',
+          padding: '0.2rem 1rem',
+          borderRadius: '1.5rem',
+          fontWeight: 400,
+        }}
+      >
+        Linked
+      </button>
 
-    <button
-      style={{
-        background: '#c6ff30',
-        border: 'none',
-        padding: '0.5rem 1rem',
-        borderRadius: '1.5rem',
-        fontWeight: 600,
-      }}
-    >
-      Link
-    </button>
+    ) : claimableTasks[task.id] ? (
+      <button
+        onClick={() => handClaim(task.id)}
+        style={{
+          background: '#c6ff30',
+          border: 'none',
+          padding: '0.2rem 1rem',
+          borderRadius: '1.5rem',
+          fontWeight: 400,
+        }}
+      >
+        Claim
+      </button>
+    ) : (
+      <button
+        onClick={() => handleStart(task.id, task.link)}
+        disabled={loadingTasks[task.id]}
+        style={{
+          background: '#c6ff30',
+          border: 'none',
+          padding: '0.2rem 1rem',
+          borderRadius: '1.5rem',
+          fontWeight: 400,
+        }}
+      >
+        {loadingTasks[task.id] ? (
+          <img src="static/img/loading.gif" alt="USDT Logo" style={{width: '30px', height: '30px', imageRendering: 'crisp-edges', borderRadius: '.6rem', }}  />
+        ) : (
+          "Link"
+        )}
+      </button>
+    )}
   </div>
 ))}
-
 
           </div>
 
