@@ -64,7 +64,7 @@ const Dashboard = () => {
 
   const [loading, setLoading] = useState(true);
   const [availbal, setAvailableBal] = useState();
-
+  const [isBind, setBind] = useState(null);
 
 
   const [userDetails, setUserDetails] = useState(null);
@@ -78,6 +78,7 @@ const Dashboard = () => {
   const fetchUserDetails = async () => {
     try {
       const response = await Api.get('/user');
+      setBind(response.data.bind_device);
       setUserDetails(response.data); // This should be your user object
     } catch (error) {
       console.error("Error fetching user details:", error);
@@ -241,7 +242,7 @@ const Dashboard = () => {
                 }}
               />
               <p className="big-num" style={{ fontSize: '1.4rem', fontWeight: 'bold', margin: 0 }}>
-                {income ? income.toFixed(4) : '0.0000'}
+                {income ? income.toFixed(2) : '0.00'}
               </p>
             </div>
 
@@ -276,7 +277,7 @@ const Dashboard = () => {
 
 
 
-      <Link to='/bindAi' style={{ textDecorationLine: 'none' }}>
+      <Link to={isBind === '1' ? '/bindAIReward' : '/bindAi'} style={{ textDecorationLine: 'none' }}>
 
         <div class="community-card">
           <div class="ai-banner">
