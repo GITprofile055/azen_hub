@@ -4,6 +4,19 @@ import React, { useState, useEffect } from "react";
 
 const BindAIReward = () => {
       const [activeTab, setActiveTab] = useState("reward");
+//       const fetchRewards = async () => {
+//     try {
+//         const response = await Api.get('/baycoin');
+//         if(response?.data){
+//           setDailyRewards(response.data.data);
+//         }
+//         else {
+//           console.error("API Response:", error);
+//         }
+//     } catch (error) {
+//       toast.error("❌ Fetching rewards failed:", error,{ duration: 1000 });
+//     }
+//   };
     return (
         <div>
             <div className="container p-3" style={{ maxWidth: "450px", fontFamily: "sans-serif" }}>
@@ -51,7 +64,7 @@ const BindAIReward = () => {
                 </div>
 
                 {/* Bind Now Button */}
-                <div className="text-center mb-4">
+                {/* <div className="text-center mb-4">
                     <button
                         className="btn btn-block gradient-btn text-white  w-100"
                         style={{
@@ -62,7 +75,7 @@ const BindAIReward = () => {
                     >
                         Bind Now
                     </button>
-                </div>
+                </div> */}
 
                 {/* Device Card */}
                 <div className="bg-white shadow-sm p-3 rounded">
