@@ -1,9 +1,15 @@
 import React from 'react';
 import { MdContentCopy } from "react-icons/md";
 import { MdQrCode } from "react-icons/md";
+import { useNavigate } from 'react-router-dom';
 
 
 const BindAI = () => {
+    const navigate =useNavigate();
+
+    const handleClick = () => {
+        navigate('/bindAIReward');
+    }
     return (
   <div className="container p-3" style={{ maxWidth: "450px", fontFamily: "sans-serif" }}>
       {/* <h5 className="fw-bold mb-4">Referral</h5> */}
@@ -50,7 +56,7 @@ const BindAI = () => {
                         />
                     </div>
 
-                    <button className="btn w-100 gradient-btn mt-3">Bind Now</button>
+                    <button className="btn w-100 gradient-btn mt-3" onClick={handleClick}>Bind Now</button>
                 </div>
             </div>
         </div>

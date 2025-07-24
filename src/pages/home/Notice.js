@@ -3,58 +3,93 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import Api from "../../Requests/Api";
 import { Toaster, toast } from 'react-hot-toast';
-const Notice = () => {
+import { MdNotifications } from "react-icons/md";
 
+
+const Notice = () => {
+  const navigate = useNavigate();
+
+
+        const backClick = () => {
+    navigate(-1);
+  };
+    const NotificationCard = ({ title, message, date }) => {
+        return (
+            <div style={styles.card}>
+                <div style={styles.iconContainer}>
+                    <MdNotifications size={24} color="#7ED321" />
+                </div>
+                <div style={styles.textContainer}>
+                    <p style={styles.title}>{title}</p>
+                    <p style={styles.message}>{message}</p>
+                    <p style={styles.date}>{date}</p>
+                </div>
+            </div>
+        );
+    };
+
+    const styles = {
+        card: {
+            display: "flex",
+            backgroundColor: "#fff",
+            borderRadius: 10,
+            padding: "12px",
+            margin: "12px 0",
+            boxShadow: "0 0 4px rgba(0,0,0,0.1)",
+            alignItems: "flex-start",
+        },
+        iconContainer: {
+            backgroundColor: "#E8FDD3",
+            padding: 8,
+            borderRadius: 10,
+            marginRight: 12,
+            marginTop: 4,
+        },
+        textContainer: {
+            flex: 1,
+        },
+        title: {
+            fontWeight: "600",
+            fontSize: "14px",
+            color: "#111",
+            margin: 0,
+        },
+        message: {
+            color: "#444",
+            fontSize: "12px",
+            margin: "6px 0",
+        },
+        date: {
+            color: "#888",
+            fontSize: "12px",
+            marginTop: "4px",
+        },
+    };
 
     return (
-        <div class="uni-body pages-index-message">
-            <uni-app class="uni-app--maxwidth">
-                <uni-page data-page="pages/index/message">
-                    <uni-page-wrapper>
-                        <uni-page-body>
-                            <uni-view data-v-c62a6474="" class="page">
-                                <uni-view data-v-c62a6474="" class="ellipse"></uni-view>
-                                <uni-view data-v-c62a6474="" class="top-box">
-                                    <uni-view data-v-636c600c="" data-v-c62a6474="" class="uni-row" style={{marginLeft: '0px',marginRight: '0px'}}>
-                                        <uni-view data-v-35b9a113="" data-v-c62a6474="" class="uni-col uni-col-6" style={{paddingLeft: '0px', paddingRight: '0px'}}>
-                                            <Link to="/dashboard">
-                                                <uni-view data-v-c62a6474="" class="back">
-                                                    <img data-v-c62a6474="" src="/static/img/back.png"  alt="" style={{width: '35px',filter: 'brightness(0) invert(0)'}}/>
-                                                </uni-view>
-                                            </Link>
-                                        </uni-view>
-                                        <uni-view data-v-35b9a113="" data-v-c62a6474="" class="uni-col uni-col-12" style={{paddingLeft: '0px',paddingRight: '0px'}}>
-                                            <uni-view data-v-c62a6474="" class="page-title">Message</uni-view>
-                                        </uni-view>
-                                        <uni-view data-v-35b9a113="" data-v-c62a6474="" class="uni-col uni-col-6" style={{paddingLeft: '0px',paddingright: '0px'}}></uni-view>
-                                    </uni-view>
-                                </uni-view>
-                                <uni-view data-v-c62a6474="" class="tabs-box">
-                                    <uni-view data-v-c62a6474="" class="tab-item selected">All</uni-view>
-                                    <uni-view data-v-c62a6474="" class="tab-item">News</uni-view>
-                                    <uni-view data-v-c62a6474="" class="tab-item">Notice</uni-view>
-                                    <uni-view data-v-c62a6474="" class="tab-item">System</uni-view>
-                                    <uni-view data-v-c62a6474="" class="tab-item">Message</uni-view>
-                                </uni-view>
-                                <uni-view data-v-c62a6474="" class="content">
-                                    <uni-view data-v-c62a6474="">
-                                        <uni-view data-v-c62a6474="" class="time-text">2025-03-21 00:19:08</uni-view>
-                                        <uni-view data-v-c62a6474="" class="message-item">
-                                            <uni-view data-v-c62a6474="" class="title">
-                                                📩 Welcome to Firefly Star! 🚀
-                                                <uni-view data-v-c62a6474="" class="noread"></uni-view>
-                                            </uni-view>
-                                            <uni-view data-v-c62a6474="" class="content-text">View Details</uni-view>
-                                        </uni-view>
-                                    </uni-view>
-                                </uni-view>
-                            </uni-view>
-                        </uni-page-body>
-                    </uni-page-wrapper>
-                </uni-page>
+     <div className="withdraw-container">
+      <div className="top-bar">
+        <span className="back-icon" onClick={backClick}>&#8592;</span>
+        <h3>Notification</h3>
+        <span style={{fontWeight:'600'}}>All read</span>
+      </div>
+            <NotificationCard
+                title="Link Your X Account"
+                message="Connect now to unlock more rewards and join the daily prize draw!"
+                date="07/22 13:20:37"
+            />
 
-            </uni-app>
+            <NotificationCard
+                title="🎉1500$AZEN, All rewards have been distributed! 🏆"
+                message="🎉 The ZENi × aZen Summer Airdrop Carnival has officially ended, and all rewards have been distributed! 🏆 Huge thanks to everyone who joined and helped make this campaign a success 💜"
+                date="07/18 13:02:51"
+            />
 
+            <NotificationCard
+                title="aZen × @ICPHUBS China Community Quest is LIVE!"
+                message="Complete the tasks & WIN 10,000 $AZEN reward!"
+                date="07/18 10:21:01"
+            />
         </div>
     );
 };

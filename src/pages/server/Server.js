@@ -10,37 +10,37 @@ const Server = () => {
   const [connect, setConnected] = useState(false);
   const [eligibleRewardId, setEligibleRewardId] = useState(null);
   const [lastClaimedDay, setLastClaimedDay] = useState(null);
-    const [claimedRewards, setClaimedRewards] = useState([]);
-    const [loadingTasks, setLoadingTasks] = useState({});
+  const [claimedRewards, setClaimedRewards] = useState([]);
+  const [loadingTasks, setLoadingTasks] = useState({});
   const [error, setError] = useState();
-  const [showPopup, setShowPopup] = useState(false); 
-  const [todayReward, setTodayreward] =useState(); 
-  const [communityTasks, setTasks] = useState([]); 
+  const [showPopup, setShowPopup] = useState(false);
+  const [todayReward, setTodayreward] = useState();
+  const [communityTasks, setTasks] = useState([]);
   const [claimableTasks, setClaimableTasks] = useState({});
   useEffect(() => {
     fetchRewards();
     Claimed();
     getTaskRecord();
   }, []);
- 
 
-    const fetchRewards = async () => {
+
+  const fetchRewards = async () => {
     try {
-        const response = await Api.get('/baycoin', { Coins: "newBalance" });
-        if(response?.data){
-          setDailyRewards(response.data.data);
-        }
-        else {
-          console.error("API Response:", error);
-        }      
-        if(response.data.u_id){
-          setConnected(true);
-        }
-        else{
-          setConnected(false);
-        }
+      const response = await Api.get('/baycoin', { Coins: "newBalance" });
+      if (response?.data) {
+        setDailyRewards(response.data.data);
+      }
+      else {
+        console.error("API Response:", error);
+      }
+      if (response.data.u_id) {
+        setConnected(true);
+      }
+      else {
+        setConnected(false);
+      }
     } catch (error) {
-      toast.error("❌ Fetching rewards failed:", error,{ duration: 1000 });
+      toast.error("❌ Fetching rewards failed:", error, { duration: 1000 });
     }
   };
   const Claimed = async () => {
@@ -50,27 +50,27 @@ const Server = () => {
       // console.log(response.data);   
       if (response.data.lastClaimed) {
         const lastClaimedTimestamp = new Date(response.data.lastClaimed).getTime();
-        const nowTimestamp = new Date().getTime();  
+        const nowTimestamp = new Date().getTime();
         // Convert to day numbers
         const lastClaimedDay = Math.floor(lastClaimedTimestamp / (1000 * 60 * 60 * 24));
         const nowDay = Math.floor(nowTimestamp / (1000 * 60 * 60 * 24));
-  
+
         // Calculate days missed
         const daysMissed = nowDay - lastClaimedDay;
-  
+
         // Check if user skipped 2+ days
         if (daysMissed >= 2) {
           setEligibleRewardId(response.data.userClaimsCount + daysMissed);
         } else {
           // Check if 24 hours have passed since last claim
-          const hoursPassed = (nowTimestamp - lastClaimedTimestamp) / (1000 * 60 * 60); 
+          const hoursPassed = (nowTimestamp - lastClaimedTimestamp) / (1000 * 60 * 60);
           if (hoursPassed >= 24) {
             setEligibleRewardId(response.data.userClaimsCount + 1);
           } else {
             setEligibleRewardId(null); // Block claiming before 24 hours
           }
         }
-  
+
         setLastClaimedDay(response.data.userClaimsCount);
       } else {
         setEligibleRewardId(1);
@@ -78,19 +78,19 @@ const Server = () => {
       }
     } catch (error) {
       // console.log(response.data);
-      toast.error(error, '❌ Failed to fetch claim data',{ duration: 1000 });
+      toast.error(error, '❌ Failed to fetch claim data', { duration: 1000 });
     }
   };
 
-               const handleClaim = async (reward) => {
+  const handleClaim = async (reward) => {
     if (reward.id !== eligibleRewardId) {
-      toast.error("❌ You must wait 24 hours before claiming the next reward!",{ duration: 1000 });
+      toast.error("❌ You must wait 24 hours before claiming the next reward!", { duration: 1000 });
       // setIsModalOpen(true);
       return;
     }
-  
+
     try {
-      const response = await Api.post('/claim-reward', { rewardId: reward.id });      
+      const response = await Api.post('/claim-reward', { rewardId: reward.id });
       if (response?.data?.success) {
         setClaimedRewards([...claimedRewards, reward.id]);
         // setIsModalOpen(true);
@@ -103,26 +103,26 @@ const Server = () => {
       }
     } catch (error) {
       // console.error("❌ Claiming reward failed:", error);
-      toast.error("Oops! Someting went Wrong",{ duration: 1000 });
+      toast.error("Oops! Someting went Wrong", { duration: 1000 });
       // setIsModalOpen(true);
     }
   };
 
 
-       const getTaskRecord = async () => {
-        try {
-         const response = await Api.get("/getTasks"); // Axios automatically parses JSON
-         setTasks(response.data); // Use response.data
-        } catch (error) {
-         console.error("Error fetching user info:", error);
-       }
-       };
+  const getTaskRecord = async () => {
+    try {
+      const response = await Api.get("/getTasks"); // Axios automatically parses JSON
+      setTasks(response.data); // Use response.data
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  };
 
-         const handleStart = async (taskId,taskUrl) => {
+  const handleStart = async (taskId, taskUrl) => {
     // Change button text after 5 seconds
     window.open(taskUrl, "_blank");
     setLoadingTasks((prev) => ({ ...prev, [taskId]: true }));
-    const response = await Api.post("/startTask", {task_id: taskId} ); // Axios automatically parses JSON
+    const response = await Api.post("/startTask", { task_id: taskId }); // Axios automatically parses JSON
     setTimeout(() => {
       setLoadingTasks((prev) => ({ ...prev, [taskId]: false }));
       setClaimableTasks((prev) => ({ ...prev, [taskId]: true }));
@@ -223,26 +223,26 @@ const Server = () => {
         }}>
           <Toaster position="top-right" reverseOrder={false} />
           {showPopup && (
-        <div style={styles.overlay}>
-          <div style={styles.popup}>
-            <h2 style={styles.title}>Congrats!</h2>
-            <div style={styles.iconGlow}>
-              <img
-                src="static/img/usdt.png"
-                alt="Z Coin"
-                style={styles.rewardImage}
-              />
+            <div style={styles.overlay}>
+              <div style={styles.popup}>
+                <h2 style={styles.title}>Congrats!</h2>
+                <div style={styles.iconGlow}>
+                  <img
+                    src="static/img/usdt.png"
+                    alt="Z Coin"
+                    style={styles.rewardImage}
+                  />
+                </div>
+                <div style={styles.amount}>0.10 USDT</div>
+                <button style={styles.okButton} onClick={() => setShowPopup(false)}>
+                  OK
+                </button>
+              </div>
             </div>
-            <div style={styles.amount}>0.10 USDT</div>
-            <button style={styles.okButton} onClick={() => setShowPopup(false)}>
-              OK
-            </button>
-          </div>
-        </div>
-      )}
+          )}
 
-      {/* Keyframes animation must still go in <style> tag */}
-      <style>{`
+          {/* Keyframes animation must still go in <style> tag */}
+          <style>{`
         @keyframes glowPulse {
           0% { box-shadow: 0 0 5px #c6ff30; }
           50% { box-shadow: 0 0 20px #c6ff30; }
@@ -266,7 +266,7 @@ const Server = () => {
           </button>
 
           <p style={{ marginTop: '2rem' }}>Total $ZEN</p>
-          <h2 style={{ fontSize: '2rem' }}>{parseFloat(todayReward ? todayReward :0).toFixed(2)}</h2>
+          <h2 style={{ fontSize: '2rem' }}>{parseFloat(todayReward ? todayReward : 0).toFixed(2)}</h2>
         </div>
 
 
@@ -280,40 +280,41 @@ const Server = () => {
 
           <div class="checkin-days">
             {dailyRewards.map((reward) => (
-            <div class="checkin-day" key={reward.id}>
-              <div class={`reward-box ${reward.id === eligibleRewardId ?"active":"disabled"}`}>
-                
-                {/* <span class="reward-x2">×2</span> */}
-                
-                <div class="reward-icon">
-                  <img src="static/img/usdt.png" alt="USDT Logo" style={{ width: '25px', height: '25px',imageRendering: 'crisp-edges', borderRadius: '.6rem', }} />
+              <div class="checkin-day" key={reward.id}>
+                <div class={`reward-box ${reward.id === eligibleRewardId ? "active" : "disabled"}`}>
+
+                  {/* <span class="reward-x2">×2</span> */}
+
+                  <div class="reward-icon">
+                    <img src="static/img/usdt.png" alt="USDT Logo" style={{ width: '25px', height: '25px', imageRendering: 'crisp-edges', borderRadius: '.6rem', }} />
+                  </div>
+                  +{parseFloat(reward.coin).toFixed(2)}
                 </div>
-                +{parseFloat(reward.coin).toFixed(2)}
+                <div>Day {reward.id}</div>
               </div>
-              <div>Day {reward.id}</div>
-            </div>
-             ))}
+            ))}
 
           </div>
 
-          <button class="checkin-button" onClick={() => { const rewardToClaim = dailyRewards.find(r => r.id === eligibleRewardId);
-           if (rewardToClaim) {
+          <button class="checkin-button" onClick={() => {
+            const rewardToClaim = dailyRewards.find(r => r.id === eligibleRewardId);
+            if (rewardToClaim) {
               handleClaim(rewardToClaim);
-           } else {
-             toast.error("❌ You already Claim reward Today !", { duration: 1000 });
+            } else {
+              toast.error("❌ You already Claim reward Today !", { duration: 1000 });
             }
-            } 
-            }>Check-in</button>
+          }
+          }>Check-in</button>
         </div>
 
 
         <div
           style={{ marginTop: '1.5rem', background: '#fff', borderRadius: '1rem', padding: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <img src="https://cdn-icons-png.flaticon.com/512/4712/4712106.png" width="60"
-            style={{borderRadius: '0.5rem'}} />
-          <div style={{flex: '1'}}>
+            style={{ borderRadius: '0.5rem' }} />
+          <div style={{ flex: '1' }}>
             <strong>Train AI Agent</strong><br />
-            <span style={{fontSize: '0.8rem', color: '#666'}}>💰 +20 Z</span>
+            <span style={{ fontSize: '0.8rem', color: '#666' }}>💰 +20 Z</span>
           </div>
           <button
             style={{ background: '#c6ff30', padding: '0.5rem 1rem', border: 'none', borderRadius: '1.5rem', fontWeight: '600' }}>Train
@@ -324,34 +325,34 @@ const Server = () => {
           <h3 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '1rem' }}>Beginner Quest</h3>
           <div style={{ display: 'flex', gap: '0.8rem' }}>
             {communityTasks.map(task => (
-  <div
-    key={task.id}
-    style={{
-      flex: 1,
-      background: '#fff',
-      borderRadius: '1rem',
-      padding: '1rem',
-      textAlign: 'center',
-      margin: '0.5rem',
-    }}
-  >
-    <p className="text-black font-bold">{task.name}</p>
-    {/* <img src={task.icon} alt={task.name} className="w-11 h-12" /> */}
-    <p style={{ marginBottom: '0.4rem' }}>+{task.reward}💰</p>
+              <div
+                key={task.id}
+                style={{
+                  flex: 1,
+                  background: '#fff',
+                  borderRadius: '1rem',
+                  padding: '1rem',
+                  textAlign: 'center',
+                  margin: '0.5rem',
+                }}
+              >
+                <p className="text-black font-bold">{task.name}</p>
+                {/* <img src={task.icon} alt={task.name} className="w-11 h-12" /> */}
+                <p style={{ marginBottom: '0.4rem' }}>+{task.reward}💰</p>
 
-    <button
-      style={{
-        background: '#c6ff30',
-        border: 'none',
-        padding: '0.5rem 1rem',
-        borderRadius: '1.5rem',
-        fontWeight: 600,
-      }}
-    >
-      Link
-    </button>
-  </div>
-))}
+                <button
+                  style={{
+                    background: '#c6ff30',
+                    border: 'none',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '1.5rem',
+                    fontWeight: 600,
+                  }}
+                >
+                  Link
+                </button>
+              </div>
+            ))}
 
 
           </div>

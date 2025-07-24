@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Api from "../../Requests/Api";
+import { useNavigate, Link } from "react-router-dom";
+
 import { MdContentCopy } from "react-icons/md";
 import { MdPerson } from "react-icons/md";
 import { toast } from 'react-toastify';
@@ -12,6 +14,8 @@ const Refer = () => {
   const [showAll, setShowAll] = useState(false);
   const [income, setIncome] = useState([]);
   const [error, setError] = useState("");
+  const [count, setCount] = useState(0);
+
   useEffect(() => {
     fetchUserDetails();
   }, []);
@@ -39,6 +43,7 @@ const Refer = () => {
         if (response.data.status) {
           setAllDirectTeam(response.data.data);
           setDirectTeam(response.data.data.slice(0, 5));
+          setCount(response.data.data.length);
         }
         setLoading(false);
       } catch (error) {
@@ -86,7 +91,7 @@ const Refer = () => {
 
         <div className="d-flex justify-content-between text-center m-2">
           <div>
-            <h5 className="mb-0 fw-bold">0</h5>
+            <h5 className="mb-0 fw-bold">{count}</h5>
             <small className="text-muted">👥 Invited</small>
           </div>
           <div className="border-start"></div>
@@ -178,9 +183,10 @@ const Refer = () => {
             borderRadius: "1rem",
             cursor: "pointer",
           }}
-          onClick={() => setShowAll(!showAll)}
         >
-          {showAll ? "Show less" : "View all"}
+        <Link to="/direct" style={{color:'black'}} >
+        View all
+        </Link>
         </span>
       </div>
 

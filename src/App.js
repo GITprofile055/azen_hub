@@ -40,8 +40,10 @@ import Kyc from "./pages/profile/Kyc";
 import Team from "./pages/profile/Team";
 import Level from "./pages/profile/Level";
 import Setting from "./pages/profile/Setting";
+import Loterry from "./pages/profile/Loterry";
 
 import Trade from "./pages/team/Trade";
+import Direct from "./pages/team/Direct";
   
 import Footer from "./components/Footer";
   
@@ -76,6 +78,8 @@ function AppContent() {
         "/faq",
         "/setting",
         "/level",
+        "/direct",
+        "/loterry",
         "/transaction"
     ];
 
@@ -118,7 +122,9 @@ function AppContent() {
                     <Route path="/server-commission" element={<ProtectedRoute><ServerCommission /></ProtectedRoute>} />
                     <Route path="/payment-password" element={<ProtectedRoute><PaymentPassword /></ProtectedRoute>} />
                     <Route path="/level" element={<ProtectedRoute><Level/></ProtectedRoute>}/>
+                    <Route path="/direct" element={<ProtectedRoute><Direct/></ProtectedRoute>}/>
                     <Route path="/team" element={<ProtectedRoute><Team /></ProtectedRoute>} />
+                    <Route path="/loterry" element={<ProtectedRoute><Loterry /></ProtectedRoute>} />
 
                     <Route path="/transfer" element={<ProtectedRoute><Transfer /></ProtectedRoute>} />
                     

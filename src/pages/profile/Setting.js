@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { useAuth } from "../../components/AuthContext";
+import { MdChevronRight } from 'react-icons/md';
 
 import Api from "../../Requests/Api";
 
@@ -54,51 +55,50 @@ const Setting = () => {
         navigate(-1);
     };
     return (
-
-        <div className="page-settings">
-            <div className="settings-header">
-                <span className="settings-back" onClick={backClick}>←</span>
-                <h2 className="settings-title ">Setting</h2>
+        <div className="withdraw-container">
+            <div className="top-bar">
+                <span className="back-icon" onClick={backClick}>&#8592;</span>
+                <h3>Setting</h3>
+                <span></span>
             </div>
-
             <div className="settings-body">
                 <div className="settings-email">Email: {userDetails?.email}</div>
                 <div className="settings-item">
                     <span>Update Profile</span>
-                    <Link to="/profile" style={{ textDecorationLine: 'none' }}>
-                        <span className="settings-edit">Edit ›</span>
+                    <Link to="/profile" style={{ textDecorationLine: 'none', color: 'black' }}>
+                        <span className="settings-edit">Edit <MdChevronRight size={18} /></span>
                     </Link>
                 </div>
                 <div className="settings-item">
                     <span>Account Password</span>
-                    <Link to="/change-password" style={{ textDecorationLine: 'none' }}>
-                        <span className="settings-edit">Edit ›</span>
+                    <Link to="/change-password" style={{ textDecorationLine: 'none', color: 'black' }}>
+                        <span className="settings-edit">Edit <MdChevronRight size={18} /></span>
                     </Link>
                 </div>
 
                 <div className="settings-item">
                     <span>Payment Password</span>
-                    <Link to="/payment-password" style={{ textDecorationLine: 'none' }}>
-                        <span className="settings-edit">Edit ›</span>
+                    <Link to="/payment-password" style={{ textDecorationLine: 'none', color: 'black' }}>
+                        <span className="settings-edit">Edit <MdChevronRight size={18} /></span>
                     </Link>
                 </div>
 
                 <div
-  className="settings-link"
-  style={{
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "0.75rem 1rem",
-    borderBottom: "1px solid #ccc", // optional separator
-    cursor: "pointer",
-  }}
->
-  <span>Privacy Policy</span>
-  <span style={{ fontSize: "1.2rem" }}>➡️</span>
-</div>
+                    className="settings-item"
 
-                <div className="settings-link">User Agreement</div>
+
+                >
+                    <span style={{ fontWeight: '600' }}>Privacy Policy</span>
+                    <span className="settings-edit"> <MdChevronRight size={18} />
+                    </span>
+                </div>
+
+                <div className="settings-item">
+                    <span style={{ fontWeight: '600' }}>User Agreement</span>
+
+                    <span className="settings-edit"> <MdChevronRight size={18} />
+                    </span>
+                </div>
 
                 <div className="settings-item">
                     <span>Version</span>

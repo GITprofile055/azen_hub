@@ -718,3 +718,195 @@
   border-radius: 30px;
   font-weight: bold;
 }
+.wh-w750 {
+  max-width: 750px;
+  margin: auto;
+  position: relative;
+}
+
+.flex_cc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.flex_cs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex_c {
+  display: flex;
+  align-items: center;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.lottery_head {
+  font-size: 18px;
+  color: #ffffff;
+  margin: 15px 0;
+}
+
+.luck-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 78px);
+    gap: 4px;
+    position: absolute;
+    top: 24%;
+    left: 15%;
+    width: 67%;
+}
+
+.luck-list > div {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  text-align: center;
+  font-size: 16px;
+  color: white;
+}
+.luck-lists {
+  position: absolute;
+  top: 260px; /* adjust as per image end */
+  width: 100%;
+  text-align: center;
+}
+
+.luck-lists p {
+  font-weight: 700;
+  font-size: 16px;
+  color: rgb(0, 0, 0);
+  margin: 130px;
+}
+
+.lottery_buttom {
+  position: absolute;
+  top: 467px; /* just below the Start Lottery text */
+  width: 100%;
+  justify-content: space-between;
+  padding: 0 20px;
+  color: #000; /* or white if background is dark */
+}
+
+.cell-content_title {
+  margin-top: 5px;
+  /* font-weight: bold; */
+}
+
+
+
+.bbmx-icon {
+  width: 30px;
+  height: 30px;
+  /* background-color: red; */
+  border-radius: 50%;
+}
+
+.ticket-icon {
+  width: 20px;
+  height: 20px;
+  /* background-color: orange; */
+  margin-right: 5px;
+  border-radius: 50%;
+}
+
+.info-icon {
+  width: 16px;
+  height: 16px;
+  background-color: #aaa;
+  border-radius: 50%;
+  margin-left: 5px;
+}
+
+.lottery_submit {
+  margin: 10px auto;
+  width: 60%;
+  background: linear-gradient(45deg, #a8ff3e, #bae61b);
+  color: white;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.lottery-card {
+  width: 360px;
+  background: linear-gradient(180deg, #1e1d2a 0%, #12101a 100%);
+  border-radius: 12px;
+  padding: 10px;
+  color: #ffffff;
+  font-family: 'Segoe UI', sans-serif;
+  /* box-shadow: 0 0 20px rgba(255, 136, 0, 0.3); */
+  position: relative;
+  overflow: hidden;
+  margin: auto;
+}
+
+.lottery-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 6px;
+  width: 100%;
+  background: linear-gradient(to right, #ade52c, #ffef70);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.lottery-header h3 {
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.lottery-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #ade52c;
+  margin-bottom: 8px;
+}
+
+.not-claimed {
+  text-align: center;
+  font-size: 14px;
+  color: #aaaaaa;
+  margin-bottom: 10px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #444;
+  margin: 15px 0;
+}
+
+.lottery-body h4 {
+  font-size: 15px;
+  margin-bottom: 10px;
+  color: #ade52c;
+}
+
+.lottery-body ul {
+  padding-left: 18px;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.lottery-body ul li {
+  margin-bottom: 10px;
+  line-height: 1.5;
+  color: #dddddd;
+}
+
+.lottery-body p {
+  font-size: 13px;
+  color: #bbbbbb;
+  line-height: 1.4;
+}

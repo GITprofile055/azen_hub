@@ -117,13 +117,15 @@ const Dashboard = () => {
     <div>
       <header>
         <h1>aZen Hub</h1>
-        <svg className="bell" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <Link to="/notice" style={{color:'black'}}>
+         <svg className="bell" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
           />
         </svg>
+        </Link> 
       </header>
       <div style={{
         backgroundColor: '#fff',
@@ -194,7 +196,7 @@ const Dashboard = () => {
       </Swiper>
       <div className="action-row">
         <div className="action-icons">
-          <Link to="/deposit" style={{ textDecorationLine: 'none' }}>
+          <Link to="/faq" style={{ textDecorationLine: 'none' }}>
 
             <img src="static/img/guide1.png" alt="withdraw" style={{ height: 50, marginBottom: 10 }} />
 
@@ -203,7 +205,7 @@ const Dashboard = () => {
 
         </div>
         <div className="action-icons">
-          <Link to="/withdraw-req" style={{ textDecorationLine: 'none' }}>
+          <Link to="/loterry" style={{ textDecorationLine: 'none' }}>
 
             <img src="static/img/lottery.png" alt="withdraw" style={{ height: 50, marginBottom: 10 }} />
             <p>Lottery</p>
@@ -211,7 +213,7 @@ const Dashboard = () => {
 
         </div>
         <div className="action-icons">
-          <Link to="/transfer" style={{ textDecorationLine: 'none' }}>
+          <Link to="/refer" style={{ textDecorationLine: 'none' }}>
 
             <img src="static/img/invite.png" alt="transfer" />
             <p>Invite</p>

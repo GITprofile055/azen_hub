@@ -43,7 +43,7 @@ const Profile = () => {
     }
 
     try {
-      const response = await Api.post("/updateProfile", {
+      const response = await Api.put("/updateProfile", {
         name: userDetails.name,
         email: userDetails.email,
       });
