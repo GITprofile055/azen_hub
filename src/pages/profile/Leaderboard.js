@@ -22,7 +22,9 @@ const Leaderboard = () => {
           <button className="bg-[#045d30] text-white text-sm px-4 py-1 rounded-full">Week</button>
           <button className="text-white text-sm">Month</button>
         </div>
+    
 
+    
         {/* Top 3 */}
         <div className="flex justify-around items-end mt-6 mb-4">
           {/* 2nd */}
