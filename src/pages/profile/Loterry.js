@@ -11,7 +11,7 @@ const Loterry = () => {
     return (
         <div className="withdraw-containers">
             <div className="top-bar">
-                <span className="back-icon" onClick={backClick}>&#8592;</span>
+                <span className="back-icon" >&#8592;</span>
                 <h3>Prize Pool Lottery</h3>
                 <span></span>
             </div>
@@ -20,7 +20,7 @@ const Loterry = () => {
                     <div
                         style={{
                             backgroundImage:
-                                'url("static/img/lottery1.png")',
+                                'url("static/img/loterry2.png")',
                             backgroundSize: "100% 100%",
                             backgroundRepeat: "no-repeat",
                             height: "100%",
@@ -29,7 +29,7 @@ const Loterry = () => {
                         }}
                     />
                     <img
-                        src="static/img/lottery1.png"
+                        src="static/img/loterry2.png"
                         draggable={false}
                         alt="Background"
                         style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "500px", opacity: 0 }}
@@ -45,7 +45,7 @@ const Loterry = () => {
                                 <div className="cell-content flex_cc cell-item">
                                     <div style={{ marginTop: 2 }}>
                                         <div className="flex_cc column">
-                                            <img src="/static/img/signIn2.png" style={{ width: '22px', height: '22px' }} />
+                                            <img src="/static/img/signIn2.png" style={{ width: '22px', height: '22px'}} />
                                             <div className="cell-content_title">{title}</div>
                                         </div>
                                     </div>

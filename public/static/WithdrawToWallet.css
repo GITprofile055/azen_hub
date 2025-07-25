@@ -7,6 +7,9 @@ body {
   max-width: 500px;
   margin: 0 auto;
   padding: 20px;
+     overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
 }
 .withdraw-containers {
   max-width: 500px;

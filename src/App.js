@@ -41,6 +41,7 @@ import Team from "./pages/profile/Team";
 import Level from "./pages/profile/Level";
 import Setting from "./pages/profile/Setting";
 import Loterry from "./pages/profile/Loterry";
+import Leaderboard from "./pages/profile/Leaderboard";
 
 import Trade from "./pages/team/Trade";
 import Direct from "./pages/team/Direct";
@@ -80,7 +81,8 @@ function AppContent() {
         "/level",
         "/direct",
         "/loterry",
-        "/transaction"
+        "/transaction",
+        "/leaderboard",
     ];
 
     // Check if current path matches any of the above OR dynamic TradingChart route
@@ -125,6 +127,7 @@ function AppContent() {
                     <Route path="/direct" element={<ProtectedRoute><Direct/></ProtectedRoute>}/>
                     <Route path="/team" element={<ProtectedRoute><Team /></ProtectedRoute>} />
                     <Route path="/loterry" element={<ProtectedRoute><Loterry /></ProtectedRoute>} />
+                    <Route path="/leaderboard" element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} />
 
                     <Route path="/transfer" element={<ProtectedRoute><Transfer /></ProtectedRoute>} />
                     
