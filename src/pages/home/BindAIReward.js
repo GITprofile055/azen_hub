@@ -1,22 +1,31 @@
 import React, { useState, useEffect } from "react";
-
-
+import Api from "../../Requests/Api";
+import { useNavigate, Link, Outlet } from "react-router-dom";
 
 const BindAIReward = () => {
+          const navigate = useNavigate();
       const [activeTab, setActiveTab] = useState("reward");
-//       const fetchRewards = async () => {
-//     try {
-//         const response = await Api.get('/baycoin');
-//         if(response?.data){
-//           setDailyRewards(response.data.data);
-//         }
-//         else {
-//           console.error("API Response:", error);
-//         }
-//     } catch (error) {
-//       toast.error("❌ Fetching rewards failed:", error,{ duration: 1000 });
-//     }
-//   };
+       const [error, setError] = useState('');
+       const [income, setRoincome] =useState([]);
+   useEffect(()=>{fetchroi();},[])
+
+
+      const fetchroi = async () => {
+  try {
+    const response = await Api.get('/fetchroi');
+    if (response?.data?.incomes && Array.isArray(response.data.incomes)) {
+      console.log("✅ ROI Data:", response.data.incomes);
+      setRoincome(response.data.incomes);
+    } else {
+      console.error("⚠️ Unexpected response structure:", response.data);
+      setRoincome([]); // fallback
+    }
+  } catch (error) {
+    console.error("❌ Fetching rewards failed:", error);
+    setError("Failed to fetch AI rewards.");
+  }
+};
+
     return (
         <div>
             <div className="container p-3" style={{ maxWidth: "450px", fontFamily: "sans-serif" }}>
@@ -46,7 +55,7 @@ const BindAIReward = () => {
                     </button>
                 </div>
 
-                {/* Earnings */}
+                {/* Earnings */}            
                 <div className="text-center mb-4">
                     <h3>
                         <b>2.00</b> <small className="text-muted">Hz/h</small>
@@ -62,60 +71,49 @@ const BindAIReward = () => {
                         </div>
                     </div>
                 </div>
-
                 {/* Bind Now Button */}
-                {/* <div className="text-center mb-4">
+                <div className="text-center">
                     <button
-                        className="btn btn-block gradient-btn text-white  w-100"
+                        className="btn btn-block text-black  w-100"
                         style={{
                             borderRadius: "20px",
-                            padding: "10px 0",
+                            padding: "0px 0px 0px 230px",
                             fontWeight: "500",
                         }}
+                        onClick={()=> navigate('/incomehistory')}
                     >
-                        Bind Now
+                        View All
                     </button>
-                </div> */}
+                </div>
 
                 {/* Device Card */}
-                <div className="bg-white shadow-sm p-3 rounded">
-                    <div className="d-flex align-items-center mb-3">
-                        <img
-                            src="https://cdn-icons-png.flaticon.com/512/706/706830.png"
-                            alt="device"
-                            width="35"
-                            className="me-3"
-                        />
-                        <span className="fw-bold">AI–639589994</span>
-                    </div>
+                {income.slice(0, 5).map((roi) => (
+  <div className="bg-white shadow-sm p-3 mb-4 rounded" key={roi.id}>
+    <div className="d-flex align-items-center mb-3">
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/706/706830.png"
+        alt="device"
+        width="35"
+        className="me-3"
+      />
+      <span className="fw-bold">{roi.user_id_fk}</span>
+      <span className="" style={{marginLeft: "36%"}}>{roi.remarks}</span>
+    </div>
 
-                    <div className="d-flex justify-content-between text-muted small">
-                        <div>
-                            <div>f075999ea28a•••</div>
-                            <div className="fw-semibold text-success">Running</div>
-                        </div>
-                        <div className="text-end fw-semibold">1.00<br /><small className="text-muted">Hz/h</small></div>
-                    </div>
-                </div>
-                   <div className="bg-white shadow-sm p-3 mt-4 rounded">
-                    <div className="d-flex align-items-center mb-3">
-                        <img
-                            src="https://cdn-icons-png.flaticon.com/512/706/706830.png"
-                            alt="device"
-                            width="35"
-                            className="me-3"
-                        />
-                        <span className="fw-bold">AI–639589994</span>
-                    </div>
+    <div className="d-flex justify-content-between text-muted small">
+      <div>
+        <div className="fw-semibold text-success">Amount</div>
+        <div>Issue Date</div>
+      </div>
+      <div className="text-end fw-semibold">
+        $ {roi.amt}
+        <br />
+        <small className="text-muted">{roi.ttime}</small>
+      </div>
+    </div>
+  </div>
+))}
 
-                    <div className="d-flex justify-content-between text-muted small">
-                        <div>
-                            <div>f075999ea28a•••</div>
-                            <div className="fw-semibold text-success">Running</div>
-                        </div>
-                        <div className="text-end fw-semibold">1.00<br /><small className="text-muted">Hz/h</small></div>
-                    </div>
-                </div>
             </div>
         </div>
     );

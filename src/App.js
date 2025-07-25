@@ -40,7 +40,7 @@ import Kyc from "./pages/profile/Kyc";
 import Team from "./pages/profile/Team";
 import Level from "./pages/profile/Level";
 import Setting from "./pages/profile/Setting";
-
+import Incomehistory from "./pages/home/IncomeHistory";
 import Trade from "./pages/team/Trade";
   
 import Footer from "./components/Footer";
@@ -76,7 +76,8 @@ function AppContent() {
         "/faq",
         "/setting",
         "/level",
-        "/transaction"
+        "/transaction",
+        "/incomehistory"
     ];
 
     // Check if current path matches any of the above OR dynamic TradingChart route
@@ -121,7 +122,7 @@ function AppContent() {
                     <Route path="/team" element={<ProtectedRoute><Team /></ProtectedRoute>} />
 
                     <Route path="/transfer" element={<ProtectedRoute><Transfer /></ProtectedRoute>} />
-                    
+                    <Route path="/incomehistory" element={<ProtectedRoute><Incomehistory/></ProtectedRoute>}/>
                     <Route path="/withdraw-req" element={<ProtectedRoute><WithdrawReq /></ProtectedRoute>} />
                     <Route path="/deposit-history" element={<ProtectedRoute><History /></ProtectedRoute>} />
                     <Route path="/withdraw-history" element={<ProtectedRoute><Whistory /></ProtectedRoute>} />

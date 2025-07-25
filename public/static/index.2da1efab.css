@@ -42,6 +42,7 @@
        /* fills viewport */
        overflow-y: auto;
        /* inner scrolling */
+       scrollbar-width: none;
    }
 
    /* === 3. Header ======================================================== */
