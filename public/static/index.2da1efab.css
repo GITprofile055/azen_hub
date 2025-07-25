@@ -29,17 +29,20 @@
 
    /* === 2. Phone shell =================================================== */
    .phone {
-     position: relative;
-     width: 390px;
-     max-width: 100%;
-     background: rgb(247, 247, 247);
-     overflow: hidden;
-     box-shadow: 0 8px 24px rgba(0, 0, 0, .14);
-     padding-bottom: var(--bottom-nav-h);
-     height: 100vh;
-     overflow-y: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+       position: relative;
+       width: 390px;
+       max-width: 100%;
+       background: rgb(247, 247, 247);
+       /* border-radius: 1.4rem; */
+       overflow: hidden;
+       box-shadow: 0 8px 24px rgba(0, 0, 0, .14);
+       padding-bottom: var(--bottom-nav-h);
+       /* space for fixed nav */
+       height: 100vh;
+       /* fills viewport */
+       overflow-y: auto;
+       /* inner scrolling */
+       scrollbar-width: none;
    }
 
    /* === 3. Header ======================================================== */

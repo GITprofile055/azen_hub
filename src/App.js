@@ -40,9 +40,7 @@ import Kyc from "./pages/profile/Kyc";
 import Team from "./pages/profile/Team";
 import Level from "./pages/profile/Level";
 import Setting from "./pages/profile/Setting";
-import Loterry from "./pages/profile/Loterry";
-import Leaderboard from "./pages/profile/Leaderboard";
-
+import Incomehistory from "./pages/home/IncomeHistory";
 import Trade from "./pages/team/Trade";
 import Direct from "./pages/team/Direct";
   
@@ -79,10 +77,8 @@ function AppContent() {
         "/faq",
         "/setting",
         "/level",
-        "/direct",
-        "/loterry",
         "/transaction",
-        "/leaderboard",
+        "/incomehistory"
     ];
 
     // Check if current path matches any of the above OR dynamic TradingChart route
@@ -130,7 +126,7 @@ function AppContent() {
                     <Route path="/leaderboard" element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} />
 
                     <Route path="/transfer" element={<ProtectedRoute><Transfer /></ProtectedRoute>} />
-                    
+                    <Route path="/incomehistory" element={<ProtectedRoute><Incomehistory/></ProtectedRoute>}/>
                     <Route path="/withdraw-req" element={<ProtectedRoute><WithdrawReq /></ProtectedRoute>} />
                     <Route path="/deposit-history" element={<ProtectedRoute><History /></ProtectedRoute>} />
                     <Route path="/withdraw-history" element={<ProtectedRoute><Whistory /></ProtectedRoute>} />
