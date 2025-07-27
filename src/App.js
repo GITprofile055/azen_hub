@@ -43,7 +43,9 @@ import Setting from "./pages/profile/Setting";
 import Incomehistory from "./pages/home/IncomeHistory";
 import Trade from "./pages/team/Trade";
 import Direct from "./pages/team/Direct";
-  
+  import Loterry from "./pages/profile/Loterry";
+  import Leaderboard from "./pages/profile/Leaderboard";
+
 import Footer from "./components/Footer";
   
 import { AuthProvider } from "./components/AuthContext";
