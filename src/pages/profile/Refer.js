@@ -15,6 +15,9 @@ const Refer = () => {
   const [income, setIncome] = useState([]);
   const [error, setError] = useState("");
   const [count, setCount] = useState(0);
+    const [users, setUsers] = useState([]);
+    const [selectedLevel, setSelectedLevel] = useState(null);
+      const [level, setLevel] = useState([]);
 
   useEffect(() => {
     fetchUserDetails();
@@ -36,24 +39,36 @@ const Refer = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchDirectTeam = async () => {
-      try {
-        const response = await Api.get("/getDirectTeam"); // <-- Make sure this endpoint is correct
-        if (response.data.status) {
-          setAllDirectTeam(response.data.data);
-          setDirectTeam(response.data.data.slice(0, 5));
-          setCount(response.data.data.length);
-        }
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching direct team:", error);
-        setLoading(false);
-      }
-    };
+const loadUsers = async () => {
+  setLoading(true);
+  try {
+    const response = await Api.get("list", {
+      params: {
+        selected_level: level || 0,
+      },
+    });
 
-    fetchDirectTeam();
-  }, []);
+    if (response.data.status) {
+      const allTeam = response.data.direct_team || [];
+      const firstFive = allTeam.slice(0, 10); // ✅ Slice only 5 items
+      setUsers(firstFive);
+    } else {
+      console.warn("No data received");
+    }
+
+  } catch (error) {
+    console.error("❌ Error fetching users:", error);
+  }
+  setLoading(false);
+};
+
+
+
+
+  useEffect(() => {
+         loadUsers();
+     }, []);
+
   const handleViewToggle = () => {
     if (showAll) {
       setDirectTeam(allDirectTeam.slice(0, 5));
@@ -190,66 +205,65 @@ const Refer = () => {
         </span>
       </div>
 
-      <div
-        style={{
-          borderRadius: "1rem",
-          padding: ".2rem",
-        }}
-      >
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
-            {(showAll ? allDirectTeam : directTeam).map((entry, i) => (
-              <div
-                key={i}
-                style={{
-                  padding: "0.8rem",
-                  background: "#ffffff",
-                  borderRadius: "0.75rem",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <div>
-                  <div >
-                {entry?.email ? entry.email.slice(0, 6) + "*************" : ''}
-                    
-                     </div>
-                  <div style={{ fontSize: "0.75rem", color: "#666" }}>
-                    {entry.username || "N/A"}
-                  </div>
-                </div>
-                <div>
-                  <span
-                    style={{
-                      fontSize: "0.7rem",
-                      padding: "0.3rem 0.6rem",
-                      borderRadius: "1rem",
-                      background:
-                        entry.active_status === "Active"
-                          ? "#d4edda"
-                          : entry.active_status === "Pending"
-                          ? "#fff3cd"
-                          : "#f8d7da",
-                      color:
-                        entry.active_status === "Active"
-                          ? "#155724"
-                          : entry.active_status === "Pending"
-                          ? "#856404"
-                          : "#721c24",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {entry.active_status || "Unknown"}
-                  </span>
-                </div>
-              </div>
-            ))}
+
+
+
+
+ <div
+  style={{
+    borderRadius: "1rem",
+    padding: ".2rem",
+  }}
+>
+  {loading ? (
+    <p>Loading...</p>
+  ) : (
+    <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
+       {users.map((user, index) => (        <div
+          key={index}
+          style={{
+            padding: "0.8rem",
+            background: "#ffffff",
+            borderRadius: "0.75rem",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          {/* Left side: Email and Username */}
+          <div>
+            <div style={{ fontWeight: "bold", fontSize: "0.85rem", marginBottom: "0.25rem" }}>
+                            {user.email|| "user"}
+            </div>
+            <div style={{ fontSize: "0.75rem", color: "#666" }}>
+             Level                             {user.level|| "user"}
+
+              {/* {entry.username || "N/A"} */}
+            </div>
           </div>
-        )}
-      </div>
+
+          {/* Right side: Amount and Status */}
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontWeight: "", fontSize: "0.85rem", marginBottom: "0.25rem" }}>
+                            {user.jdate|| "user"}
+            </div>
+            <span
+            
+            >
+                          <div style={{ fontWeight: "bold", fontSize: "0.85rem", marginBottom: "0.25rem" }}>
+
+             $                            {user.package|| "0"}
+
+             </div>
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
+
       </div>
   );
 };

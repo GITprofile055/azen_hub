@@ -12,8 +12,8 @@ const Login = () => {
     e.preventDefault();
 
     try {
+      console.log('hii')
       const response = await Api.post("/login", { email, password });
-
       if (response.data?.token) {
         const { token, message } = response.data;
         localStorage.setItem("authToken", token);

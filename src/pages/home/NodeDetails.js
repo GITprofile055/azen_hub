@@ -1,184 +1,310 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, Link, Outlet } from "react-router-dom";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import { toast } from "react-toastify";
-
+import React, { useState } from "react";
+import axios from "axios";
 import Api from "../../Requests/Api";
-import { Autoplay } from 'swiper/modules';
-import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
+
 
 const NodeDetails = () => {
-  const [selectedSymbol, setSelectedSymbol] = useState(null);
+  const [message, setMessage] = useState("");
+const [steps, setSteps] = useState({
+  1: "rent",
+  2: "rent",
+  3: "rent",
+  4: "rent",
+});
+  const [showBring, setShowBring] = useState(false);
+  const [isRentDisabled, setIsRentDisabled] = useState(false);
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-
-  const [isOpen, setIsOpen] = useState(true); // Modal visibility state
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [slides, setSlides] = useState([]);
 
 
+   const handleRent = async (planId) => {
+  try {
+    const response = await Api.post("/investInPlan", { id: planId });
+    toast.success(response.data.message || "Investment successful");
 
-  const handleBuy = async () => {
-    const selectedAmount = slides[activeIndex]?.text;
+    // Update only the clicked button's state after 10 sec
+    setTimeout(() => {
+      setSteps(prev => ({ ...prev, [planId]: "bring" }));
+    }, 10000);
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Something went wrong!");
+    console.error("Investment error:", error.response?.data);
+  }
+};
 
-    try {
-      const response = await Api.post("/Deposit", {
-        amount: selectedAmount
-      });
+const handleBring = (planId) => {
+  navigate("/bindAi");
+  // Optional: Reset that button back to "rent" after redirect
+  setSteps(prev => ({ ...prev, [planId]: "rent" }));
+};
 
-      if (response.data.success) {
-        toast.success(response.data.message || "Investment successful!");
-      } else {
-        toast.error(response.data.message || "Investment failed!");
-      }
-    } catch (error) {
-      console.error("Investment Error:", error);
-      toast.error("Something went wrong!");
+const showSuccessToast = () => {
+  toast.success(
+    <div style={{ textAlign: 'center' }}>
+      <img
+        src="/static/image.png"
+        alt="success"
+        style={{ width: '50px', marginBottom: '10px' }}
+      />
+      <div>successful!</div>
+    </div>,
+    {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
     }
-  };
+  );
+};
 
 
-  useEffect(() => {
-    fetchwallet();
-  }, []);
-  const fetchwallet = async () => {
-    try {
-      const response = await Api.get("/fetchserver");
-
-      if (response.data?.success && Array.isArray(response.data.server)) {
-        const serverSlides = response.data.server.map((item, index) => ({
-          title: `S${index + 1}-IntelliCalc Edition`,
-          heading: "Benefits",
-          text: ` ${item.invest_amount} `,
-          text1: `Optional investment period (hours): ${item.plan}`,
-          text2: `To: ${item.period_end}`,
-          price: item.plan === "Free" ? "Free" : item.plan,
-          days: item.days,
-        }));
-
-        setSlides(serverSlides);
-      }
-    } catch (error) {
-      console.error("Error fetching plans:", error);
-    }
-  };
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
-  const handleAccept = () => {
-    console.log("Account connected with Telegram!");
-    setIsOpen(false); // Close the modal after accepting
-  };
-
-  const [showAll, setShowAll] = useState(false); // toggle state
-  const toggleDropdown = () => setIsOpen(!isOpen);
-
-
-  const [loading, setLoading] = useState(true);
-  const [availbal, setAvailableBal] = useState();
-
-
-  const [userDetails, setUserDetails] = useState(null);
-  const token = localStorage.getItem('authToken'); // Retrieve token from localStorage
-
-
-
-
-  useEffect(() => {
-    fetchUserDetails();
-  }, []);
-
-  const fetchUserDetails = async () => {
-    try {
-      const response = await Api.get('/user');
-      setUserDetails(response.data); // This should be your user object
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-    }
-  };
-  // }, [token]);
-  useEffect(() => {
-    withfatch();
-  }, []);
-
-  const withfatch = async () => {
-    try {
-      const response = await Api.get("/availbal");
-      if (response.data?.AvailBalance !== undefined) {
-        setAvailableBal(response.data.AvailBalance);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
-  const { t } = useTranslation();
 
   return (
+    <div style={styles.body}>
+      <div style={styles.taskContainer}>
 
-    <div>
-      <header>
-        <h1>aZen Hub</h1>
-        <svg className="bell" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-          />
-        </svg>
-      </header>
-     
- 
-      <div className="section-wrap">
-        <div className="slider-section">
-          {/* Left content */}
+        {/* Task 1 */}
+        <div style={styles.taskCard}>
+          <div style={styles.taskHeader}>
+            <img src="/static/image.png" alt="aZen" style={styles.taskHeaderImg} />
+            <div style={styles.taskTitle}>aZen</div>
 
-          <div className="slider-text">
-            {slides[activeIndex] && (
-              <>
-                <h2>{slides[activeIndex].text} USDT</h2>
-                <p>{slides[activeIndex].text1}/days</p>
-                <button className="buy-now" onClick={handleBuy}>Buy</button>
-              </>
-            )}
+
+<div style={{ textAlign: 'right', width: '100%', fontSize: '13px', fontWeight: '' }}>
+Contract Details 25 Days</div>
           </div>
+          <div style={styles.taskDesc}>Join aZen Announcements Channel</div>
+          <div style={styles.taskFooter}>
+            <div style={styles.reward}>
+              <img src="/static/usdt.png" alt="USDT" style={{ width: 16, height: 16, marginRight: 6 }} />
+              $30             
+<div style={{ textAlign: 'right', width: '100%', fontSize: '11px', marginLeft: '53px' }}>
+  Rewards Per Day $2.4
+</div>            </div>   
 
-          {/* Right slider */}
-          <div className="slider-box">
-            <Swiper spaceBetween={20} slidesPerView={1} onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}>
-              {[1, 2, 3].map((slide, index) => (
-                <SwiperSlide key={index}>
-                  <div className="slide-wrapper">
-                    <img
-                      src={`/static/img/slide${slide}.jpeg`}
-                      alt={`Slide ${slide}`}
-                      className="slide-image" style={{ width: '100%', height: '160px' }}
-                    />
+        <div style={styles.btnGroup}>
+      {steps[1]=== "rent" && (
+        <button
+          style={{ ...styles.btn, ...styles.btnLike }}
+          onClick={() => handleRent(1)}
+        >
+          Rent
+        </button>
+      )}
 
-                    <div className="overlay">
-                      <div className="overlay-top">
-                        {/* <button className="buy-now">Buy Now</button> */}
-                      </div>
-
-                    </div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+      {steps[1]=== "bring" && (
+        <button
+          style={{ ...styles.btn, ...styles.btnLike }}
+          onClick={handleBring}
+        >
+          Bind
+        </button>
+      )}
+    </div>
           </div>
         </div>
 
-    
-      </div>
+        {/* Task 2 */}
+        <div style={styles.taskCard}>
+          <div style={styles.taskHeader}>
+            <img src="/static/image (1).png" alt="aZen" style={styles.taskHeaderImg} />
+            <div style={styles.taskTitle}>aZen</div>
+<div style={{ textAlign: 'right', width: '100%', fontSize: '13px', fontWeight: '' }}>
+Contract Details 45 Days</div>          </div>
+          <div style={styles.taskDesc}>Like aZen DePin AI Agent: ZENi</div>
+          <div style={styles.taskFooter}>
+            <div style={styles.reward}>
+              <img src="/static/usdt.png" alt="USDT" style={{ width: 16, height: 16, marginRight: 6 }} />
+              $299 <div style={{ textAlign: 'right', width: '100%', fontSize: '11px', marginLeft: '53px' }}>
+  Rewards Per Day $2.4
+</div>  
+            </div>   
+                <div style={styles.btnGroup}>
+      {steps[2] === "rent" && (
+        <button
+          style={{ ...styles.btn, ...styles.btnLike }}
+          onClick={() => handleRent(2)}
+        >
+          Rent
+        </button>
+      )}
 
-
+      {steps[2]=== "bring" && (
+        <button
+          style={{ ...styles.btn, ...styles.btnLike }}
+          onClick={handleBring}
+        >
+          Bind
+        </button>
+      )}
     </div>
+          </div>
+        </div>
 
+        {/* Task 3 */}
+        <div style={styles.taskCard}>
+          <div style={styles.taskHeader}>
+            <img src="/static/image (2).png" alt="aZen" style={styles.taskHeaderImg} />
+            <div style={styles.taskTitle}>aZen</div>
+<div style={{ textAlign: 'right', width: '100%', fontSize: '13px', fontWeight: '' }}>
+Contract Details 60 Days</div>          </div>
+          <div style={styles.taskDesc}>Like aZen DePin AI Agent: ZENi</div>
+          <div style={styles.taskFooter}>
+            <div style={styles.reward}>
+              <img src="/static/usdt.png" alt="USDT" style={{ width: 16, height: 16, marginRight: 6 }} />
+              $600<div style={{ textAlign: 'right', width: '100%', fontSize: '11px', marginLeft: '53px' }}>
+  Rewards Per Day $2.4
+</div>    
+            </div>   
+                 <div style={styles.btnGroup}>
+      {steps[3] === "rent" && (
+        <button
+          style={{ ...styles.btn, ...styles.btnLike }}
+          onClick={() => handleRent(3)}
+        >
+          Rent
+        </button>
+      )}
+
+      {steps[3]=== "bring" && (
+        <button
+          style={{ ...styles.btn, ...styles.btnLike }}
+          onClick={handleBring}
+        >
+          Bind
+        </button>
+      )}
+    </div>
+          </div>
+        </div>
+
+        {/* Task 4 */}
+        <div style={styles.taskCard}>
+          <div style={styles.taskHeader}>
+            <img src="/static/image (2).png" alt="aZen" style={styles.taskHeaderImg} />
+            <div style={styles.taskTitle}>aZen</div>
+<div style={{ textAlign: 'right', width: '100%', fontSize: '13px', fontWeight: '' }}>
+Contract Details 75 Days</div>          </div>
+          <div style={styles.taskDesc}>Like aZen SocialFi ecosystem</div>
+          <div style={styles.taskFooter}>
+            <div style={styles.reward}>
+              <img src="/static/usdt.png" alt="USDT" style={{ width: 16, height: 16, marginRight: 6 }} />
+              $1200<div style={{ textAlign: 'right', width: '100%', fontSize: '11px', marginLeft: '53px' }}>
+  Rewards Per Day $2.4
+</div>  
+            </div>            
+                <div style={styles.btnGroup}>
+      {steps[4] === "rent" && (
+        <button
+          style={{ ...styles.btn, ...styles.btnLike }}
+          onClick={() => handleRent(4)}
+        >
+          Rent
+        </button>
+      )}
+
+      {steps[4] === "bring" && (
+        <button
+          style={{ ...styles.btn, ...styles.btnLike }}
+          onClick={handleBring}
+        >
+          Bind
+        </button>
+      )}
+    </div>
+          </div>
+        </div> 
+
+        {/* Message */}
+        {message && (
+          <div style={{ textAlign: "center", marginTop: 30, color: "green", fontSize: 16 }}>
+            {message}
+          </div>
+        )}
+
+      </div>
+    </div>
   );
-
 };
-export default NodeDetails;
 
+const styles = {
+  body: {
+    margin: 0,
+    fontFamily: "'Segoe UI', sans-serif",
+    backgroundColor: "#f1f3f4",
+    padding: 16,
+    minHeight: "100vh",
+  },
+  taskContainer: {
+    maxWidth: 600,
+    margin: "auto",
+  },
+  taskCard: {
+    backgroundColor: "white",
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
+  },
+  taskHeader: {
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+  },
+  taskHeaderImg: {
+    width: 36,
+    height: 36,
+  },
+  taskTitle: {
+    fontWeight: 600,
+    fontSize: 18,
+  },
+  taskDesc: {
+    marginTop: 6,
+    fontSize: 14,
+    color: "#444",
+  },
+  taskFooter: {
+    marginTop: 16,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexWrap: "wrap",
+    gap: 12,
+  },
+  reward: {
+    display: "flex",
+    alignItems: "center",
+    fontWeight: "bold",
+    color: "#000",
+    fontSize: 16,
+  },
+  btnGroup: {
+    display: "flex",
+    gap: 10,
+    flexWrap: "wrap",
+  },
+  btn: {
+    padding: "8px 20px",
+    border: "none",
+    borderRadius: 25,
+    fontWeight: "bold",
+    fontSize: 14,
+    cursor: "pointer",
+    transition: "all 0.2s ease",
+  },
+  btnClaim: {
+    backgroundColor: "black",
+    color: "white",
+  },
+  btnLike: {
+    backgroundColor: "#eaff00",
+    color: "black",
+  },
+};
+
+export default NodeDetails;

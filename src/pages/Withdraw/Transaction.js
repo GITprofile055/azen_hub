@@ -1,170 +1,137 @@
-import React, { useState, useEffect } from 'react';
-import { Link,useNavigate } from 'react-router-dom'; // Import Link for navigation
-import Api from '../../Requests/Api';
+import React, { useEffect, useState } from "react";
+import Api from "../../Requests/Api";
+import { useNavigate } from "react-router-dom";
 
-const Transaction = () => {
-    const [transactions, setTransactions] = useState([]);
-    const [users, setUsers] = useState([]);
-    const [error, setError] = useState("");
-    const [availbal, setAvailableBal] = useState();
-    const navigate = useNavigate();
+const UserHistory = () => {
+  const [records, setRecords] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        fetchUsers();
-    }, []);
+  useEffect(() => {
+    fetchUserHistory();
+  }, []);
 
-    const fetchUsers = async () => {
-        try {
-            const response = await Api.get("/getUserHistory");
+  const fetchUserHistory = async () => {
+    try {
+      const res = await Api.get("/getUserHistory"); // API call
 
-            if (response.data && response.data.success) {
-                setTransactions({
-                    investment: response.data.investment || [],
-                    income: response.data.income || [],
-                    withdraw: response.data.withdraw || []
-                });
-            } else {
-                setTransactions({
-                    investment: [],
-                    income: [],
-                    withdraw: []
-                });
-            }
+      if (res.data.success) {
+        setRecords(res.data.records); // combinedRecords set
+      }
+    } catch (error) {
+      console.error("Error fetching user history:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-            console.log("Fetched:", response.data);
-        } catch (err) {
-            setError(err.response?.data?.error || "Error fetching history");
-        }
-    };
-    useEffect(() => {
-        withfatch();
-    }, []);
+  const getStatusColor = (type) => {
+    if (type.toLowerCase().includes("withdraw")) return { background: "#f8d7da", color: "#721c24" }; // Failed
+    if (type.toLowerCase().includes("investment")) return { background: "#fff3cd", color: "#856404" }; // Pending
+    return { background: "#d4edda", color: "#155724" }; // Success
+  };
 
-    const withfatch = async () => {
-        try {
-            const response = await Api.get("/availbal");
-            if (response.data?.AvailBalance !== undefined) {
-                setAvailableBal(response.data.AvailBalance);
-            }
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
-    const backClick = () => {
-        navigate(-1);
-    };
-    return (
-       <div className="withdraw-container">
-          <div className="top-bar">
-            <span className="back-icon" onClick={backClick}>&#8592;</span>
-            <h3>Transaction Records</h3>
-            <span></span>
-          </div>
-    
-          <div
+  const backClick = () => {
+    navigate(-1);
+  };
+
+  return (
+    <div className="withdraw-container">
+      <div className="top-bar">
+        <span className="back-icon" onClick={backClick}>&#8592;</span>
+        <h3>Transaction Records</h3>
+        <span></span>
+      </div>
+
+      <div
+        style={{
+          background: "#fff",
+          borderRadius: "1rem",
+          padding: "1rem",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+        }}
+      >
+        <div
           style={{
-            background: "#fff",
-            borderRadius: "1rem",
-            padding: "1rem",
-            boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "0.8rem",
           }}
         >
-          <div
+          <strong>Transaction</strong>
+          <span
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "0.8rem",
+              fontSize: "0.8rem",
+              background: "#ccc",
+              padding: "0.2rem 0.5rem",
+              borderRadius: "1rem",
+              cursor: "pointer",
             }}
           >
-            <strong>Transaction</strong>
-            <span
-              style={{
-                fontSize: "0.8rem",
-                background: "#ccc",
-                padding: "0.2rem 0.5rem",
-                borderRadius: "1rem",
-                cursor: "pointer",
-              }}
-            >
-              View all
-            </span>
-          </div>
+            View all
+          </span>
+        </div>
 
-          {/* Investment entries start here */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
-            {[
-              {
-                amount: "₹5,000",
-                date: "16 July, 2025",
-                status: "Success",
-              },
-              {
-                amount: "₹2,000",
-                date: "12 July, 2025",
-                status: "Pending",
-              },
-              {
-                amount: "₹7,500",
-                date: "04 July, 2025",
-                status: "Failed",
-              },
-            ].map((entry, i) => (
-              <div
-                key={i}
-                style={{
-                  padding: "0.8rem",
-                  background: "#f9f9f9",
-                  borderRadius: "0.75rem",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <div>
-                  <div style={{ fontWeight: "bold" }}>{entry.amount}</div>
-                  <div style={{ fontSize: "0.75rem", color: "#666" }}>{entry.date}</div>
-                </div>
-                <div>
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
+          {loading ? (
+            <p>Loading...</p>
+          ) : records.length > 0 ? (
+            records.map((item, index) => {
+              const statusStyle = getStatusColor(item.type || "");
+              const statusText = item.type.toLowerCase().includes("withdraw")
+                ? "Failed"
+                : item.type.toLowerCase().includes("investment")
+                ? "Pending"
+                : "Success";
+
+              return (
+                <div
+                  key={index}
+                  style={{
+                    padding: "0.8rem",
+                    background: "#f9f9f9",
+                    borderRadius: "0.75rem",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <div>
+                    <div style={{ fontWeight: "bold" }}>${Number(item.amount).toLocaleString()}</div>
+                    <div style={{ fontSize: "0.75rem", color: "#666" }}>
+                      {new Date(item.date).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      })}
+                    </div>
+                    {/* ✅ Record kis ka hai */}
+                    <div style={{ fontSize: "0.7rem", color: "#999" }}>
+                       {/* Ye type Investment / Income / Withdrawal / Buy Fund dikhega */}
+                    </div>
+                  </div>
                   <span
                     style={{
                       fontSize: "0.7rem",
                       padding: "0.3rem 0.6rem",
                       borderRadius: "1rem",
-                      background:
-                        entry.status === "Success"
-                          ? "#d4edda"
-                          : entry.status === "Pending"
-                            ? "#fff3cd"
-                            : "#f8d7da",
-                      color:
-                        entry.status === "Success"
-                          ? "#155724"
-                          : entry.status === "Pending"
-                            ? "#856404"
-                            : "#721c24",
                       fontWeight: 500,
+                      ...statusStyle,
                     }}
                   >
-                    {entry.status}
+                   {item.type}
                   </span>
                 </div>
-              </div>
-            ))}
-          </div>
+              );
+            })
+          ) : (
+            <p>No records found</p>
+          )}
         </div>
-        </div>
-    );
+      </div>
+    </div>
+  );
 };
 
-export default Transaction;
-
-
-
-
-
-
-
-
-
-
+export default UserHistory;

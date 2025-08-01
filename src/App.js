@@ -32,6 +32,8 @@ import AddWallet from "./pages/Withdraw/AddWallet";
 import AddWalletAddress from "./pages/Withdraw/AddWalletAddress";
 import Server from "./pages/server/Server";
 import Profile from "./pages/profile/Profile";
+import Loterry from "./pages/profile/Loterry";
+
 import ServerCommission from "./pages/profile/ServerCommission";
 import ChangePassword from "./pages/profile/ChangePassword";
 import PaymentPassword from "./pages/profile/PaymentPassword";
@@ -123,7 +125,6 @@ function AppContent() {
                     <Route path="/direct" element={<ProtectedRoute><Direct/></ProtectedRoute>}/>
                     <Route path="/team" element={<ProtectedRoute><Team /></ProtectedRoute>} />
                     <Route path="/loterry" element={<ProtectedRoute><Loterry /></ProtectedRoute>} />
-                    <Route path="/leaderboard" element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} />
 
                     <Route path="/transfer" element={<ProtectedRoute><Transfer /></ProtectedRoute>} />
                     <Route path="/incomehistory" element={<ProtectedRoute><Incomehistory/></ProtectedRoute>}/>

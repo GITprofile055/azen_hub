@@ -7,7 +7,12 @@ import { useTranslation } from 'react-i18next';
 import { Pencil } from 'lucide-react';
 
 const Wallet = () => {
-
+  const [income, setIncome] = useState({
+    todayIncome: 0,
+    yesterdayIncome: 0,
+    weeklyIncome: 0,
+  });
+    const [loading, setLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
   const [availbal, setAvailableBal] = useState();
   const [userDetails, setUserDetails] = useState(null);
@@ -17,6 +22,7 @@ const Wallet = () => {
   useEffect(() => {
     fetchUserDetails();
     fetchAvailableBalance();
+      fetchIncomeBreakup();
   }, []);
 
   const handleGoToProfile = () => {
@@ -41,6 +47,30 @@ const Wallet = () => {
       console.error("Error:", error);
     }
   };
+
+
+
+
+
+
+  const fetchIncomeBreakup = async () => {
+    try {
+      const res = await Api.get("/income-breakup"); // ✅ API call
+
+      if (res.data.success) {
+        setIncome({
+          todayIncome: res.data.todayIncome || 0,
+          yesterdayIncome: res.data.yesterdayIncome || 0,
+          weeklyIncome: res.data.weeklyIncome || 0,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching income breakup:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   return (
     <div>
@@ -163,7 +193,7 @@ const Wallet = () => {
         }}>
           <p style={{ fontSize: '.75rem' }}>HTxYDiAD***KY <img src="https://cdn-icons-png.flaticon.com/512/1828/1828774.png" width="14" alt="copy" style={{ verticalAlign: 'middle' }} /></p>
           <p style={{ fontSize: '.9rem', margin: '.5rem 0 0' }}>0.00 <small style={{ opacity: .8 }}>Solana</small></p>
-          <h3 style={{ fontSize: '1.4rem', fontWeight: 800, margin: '.2rem 0 1rem' }}>9,947.54</h3>
+          <h3 style={{ fontSize: '1.4rem', fontWeight: 800, margin: '.2rem 0 1rem' }}>{income.todayIncome}</h3>
           <button style={{
             width: '100%',
             padding: '.6rem',

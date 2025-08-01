@@ -301,7 +301,7 @@ const Server = () => {
             Link X
           </button>
 
-          <p style={{ marginTop: '2rem' }}>Total $ZEN</p>
+          <p style={{ marginTop: '2rem' }}>Total Rewards</p>
           <h2 style={{ fontSize: '2rem' }}>{parseFloat(todayReward ? todayReward : 0).toFixed(2)}</h2>
         </div>
 
@@ -374,8 +374,12 @@ const Server = () => {
   >  
    <div style={{display:'flex'}}>
     <img src={task.icon} alt={task.name} className="w-11 h-12" style={{width: 20, height: 20}} />
-    <p className="text-black font-bold" style={{marginLeft:5}}>{task.name}</p>
-    </div>
+<p
+  className="text-black font-bold"
+  style={{ marginLeft: 5, fontSize: "11px" }}
+>
+  {task.name}
+</p>    </div>
     <div style={{display:'flex', margin: '5px 0px 0px 10px' }}>
     <p style={{ marginBottom: '0.4rem',fontWeight: 800, }}>+{parseFloat(task.reward ? task.reward :0).toFixed(2)}</p>
      <img src="static/img/usdt.png" alt={task.name} className="w-11 h-12" style={{width: 20, height: 20}} />
